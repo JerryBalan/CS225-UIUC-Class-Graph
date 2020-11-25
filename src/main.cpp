@@ -35,14 +35,20 @@ int main() {
     std::vector<std::string> tempVec;
 
     std::stringstream ss(currLine);
-
+    int curr = 0;
     while(ss.good()) {
       std::string tempStr;
       std::getline(ss, tempStr, ',');
-      tempVec.push_back(tempStr);
+
+      // Don't add number of pre-reqs to vector
+      if(curr != 1)
+        tempVec.push_back(tempStr);
+      curr++;
     }
 
-    fileContent.push_back(tempVec);
+    // Only CS/ECE courses
+    if((tempVec[0].rfind("CS", 0) == 0 && tempVec[0].rfind("CSE", 0) != 0) || tempVec[0].rfind("ECE", 0) == 0)
+      fileContent.push_back(tempVec);
   }
 
   printVect(fileContent);
