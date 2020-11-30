@@ -1,18 +1,33 @@
 #include "graph.h"
 
 const Vertex Graph::InvalidVertex = "_CS225INVALIDVERTEX";
-const int Graph::InvalidWeight = INT_MIN;
+
 const string Graph:: InvalidLabel = "_CS225INVALIDLABEL";
-const Edge Graph::InvalidEdge = Edge(Graph::InvalidVertex, Graph::InvalidVertex, Graph::InvalidWeight, Graph::InvalidLabel);
+const Edge Graph::InvalidEdge = Edge(Graph::InvalidVertex, Graph::InvalidVertex, Graph::InvalidLabel);
 
-Graph::Graph(bool weighted) : weighted(weighted),directed(false),random(Random(0))
+Graph::Graph() : directed(false)
 {
+    // no need for an undirected graph in our project
 }
 
-Graph::Graph(bool weighted, bool directed) : weighted(weighted),directed(directed),random(Random(0))
+Graph::Graph(bool directed) : directed(directed)
 {
+    // TODO: finish building graph based on CSV
+    string CSVFilename = "test.csv"; // change later
+    string line;
+    ifstream fileStream(CSVFilename);
+    if(fileStream.is_open()) {
+        while(getline(fileStream, line)) {
+           // line by line
+           // may change when CSV changes so leaving blank for now, doing very soon
+        }
+    }
+    fileStream.close();
 }
 
+// leaving here for reference
+// delete later
+/*
 Graph::Graph(bool weighted, int numVertices, unsigned long seed)
     :weighted(weighted),
       directed(false),
@@ -72,6 +87,7 @@ Graph::Graph(bool weighted, int numVertices, unsigned long seed)
         }
     }
 }
+*/
 
 vector<Vertex> Graph::getAdjacent(Vertex source) const 
 {
@@ -163,12 +179,12 @@ Edge Graph::setEdgeLabel(Vertex source, Vertex destination, string label)
     if (assertEdgeExists(source, destination, __func__) == false)
         return InvalidEdge;
     Edge e = adjacency_list[source][destination];
-    Edge new_edge(source, destination, e.getWeight(), label);
+    Edge new_edge(source, destination, label);
     adjacency_list[source][destination] = new_edge;
 
     if(!directed)
     {
-        Edge new_edge_reverse(destination,source, e.getWeight(), label);
+        Edge new_edge_reverse(destination,source, label);
         adjacency_list[destination][source] = new_edge_reverse;
     }
     return new_edge;
@@ -180,16 +196,6 @@ string Graph::getEdgeLabel(Vertex source, Vertex destination) const
     if(assertEdgeExists(source, destination, __func__) == false)
         return InvalidLabel;
     return adjacency_list[source][destination].getLabel();
-}
-
-int Graph::getEdgeWeight(Vertex source, Vertex destination) const
-{
-    if (!weighted)
-        error("can't get edge weights on non-weighted graphs!");
-
-    if(assertEdgeExists(source, destination, __func__) == false)
-        return InvalidWeight;
-    return adjacency_list[source][destination].getWeight();
 }
 
 void Graph::insertVertex(Vertex v)
@@ -270,25 +276,6 @@ Edge Graph::removeEdge(Vertex source, Vertex destination)
         adjacency_list[destination].erase(source);
     }
     return e;
-}
-
-
-Edge Graph::setEdgeWeight(Vertex source, Vertex destination, int weight)
-{
-    if (assertEdgeExists(source, destination, __func__) == false)
-        return InvalidEdge;
-    Edge e = adjacency_list[source][destination];
-    //std::cout << "setting weight: " << weight << std::endl;
-    Edge new_edge(source, destination, weight, e.getLabel());
-    adjacency_list[source][destination] = new_edge;
-
-    if(!directed)
-        {
-            Edge new_edge_reverse(destination,source, weight, e.getLabel());
-            adjacency_list[destination][source] = new_edge_reverse;
-        }
-
-    return new_edge;
 }
 
 bool Graph::assertVertexExists(Vertex v, string functionName) const
@@ -388,8 +375,6 @@ void Graph::print() const
             cout << std::left << std::setw(26) << vertexColumn;
             string edgeColumn = "edge label = \"" + it2->second.getLabel()+ "\"";
             cout << std::left << std::setw(26) << edgeColumn;
-            if (weighted)
-                cout << "weight = " << it2->second.getWeight();
             cout << endl;
         }
         cout << endl;
@@ -469,8 +454,7 @@ void Graph::savePNG(string title) const
             } else {
                 neatoFile << "[color=\"grey\"]";
             }
-            if (weighted && it2->second.getWeight() != -1)
-                neatoFile << "[label=\"" << it2->second.getWeight() << "\"]";
+            
             
             neatoFile<< "[constraint = \"false\"]" << ";\n";
         }
