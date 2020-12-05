@@ -5,25 +5,10 @@ const Vertex Graph::InvalidVertex = "_CS225INVALIDVERTEX";
 const string Graph:: InvalidLabel = "_CS225INVALIDLABEL";
 const Edge Graph::InvalidEdge = Edge(Graph::InvalidVertex, Graph::InvalidVertex, Graph::InvalidLabel);
 
-Graph::Graph() : directed(false)
+Graph::Graph() : directed(true)
 {
-    // no need for an undirected graph in our project
 }
 
-Graph::Graph(bool directed) : directed(directed)
-{
-    // TODO: finish building graph based on CSV
-    string CSVFilename = "test.csv"; // change later
-    string line;
-    ifstream fileStream(CSVFilename);
-    if(fileStream.is_open()) {
-        while(getline(fileStream, line)) {
-           // line by line
-           // may change when CSV changes so leaving blank for now, doing very soon
-        }
-    }
-    fileStream.close();
-}
 
 // leaving here for reference
 // delete later
