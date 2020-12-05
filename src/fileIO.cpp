@@ -5,7 +5,6 @@
 #include <sstream>
 #include "fileIO.h"
 
-#pragma once
 
 // Helper function to print vectors of vectors of strings
 void printVect(std::vector<std::vector<std::string>> in) {
@@ -19,7 +18,7 @@ void printVect(std::vector<std::vector<std::string>> in) {
     std::cout << std::endl;
   }
 }
-
+// hassan = god
 std::vector<std::vector<std::string>> csvToVector(std::string fileName) {
   // Maybe use an already existing parser like this: https://github.com/ben-strasser/fast-cpp-csv-parser  ?
 

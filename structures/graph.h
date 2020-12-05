@@ -35,7 +35,6 @@
 #include <vector>
 
 #include "edge.h"
-#include "random.h"
 
 using std::cerr;
 using std::cout;
@@ -59,10 +58,8 @@ class Graph
 public:
     /**
      * Constructor to create an empty graph.
-     * @param weighted - specifies whether the graph is a weighted graph or
-     *  not
      */
-    Graph(bool weighted);
+    Graph();
 
     /**
      * Constructor to create an empty graph.
@@ -70,16 +67,7 @@ public:
      *  not
      * @param directed - specifies whether the graph is directed
      */
-    Graph(bool weighted, bool directed);
-
-    /**
-     * Constructor to create a random, connected graph.
-     * @param weighted - specifies whether the graph is a weighted graph or
-     *  not
-     * @param numVertices - the number of vertices the graph will have
-     * @param seed - a random seed to create the graph with
-     */
-    Graph(bool weighted, int numVertices, unsigned long seed);
+    Graph(bool directed);
 
     /**
      * Gets all adjacent vertices to the parameter vertex.
@@ -138,7 +126,7 @@ public:
      * @return - if edge exists, set the label to the corresponding edge(if not directed, set the reverse one too), return edge with new label
      *         - if edge doesn't exist, return InvalidEdge
      */
-        Edge setEdgeLabel(Vertex source, Vertex destination, string label);
+    Edge setEdgeLabel(Vertex source, Vertex destination, string label);
 
     /**
      * Gets the edge label of the edge between vertices u and v.
@@ -148,15 +136,6 @@ public:
      *         - if edge doesn't exist, return InvalidLabel
      */
     string getEdgeLabel(Vertex source, Vertex destination) const;
-
-    /**
-     * Gets the weight of the edge between two vertices.
-     * @param source - one vertex the edge is connected to
-     * @param destination - the other vertex the edge is connected to
-     * @return - if edge exists, return edge wright
-     *         - if doesn't, return InvalidWeight
-     */
-    int getEdgeWeight(Vertex source, Vertex destination) const;
 
     /**
      * Inserts a new vertex into the graph and initializes its label as "".
@@ -192,16 +171,6 @@ public:
     Edge removeEdge(Vertex source, Vertex destination);
 
     /**
-     * Sets the weight of the edge between two vertices.
-     * @param source - one vertex the edge is connected to
-     * @param destination - the other vertex the edge is connected to
-     * @param weight - the weight to set to the edge
-     * @return - if edge exists, set edge weight and return  edge with new weight
-     *         - if not, return InvalidEdge
-     */
-    Edge setEdgeWeight(Vertex source, Vertex destination, int weight);
-
-    /**
      * Creates a name for snapshots of the graph.
      * @param title - the name to save the snapshots as
      */
@@ -231,15 +200,15 @@ public:
 
     const static Vertex InvalidVertex;
     const static Edge InvalidEdge;
-    const static int InvalidWeight;
+    //const static int InvalidWeight;
     const static string InvalidLabel;
 
 private:
     mutable unordered_map<Vertex, unordered_map<Vertex, Edge>> adjacency_list;
 
-    bool weighted;
+    //bool weighted;
     bool directed;
-    Random random;
+    //Random random;
     int picNum;
     string picName;
 

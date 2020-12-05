@@ -1,5 +1,5 @@
 EXENAME = main
-OBJS = main.o fileIO.o
+OBJS = main.o fileIO.o classes.o graph.o disjoint.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
@@ -37,6 +37,17 @@ main.o : main.cpp fileIO.h
 
 fileIO.o : fileIO.cpp fileIO.h
 	$(CXX) $(CXXFLAGS) fileIO.cpp
+
+disjoint.o: ../structures/disjoint.cpp ../structures/disjoint.h
+	$(CXX) $(CXXFLAGS) ../structures/disjoint.cpp
+
+graph.o: ../structures/graph.cpp ../structures/graph.h
+	$(CXX) $(CXXFLAGS) ../structures/graph.cpp
+
+classes.o : classes.cpp classes.h fileIO.h ../structures/graph.h
+	$(CXX) $(CXXFLAGS) classes.cpp
+
+
 
 
 clean :
