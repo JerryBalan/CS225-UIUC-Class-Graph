@@ -2,16 +2,22 @@
 #include "../structures/PNG.h"
 #include <math.h>
 
-fdgOutput::fdgOutput(Graph graph, int iterations) { 
-    defineLocations(graph, iterations); 
+fdgOutput::fdgOutput(Graph graph, int iterations) {
+    defineLocations(graph, iterations, graph.getVertices().size()); 
+}
+
+fdgOutput::fdgOutput(Graph graph, int iterations, int classAmnt) {
+    defineLocations(graph, iterations, classAmnt); 
 }
 
 fdgOutput::~fdgOutput() {}
 
 // Find best suited locations for each node - save location values into vectors
-void fdgOutput::defineLocations(Graph graph, int iterations) {
+void fdgOutput::defineLocations(Graph graph, int iterations, int classAmnt) {
     v = graph.getVertices();
     e = graph.getEdges();
+    v.resize(classAmnt);
+
     disp.clear();
     pos.clear();
     disp.resize(v.size(), {0, 0});
@@ -20,6 +26,9 @@ void fdgOutput::defineLocations(Graph graph, int iterations) {
     width = v.size() * 5;
     area = width * width;
     float thr = area, K = std::sqrt(area / v.size());
+
+    if(iterations < 0 || iterations > v.size())
+        iterations = v.size();
 
     // Assign random positions
     for(unsigned i = 0; i < pos.size(); i++) {
@@ -44,8 +53,12 @@ void fdgOutput::defineLocations(Graph graph, int iterations) {
 
         // Attractive forces
         for(unsigned j = 0; j < e.size(); j++) {
-            float loc1 = find(v.begin(), v.end(), e[j].source) - v.begin();
-            float loc2 = find(v.begin(), v.end(), e[j].dest) - v.begin();
+            auto temp1 = find(v.begin(), v.end(), e[j].source);
+            auto temp2 = find(v.begin(), v.end(), e[j].dest);
+            if(temp1 == v.end() || temp2 == v.end())
+                continue;
+            float loc1 = temp1 - v.begin();
+            float loc2 = temp2 - v.begin();
 
             float x = pos[i].first - pos[loc2].first;
             float y = pos[i].second - pos[loc2].second;
@@ -128,6 +141,7 @@ void fdgOutput::printLocations() {
     //     std::cout << "source: " << e[i].source << ", dest: " << e[i].dest << ", label: " << e[i].getLabel() << std::endl;
 
     std::cout << "width: " << width << " (size : " << area << ")" << std::endl;
+    std::cout << "vertex amount: " << v.size() << ", edge amount: " << e.size() << std::endl;
 
     return;
 }
