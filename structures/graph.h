@@ -197,6 +197,8 @@ public:
 
     void clear();
 
+    void BFS(Vertex startVertex);
+
 
     const static Vertex InvalidVertex;
     const static Edge InvalidEdge;
