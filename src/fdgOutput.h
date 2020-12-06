@@ -12,7 +12,7 @@ class fdgOutput {
 
     void defineLocations(Graph graph, int iterations);
     void printLocations();
-    cs225::PNG * createOutputImage();
+    cs225::PNG createOutputImage();
 
   private:
     int area, width;
