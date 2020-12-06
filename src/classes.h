@@ -14,6 +14,8 @@ class Classes {
     void print();
     void savePNG();
 
+    Graph getGraph();
+
     /**
      * Print shortest path from two classes
      */

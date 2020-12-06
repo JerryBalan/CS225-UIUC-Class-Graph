@@ -44,3 +44,7 @@ vector<string> Classes::shortestPath(string origin, string dest) {
 void Classes::print() {}
 
 void Classes::savePNG() {}
+
+Graph Classes::getGraph() {
+  return g_;
+}
