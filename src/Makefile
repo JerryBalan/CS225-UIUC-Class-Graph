@@ -1,5 +1,5 @@
 EXENAME = main
-OBJS = main.o fileIO.o classes.o graph.o disjoint.o fdgOutput.o
+OBJS = main.o fileIO.o classes.o graph.o disjoint.o fdgOutput.o HSLAPixel.o lodepng.o PNG.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
@@ -47,9 +47,18 @@ graph.o: ../structures/graph.cpp ../structures/graph.h
 classes.o : classes.cpp classes.h fileIO.h ../structures/graph.h
 	$(CXX) $(CXXFLAGS) classes.cpp
 
-fdgOutput.o : fdgOutput.cpp fdgOutput.h ../structures/graph.h ../structures/PNG.h
+fdgOutput.o : fdgOutput.cpp fdgOutput.h ../structures/graph.h ../structures/PNG.h ../structures/HSLAPixel.h ../structures/RGB_HSL.h
 	$(CXX) $(CXXFLAGS) fdgOutput.cpp
 
+
+HSLAPixel.o : ../structures/HSLAPixel.cpp ../structures/HSLAPixel.h
+	$(CXX) $(CXXFLAGS) ../structures/HSLAPixel.cpp
+
+lodepng.o : ../structures/lodepng/lodepng.cpp ../structures/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) ../structures/lodepng/lodepng.cpp
+
+PNG.o : ../structures/PNG.cpp ../structures/PNG.h ../structures/HSLAPixel.h ../structures/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) ../structures/PNG.cpp
 
 
 clean :
