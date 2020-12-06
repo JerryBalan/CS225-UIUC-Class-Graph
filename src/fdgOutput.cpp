@@ -3,17 +3,17 @@
 #include <math.h>
 
 fdgOutput::fdgOutput(Graph graph, int iterations) {
-    defineLocations(graph, iterations, graph.getVertices().size()); 
+    defineLocations(graph, 5, iterations, graph.getVertices().size()); 
 }
 
-fdgOutput::fdgOutput(Graph graph, int iterations, int classAmnt) {
-    defineLocations(graph, iterations, classAmnt); 
+fdgOutput::fdgOutput(Graph graph, int scale, int iterations, int classAmnt) {
+    defineLocations(graph, scale, iterations, classAmnt); 
 }
 
 fdgOutput::~fdgOutput() {}
 
 // Find best suited locations for each node - save location values into vectors
-void fdgOutput::defineLocations(Graph graph, int iterations, int classAmnt) {
+void fdgOutput::defineLocations(Graph graph, int scale, int iterations, int classAmnt) {
     v = graph.getVertices();
     e = graph.getEdges();
     v.resize(classAmnt);
@@ -23,7 +23,7 @@ void fdgOutput::defineLocations(Graph graph, int iterations, int classAmnt) {
     disp.resize(v.size(), {0, 0});
     pos.resize(v.size(), {0, 0});
 
-    width = v.size() * 5;
+    width = v.size() * scale;
     area = width * width;
     float t = area, K = std::sqrt(area / v.size());
 

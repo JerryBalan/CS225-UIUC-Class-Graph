@@ -8,10 +8,10 @@
 class fdgOutput {
   public:
     fdgOutput(Graph graph, int iterations);
-    fdgOutput(Graph graph, int iterations, int classAmnt);
+    fdgOutput(Graph graph, int scale, int iterations, int classAmnt);
     ~fdgOutput();
 
-    void defineLocations(Graph graph, int iterations, int classAmnt);
+    void defineLocations(Graph graph, int scale, int iterations, int classAmnt);
     void printLocations();
     cs225::PNG createOutputImage();
 
