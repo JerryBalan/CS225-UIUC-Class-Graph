@@ -13,6 +13,7 @@ int main() {
 
   Graph g = test.getGraph();
 
+  //fdgOutput newOut(g, 10, 75);
   fdgOutput newOut(g, 100);
   newOut.printLocations();
   cs225::PNG img = newOut.createOutputImage();

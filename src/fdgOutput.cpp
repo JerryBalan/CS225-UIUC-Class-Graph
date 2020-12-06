@@ -25,7 +25,7 @@ void fdgOutput::defineLocations(Graph graph, int iterations, int classAmnt) {
 
     width = v.size() * 5;
     area = width * width;
-    float thr = area, K = std::sqrt(area / v.size());
+    float t = area, K = std::sqrt(area / v.size());
 
     if(iterations < 0 || iterations > v.size())
         iterations = v.size();
@@ -73,8 +73,8 @@ void fdgOutput::defineLocations(Graph graph, int iterations, int classAmnt) {
         // Change position values based on displacement
         for(unsigned j = 0; j < v.size(); j++) {
             float d = std::sqrt(disp[j].first * disp[j].first + disp[j].second * disp[j].second);
-            pos[j].first += d > thr ? disp[j].first / d * thr : disp[j].first;
-            pos[j].second += d > thr ? disp[j].second / d * thr : disp[j].second;
+            pos[j].first += d > t ? disp[j].first / d * t : disp[j].first;
+            pos[j].second += d > t ? disp[j].second / d * t : disp[j].second;
             // pos[j].first = (int)pos[j].first % width;
             // pos[j].second = (int)pos[j].second % width;
 
@@ -90,9 +90,14 @@ void fdgOutput::defineLocations(Graph graph, int iterations, int classAmnt) {
 
             pos[j].first = std::min((float)width, std::max((float)0, pos[j].first));
             pos[j].second = std::min((float)width, std::max((float)0, pos[j].second));
+
+            if((pos[j].first == 0 || pos[j].second == 0) || (pos[j].first == width || pos[j].second == width)) {
+                pos[i].first = std::rand() % width;
+                pos[i].second = std::rand() % width;
+            }
         }
 
-        thr *= 0.99;
+        t *= 0.99;
     }
 
     return;
@@ -118,15 +123,23 @@ cs225::PNG fdgOutput::createOutputImage() {
 
     // Draw edges
     for(int i = 0; i < e.size(); i++) {
-        std::pair<float, float> pt1 = pos[find(v.begin(), v.end(), e[i].source) - v.begin()];
-        std::pair<float, float> pt2 = pos[find(v.begin(), v.end(), e[i].dest) - v.begin()];
+        auto temp1 = find(v.begin(), v.end(), e[i].source);
+        auto temp2 = find(v.begin(), v.end(), e[i].dest);
+        if(temp1 == v.end() || temp2 == v.end())
+            continue;
+        std::pair<float, float> pt1 = pos[temp1 - v.begin()];
+        std::pair<float, float> pt2 = pos[temp2 - v.begin()];
 
         float slope = (pt1.second - pt2.second) / (pt1.first - pt2.first);
         float yIntercept = pt1.second - (slope * pt1.first);
 
         int end = std::max(pt1.first, pt2.first);
-        for(int j = std::min(pt1.first, pt2.first); j < end; j++)
-            out.getPixel(j, (slope * j) + yIntercept).l = 0.6;
+        for(int j = std::min(pt1.first, pt2.first); j < end; j++) {
+            int y = (slope * j) + yIntercept;
+            if(j < 0 || j > width + 2 || y < 0 || y > width + 2)
+                continue;
+            out.getPixel(j, y).l = 0.6;
+        }
     }
 
     return out;
