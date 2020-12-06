@@ -15,7 +15,7 @@ int main() {
 
   //fdgOutput newOut(g, 10, 10, 100);
   fdgOutput newOut(g, 100);
-  newOut.printLocations();
   cs225::PNG img = newOut.createOutputImage();
   img.writeToFile("testOutput"+ string(".png"));
+  newOut.printLocations();
 }

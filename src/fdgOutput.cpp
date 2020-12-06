@@ -1,19 +1,21 @@
 #include "fdgOutput.h"
 #include "../structures/PNG.h"
 #include <math.h>
+#include <iostream>
+#include <fstream>
 
-fdgOutput::fdgOutput(Graph graph, int iterations) {
+fdgOutput::fdgOutput(Graph graph, unsigned iterations) {
     defineLocations(graph, 5, iterations, graph.getVertices().size()); 
 }
 
-fdgOutput::fdgOutput(Graph graph, int scale, int iterations, int classAmnt) {
+fdgOutput::fdgOutput(Graph graph, int scale, unsigned iterations, int classAmnt) {
     defineLocations(graph, scale, iterations, classAmnt); 
 }
 
 fdgOutput::~fdgOutput() {}
 
 // Find best suited locations for each node - save location values into vectors
-void fdgOutput::defineLocations(Graph graph, int scale, int iterations, int classAmnt) {
+void fdgOutput::defineLocations(Graph graph, int scale, unsigned iterations, int classAmnt) {
     v = graph.getVertices();
     e = graph.getEdges();
     v.resize(classAmnt);
@@ -60,7 +62,7 @@ void fdgOutput::defineLocations(Graph graph, int scale, int iterations, int clas
             float loc1 = temp1 - v.begin();
             float loc2 = temp2 - v.begin();
 
-            float x = pos[i].first - pos[loc2].first;
+            float x = pos[i].first - pos[loc1].first;
             float y = pos[i].second - pos[loc2].second;
 
             float dist = std::max((float)0.001, std::sqrt(x * x + y * y));
@@ -108,13 +110,16 @@ cs225::PNG fdgOutput::createOutputImage() {
     cs225::PNG out(width + 2, width + 2);
 
     // Draw verticies
-    for(int i = 0; i < v.size(); i++) {
+    for(unsigned i = 0; i < v.size(); i++) {
         // Square of size 3x3 instead of single pixel
+        cs225::HSLAPixel curr = getRandColor();
+        colors.push_back({curr.h, curr.s, curr.l});
         for(int j = -1; j < 2; j++) {
             for(int k = -1; k < 2; k++) {
                 int x = std::max(0, (int)pos[i].first + j);
                 int y = std::max(0, (int)pos[i].second + k);
-                out.getPixel(x, y).l = 0;
+                //out.getPixel(x, y).l = 0;
+                out.getPixel(x, y) = curr;
             }
         }
 
@@ -122,7 +127,7 @@ cs225::PNG fdgOutput::createOutputImage() {
     }
 
     // Draw edges
-    for(int i = 0; i < e.size(); i++) {
+    for(unsigned i = 0; i < e.size(); i++) {
         auto temp1 = find(v.begin(), v.end(), e[i].source);
         auto temp2 = find(v.begin(), v.end(), e[i].dest);
         if(temp1 == v.end() || temp2 == v.end())
@@ -139,22 +144,33 @@ cs225::PNG fdgOutput::createOutputImage() {
             if(j < 0 || j > width + 2 || y < 0 || y > width + 2)
                 continue;
             out.getPixel(j, y).l = 0.6;
+            //out.getPixel(j, y) = getRandColor();
         }
     }
 
     return out;
 }
 
+cs225::HSLAPixel fdgOutput::getRandColor() {
+    double f = (double)rand() / RAND_MAX;
+    double f2 = (double)rand() / RAND_MAX;
+    double f3 = (double)rand() / RAND_MAX;
+    cs225::HSLAPixel out(f, f2, f3);
+
+    return out;
+}
+
 // Debugging function used to print values within class vectors
 void fdgOutput::printLocations() {
+    std::ofstream outFile;
+    outFile.open("outputImgInfo.txt");
     for(unsigned i = 0; i < v.size(); i++)
-        std::cout << "Vertex: " << v[i] << ", loc: (" << pos[i].first << ", " << pos[i].second << ")" << std::endl;
-    
-    // for(unsigned i = 0; i < e.size(); i++)
-    //     std::cout << "source: " << e[i].source << ", dest: " << e[i].dest << ", label: " << e[i].getLabel() << std::endl;
+        outFile << "Vertex: " << v[i] << ", location: (" << pos[i].first << ", " << pos[i].second << ")" << ", color (HSL): (" << std::get<0>(colors[i]) << ", " << std::get<1>(colors[i]) << ", " << std::get<2>(colors[i]) << ")\n";
 
-    std::cout << "width: " << width << " (size : " << area << ")" << std::endl;
-    std::cout << "vertex amount: " << v.size() << ", edge amount: " << e.size() << std::endl;
+    outFile << "width: " << width << " (size : " << area << ")\n";
+    outFile << "vertex amount: " << v.size() << ", edge amount: " << e.size() << "\n";
+
+    std::cout << "Wrote info to outputImgInfo.txt" << std::endl;
 
     return;
 }
