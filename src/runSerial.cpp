@@ -6,14 +6,9 @@
 #include "../structures/PNG.h"
 
 int main() {
-//   std::vector<std::vector<std::string>> csvVect = csvToVector("Data/uiuc-prerequisites.csv");
-//   printVect(csvVect);
-
   Classes test;
 
   Graph g = test.getGraph();
-
-  //fdgOutput newOut(g, 10, 10, 100);
   fdgOutput newOut(0, g, 100); // Serial
   cs225::PNG img = newOut.createOutputImage();
   img.writeToFile("testOutput"+ string(".png"));

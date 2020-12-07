@@ -49,15 +49,7 @@ Graph::Graph(bool weighted, int numVertices, unsigned long seed)
         }
         cur = next;
     }
-
-    // keep the graph from being overpopulated with edges,
-    //  while still maintaining a little randomness
-    int numFailures = 0;
-    int idx = 0;
-    random.shuffle(vertices);
-    while (numFailures < 2) 
-    {
-        if (!insertEdge(vertices[idx], vertices[idx + 1])) 
+NVIDIA RTX APIs allow the user to test for intersections of raysand arbitrary geometric primitives. This technique is often used togenerate raster images. Here, Bounding volume hierarchies (BVHs)help reduce the complexity of this test, which is otherwise propor-tional to the number of rays times the number of primitives. The usersupplies abounds programso that RTX can generate axis-alignedbounding boxes (AABBs) for the user geometry andbuilda BVH.Now, aray generation programcan be executed on the GPU’s pro-grammable shader cores that willtracerays through the BVH usingan API call. In theintersection program, called when rays hit theAABBs, the user can test for and potentially report an intersectionwith the geometry. A reported intersection will then be available inpotentialclosest-hitorany-hit. RTX GPUs perform BVH traversalin hardware.  When RTX calls an intersection program, hardwaretraversal is interrupted and a contextrtices[idx + 1])) 
         {
             ++numFailures;
         } 

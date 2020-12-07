@@ -11,11 +11,12 @@
 
 class fdgOutput {
   public:
-    fdgOutput(Graph graph, unsigned iterations);
-    fdgOutput(Graph graph, int scale, unsigned iterations, int classAmnt);
+    fdgOutput(int version, Graph graph, unsigned iterations);
+    fdgOutput(int version, Graph graph, int scale, unsigned iterations, int classAmnt);
     ~fdgOutput();
 
-    void defineLocations(Graph graph, int scale, unsigned iterations, int classAmnt);
+    void defineLocationsSerial(Graph graph, int scale, unsigned iterations, int classAmnt);
+    void defineLocationsParallel(Graph graph, int scale, unsigned iterations, int classAmnt);
     void printLocations();
     cs225::HSLAPixel getRandColor();
     cs225::PNG createOutputImage();
