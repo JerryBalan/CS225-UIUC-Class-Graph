@@ -3,7 +3,7 @@ Final Project
 
 
 ## Build/Run
-Go into the `src` folder, run `make`, then run `./main`
+Move into the `src` folder, run `make`, then run `./main [argument]` where argument is `0` for the serial version of the force directed graph and `1` is the parellel version.
 
 ## Sample Output
 

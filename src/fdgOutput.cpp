@@ -85,22 +85,10 @@ void fdgOutput::defineLocationsSerial(Graph graph, int scale, unsigned iteration
             float d = std::sqrt(disp[j].first * disp[j].first + disp[j].second * disp[j].second);
             pos[j].first += d > t ? disp[j].first / d * t : disp[j].first;
             pos[j].second += d > t ? disp[j].second / d * t : disp[j].second;
-            // pos[j].first = (int)pos[j].first % width;
-            // pos[j].second = (int)pos[j].second % width;
-
-            // // pos[j].first = std::min((float)width - 1, pos[j].first);
-            // // pos[j].second = std::min((float)width - 1, pos[j].second);
-
-            // while(pos[j].first > width)
-            //     pos[j].first = (int)pos[j].first % width;
-            // while(pos[j].second > width)
-            //     pos[j].second = (int)pos[j].second % width;
-            // pos[j].first = std::max((float)1, pos[j].first);
-            // pos[j].second = std::max((float)1, pos[j].second);
 
             pos[j].first = std::min((float)width, std::max((float)0, pos[j].first));
             pos[j].second = std::min((float)width, std::max((float)0, pos[j].second));
-            
+
             if((pos[j].first == 0 || pos[j].second == 0) || (pos[j].first == width || pos[j].second == width)) {
                 pos[i].first = std::rand() % width;
                 pos[i].second = std::rand() % width;
@@ -142,9 +130,9 @@ void fdgOutput::defineLocationsParallel(Graph graph, int scale, unsigned iterati
     }
 
     for(unsigned i = 0; i < iterations; i++) {
-        std::thread th1(&fdgOutput::attractiveFunc2, this, i);
-        std::thread th2(&fdgOutput::repulsionFunc2, this, i);
-
+        // Run threads on attractive and repulsion functions
+        std::thread th1(&fdgOutput::attractiveFunc, this, i);
+        std::thread th2(&fdgOutput::repulsionFunc, this, i);
         th1.join();
         th2.join();
 
@@ -169,7 +157,7 @@ void fdgOutput::defineLocationsParallel(Graph graph, int scale, unsigned iterati
     return;
 }
 
-void fdgOutput::attractiveFunc2(int i) {
+void fdgOutput::attractiveFunc(int i) {
     // Attractive forces
     float K = std::sqrt(area / v.size());
     for(unsigned j = 0; j < e.size(); j++) {
@@ -192,7 +180,7 @@ void fdgOutput::attractiveFunc2(int i) {
     }
 }
 
-void fdgOutput::repulsionFunc2(int i) {
+void fdgOutput::repulsionFunc(int i) {
     // Repulsion forces
     float K = std::sqrt(area / v.size());
     for(unsigned j = 0; j < v.size(); j++) {

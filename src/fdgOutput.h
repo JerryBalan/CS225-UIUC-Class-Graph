@@ -18,11 +18,12 @@ class fdgOutput {
     void defineLocationsSerial(Graph graph, int scale, unsigned iterations, int classAmnt);
     void defineLocationsParallel(Graph graph, int scale, unsigned iterations, int classAmnt);
     void printLocations();
+
+    void attractiveFunc(int i);
+    void repulsionFunc(int i);
+
     cs225::HSLAPixel getRandColor();
     cs225::PNG createOutputImage();
-
-    void attractiveFunc2(int i);
-    void repulsionFunc2(int i);
 
   private:
     int area, width;
