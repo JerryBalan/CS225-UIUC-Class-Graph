@@ -21,12 +21,20 @@ for i in range(10):
     time_p.append(end_parallel - start_parallel)
 
 
-plt.plot(range(10), time_s, label="serial")
-plt.plot(range(10), time_p, label="parallel")
+s_avg = round(sum(time_s) / len(time_s), 3)
+p_avg = round(sum(time_p) / len(time_p), 3)
+
+
+plt.plot(range(10), time_s, label="serial (avg=" + str(s_avg) + "s )")
+plt.plot(range(10), time_p, label="parallel (avg="+ str(p_avg) + "s )")
+plt.xlabel("Iteration")
+plt.ylabel("Time (s)")
+plt.ylim(ymin=0)
+
 plt.legend()
 
-plt.show()
 plt.savefig("compare.png")
+plt.show()
 
 
 
