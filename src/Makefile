@@ -4,7 +4,7 @@ OBJS = main.o fileIO.o classes.o graph.o disjoint.o fdgOutput.o HSLAPixel.o lode
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
 LD = clang++
-LDFLAGS = -std=c++1y -stdlib=libc++ -lc++abi -lm
+LDFLAGS = -std=c++1y -stdlib=libc++ -lc++abi -lm -lpthread
 
 # Custom Clang version enforcement logic:
 ccred=$(shell echo -e "\033[0;31m")
@@ -49,7 +49,6 @@ classes.o : classes.cpp classes.h fileIO.h ../structures/graph.h
 
 fdgOutput.o : fdgOutput.cpp fdgOutput.h ../structures/graph.h ../structures/PNG.h ../structures/HSLAPixel.h ../structures/RGB_HSL.h
 	$(CXX) $(CXXFLAGS) fdgOutput.cpp
-
 
 HSLAPixel.o : ../structures/HSLAPixel.cpp ../structures/HSLAPixel.h
 	$(CXX) $(CXXFLAGS) ../structures/HSLAPixel.cpp

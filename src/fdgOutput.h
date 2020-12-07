@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <tuple>
+//#include <pthread.h>
+#include <thread>
 
 class fdgOutput {
   public:
@@ -18,6 +20,9 @@ class fdgOutput {
     cs225::HSLAPixel getRandColor();
     cs225::PNG createOutputImage();
 
+    void attractiveFunc2(int i);
+    void repulsionFunc2(int i);
+
   private:
     int area, width;
     std::vector<std::pair<float, float>> disp;
@@ -25,4 +30,6 @@ class fdgOutput {
     std::vector<std::tuple<double, double, double>> colors;
     std::vector<Vertex> v;
     std::vector<Edge> e;
+
+
 };
