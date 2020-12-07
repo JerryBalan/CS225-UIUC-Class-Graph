@@ -3,7 +3,7 @@
 #include "fileIO.h"
 #include "fdgOutput.h"
 #include "classes.h"
-#include "../structures/PNG.h"
+#include "structures/PNG.h"
 
 int main() {
   std::cout << "Using multithreading..." << std::endl;

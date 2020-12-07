@@ -38,26 +38,26 @@ main.o : main.cpp fileIO.h
 fileIO.o : fileIO.cpp fileIO.h
 	$(CXX) $(CXXFLAGS) fileIO.cpp
 
-disjoint.o: ../structures/disjoint.cpp ../structures/disjoint.h
-	$(CXX) $(CXXFLAGS) ../structures/disjoint.cpp
+disjoint.o: structures/disjoint.cpp structures/disjoint.h
+	$(CXX) $(CXXFLAGS) structures/disjoint.cpp
 
-graph.o: ../structures/graph.cpp ../structures/graph.h
-	$(CXX) $(CXXFLAGS) ../structures/graph.cpp
+graph.o: structures/graph.cpp structures/graph.h
+	$(CXX) $(CXXFLAGS) structures/graph.cpp
 
-classes.o : classes.cpp classes.h fileIO.h ../structures/graph.h
+classes.o : classes.cpp classes.h fileIO.h structures/graph.h
 	$(CXX) $(CXXFLAGS) classes.cpp
 
-fdgOutput.o : fdgOutput.cpp fdgOutput.h ../structures/graph.h ../structures/PNG.h ../structures/HSLAPixel.h ../structures/RGB_HSL.h
+fdgOutput.o : fdgOutput.cpp fdgOutput.h structures/graph.h structures/PNG.h structures/HSLAPixel.h structures/RGB_HSL.h
 	$(CXX) $(CXXFLAGS) fdgOutput.cpp
 
-HSLAPixel.o : ../structures/HSLAPixel.cpp ../structures/HSLAPixel.h
-	$(CXX) $(CXXFLAGS) ../structures/HSLAPixel.cpp
+HSLAPixel.o : structures/HSLAPixel.cpp structures/HSLAPixel.h
+	$(CXX) $(CXXFLAGS) structures/HSLAPixel.cpp
 
-lodepng.o : ../structures/lodepng/lodepng.cpp ../structures/lodepng/lodepng.h
-	$(CXX) $(CXXFLAGS) ../structures/lodepng/lodepng.cpp
+lodepng.o : structures/lodepng/lodepng.cpp structures/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) structures/lodepng/lodepng.cpp
 
-PNG.o : ../structures/PNG.cpp ../structures/PNG.h ../structures/HSLAPixel.h ../structures/lodepng/lodepng.h
-	$(CXX) $(CXXFLAGS) ../structures/PNG.cpp
+PNG.o : structures/PNG.cpp structures/PNG.h structures/HSLAPixel.h structures/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) structures/PNG.cpp
 
 
 clean :

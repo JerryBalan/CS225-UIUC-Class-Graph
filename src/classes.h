@@ -1,5 +1,5 @@
 #pragma once
-#include "../structures/graph.h"
+#include "structures/graph.h"
 #include "fileIO.h"
 #include <vector>
 #include <iostream>
@@ -24,6 +24,8 @@ class Classes {
      * List all classes up to a certain depth from an origin class
      */
     std::vector<std::string> bfs(std::string originClass, unsigned depth);
+
+    void displayClass(std::string classStr, unsigned depth);
 
 
   private:

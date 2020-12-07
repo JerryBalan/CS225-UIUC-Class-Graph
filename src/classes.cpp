@@ -12,6 +12,7 @@ void Classes::buildClassesGraph(string filePath) {
 
   for (auto& v : allClasses) {
     for (unsigned i = 1; i < v.size(); i++) {
+      // v[i] is a prereq to v[0]
       if (!g_.vertexExists(v[i])) {
         // insert vertex
         // set prereq connection classes[i] to classes[0]

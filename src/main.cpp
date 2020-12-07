@@ -3,7 +3,7 @@
 #include "fileIO.h"
 #include "fdgOutput.h"
 #include "classes.h"
-#include "../structures/PNG.h"
+#include "structures/PNG.h"
 
 int main(int argc, char * argv[]) {
 //   std::vector<std::vector<std::string>> csvVect = csvToVector("Data/uiuc-prerequisites.csv");

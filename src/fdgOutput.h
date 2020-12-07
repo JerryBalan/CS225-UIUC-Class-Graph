@@ -1,7 +1,7 @@
 #pragma once
-#include "../structures/graph.h"
-#include "../structures/PNG.h"
-#include "../structures/HSLAPixel.h"
+#include "structures/graph.h"
+#include "structures/PNG.h"
+#include "structures/HSLAPixel.h"
 #include <vector>
 #include <iostream>
 #include <string>

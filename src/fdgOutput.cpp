@@ -1,5 +1,5 @@
 #include "fdgOutput.h"
-#include "../structures/PNG.h"
+#include "structures/PNG.h"
 #include <math.h>
 #include <iostream>
 #include <fstream>
