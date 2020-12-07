@@ -6,6 +6,8 @@
 #include "../structures/PNG.h"
 
 int main() {
+  std::cout << "Using multithreading..." << std::endl;
+  
   Classes test;
 
   Graph g = test.getGraph();
