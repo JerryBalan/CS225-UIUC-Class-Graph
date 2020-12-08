@@ -14,17 +14,3 @@ OBJS = main.o fileIO.o fdgOutput.o classes.o structures/graph.o
 
 # Use the cs225 makefile template:
 include structures/cs225.mk
-
-
-# MP-specific targets
-# DSETS_OBJS = testdsets.o
-# DSETS_OBJS += dsets.o
-
-testdsets: $(DSETS_OBJS)
-	$(LD) $^ $(LDFLAGS) -o $@
-
-MAZE_OBJS = $(filter-out $(EXE_OBJ), $(OBJS))
-MAZE_OBJS += testFinalProj.o
-
-testsquaremaze: $(MAZE_OBJS)
-	$(LD) $^ $(LDFLAGS) -o $@

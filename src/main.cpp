@@ -8,6 +8,10 @@
 int main(int argc, char * argv[]) {
 //   std::vector<std::vector<std::string>> csvVect = csvToVector("Data/uiuc-prerequisites.csv");
 //   printVect(csvVect);
+  if (argc < 2) {
+    std::cout << "Please input an argument" << std::endl;
+    return -1;
+  }
   if(argv[1][0] == '0') {
     std::cout << "Using serial method..." << std::endl;
 
@@ -33,4 +37,5 @@ int main(int argc, char * argv[]) {
     img.writeToFile("testOutput"+ string(".png"));
     newOut.printLocations();
   }
+  return 0;
 }

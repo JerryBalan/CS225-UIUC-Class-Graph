@@ -35,9 +35,9 @@ Classes::Classes(string filePath) { buildClassesGraph(filePath); }
 
 Classes::~Classes() {}
 
-vector<string> Classes::bfs(string origin, unsigned depth) {
+vector<string> Classes::bfs(string origin) {
   vector<string> classesFound;
-
+  g_.BFS(Vertex(origin), classesFound);
   return classesFound;
 }
 
