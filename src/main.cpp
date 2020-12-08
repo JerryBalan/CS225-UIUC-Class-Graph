@@ -20,7 +20,7 @@ int main(int argc, char * argv[]) {
     Graph g = test.getGraph();
 
     //fdgOutput newOut(g, 10, 10, 100);
-    fdgOutput newOut(0, g, 100); // Serial
+    fdgOutput newOut(0, g, 100, test.getFrequencies()); // Serial
     cs225::PNG img = newOut.createOutputImage();
     img.writeToFile("testOutput"+ string(".png"));
     newOut.printLocations();
@@ -32,7 +32,7 @@ int main(int argc, char * argv[]) {
     Graph g = test.getGraph();
 
     //fdgOutput newOut(g, 10, 10, 100);
-    fdgOutput newOut(1, g, 100); // Parallel
+    fdgOutput newOut(1, g, 100, test.getFrequencies()); // Parallel
     cs225::PNG img = newOut.createOutputImage();
     img.writeToFile("testOutput"+ string(".png"));
     newOut.printLocations();
