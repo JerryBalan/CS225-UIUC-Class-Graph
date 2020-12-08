@@ -336,7 +336,7 @@ void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
          Vertex currVertex = queue.front();
          queue.pop();
          output.push_back(currVertex);
-         std::vector<Vertex> adjacents = getAdjacentFrom(startVertex);
+         std::vector<Vertex> adjacents = getAdjacent(startVertex);
 
          for (auto &i : adjacents) {
              if (visited.find(i) == visited.end()) {

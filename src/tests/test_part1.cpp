@@ -12,23 +12,25 @@
 using namespace cs225;
 using namespace std;
 
-
 TEST_CASE("BFS1", "[weight=10][part1]")
 {
 	Classes test;
 	Graph g = test.getGraph();
-	std::vector<Vertex> output, expectedOutput{ "CS 125", "ECE 220", "CS 173", "MATH 213" };
+	std::vector<Vertex> output, expectedOutput{ "CS 125", "ECE 220", "ECE 120", "CS 173", "MATH 213" };
 	g.BFS("CS 225", output);
 
 	std::sort(output.begin(), output.end());
 	std::sort(expectedOutput.begin(), expectedOutput.end());
 
-	for(unsigned i = 0; i < output.size(); i++)
-		std::cout << output[i] << ", ";
+	for(unsigned i = 0; i < output.size(); i++) {
+		std::cout << output[i];
+		
+		if(i != output.size() - 1)
+			std::cout << ", ";
+	}
 	std::cout << std::endl;
 
-
-	REQUIRE(output.size() == 4);
+	REQUIRE(output.size() == expectedOutput.size());
 	REQUIRE(output == expectedOutput);
 }
 
