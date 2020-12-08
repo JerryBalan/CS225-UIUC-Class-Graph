@@ -14,7 +14,7 @@ fdgOutput::fdgOutput(int version, Graph graph, unsigned iterations, std::unorder
   if (version == 0)
     defineLocationsSerial(graph, subjectFrequencies, 5, iterations, graph.getVertices().size());
   else
-    defineLocationsParallel(graph, 5, iterations, graph.getVertices().size());
+    defineLocationsParallel(graph, subjectFrequencies, 5, iterations, graph.getVertices().size());
 }
 
 fdgOutput::fdgOutput(int version, Graph graph, int scale, unsigned iterations,
@@ -22,13 +22,13 @@ fdgOutput::fdgOutput(int version, Graph graph, int scale, unsigned iterations,
   if (version == 0)
     defineLocationsSerial(graph, subjectFrequencies, scale, iterations, classAmnt);
   else
-    defineLocationsParallel(graph, scale, iterations, classAmnt);
+    defineLocationsParallel(graph, subjectFrequencies, scale, iterations, classAmnt);
 }
 
 fdgOutput::~fdgOutput() {}
 
 // Helper function to set variables since multiple methods use it
-void fdgOutput::setVariables(Graph graph, int classAmnt, int scale) {
+void fdgOutput::setVariables(Graph graph, int classAmnt, int scale, std::unordered_map<std::string, double> &subjectFrequencies) {
   v = graph.getVertices();
   e = graph.getEdges();
   v.resize(classAmnt);
@@ -41,28 +41,7 @@ void fdgOutput::setVariables(Graph graph, int classAmnt, int scale) {
   width = v.size() * scale;
   area = width * width;
 
-  return;
-}
-
-// Serial version of finding locations to place verticies
-void fdgOutput::defineLocationsSerial(
-    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
-    int scale, unsigned iterations, int classAmnt) {
-  setVariables(graph, classAmnt, scale);
-  float t = area, K = std::sqrt(area / v.size());
-
-  if (iterations < 0 || iterations > v.size()) iterations = v.size();
-
-  // Assign random positions
-  // for(unsigned i = 0; i < pos.size(); i++) {
-  //     pos[i].first = std::rand() % width;
-  //     pos[i].second = std::rand() % width;
-  // }
-
-  // Determine parts of circle for each department
-  // int size = classTypes.size();
   double radius = width / 2;
-  // std::vector<std::pair<double, double>> pts, slInt;
   std::pair<double, double> center = {width / 2, width / 2};
 
   std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
@@ -84,18 +63,39 @@ void fdgOutput::defineLocationsSerial(
     i++;
   }
 
-  // Assigned grouped location based on departments
-  // for (unsigned i = 0; i < v.size(); i++) {
-  //   std::string dept = v[i].substr(0, v[i].find(' '));
+  return;
+}
 
-  //   if (v[i].rfind("ECE", 0) == 0 || v[i].rfind("CS", 0) == 0) {
-  //     pos[i].first = (std::rand() % (width));
-  //     pos[i].second = (std::rand() % (width / 2)) + (width / 2);
-  //   } else {
-  //     pos[i].first = (std::rand() % (width));
-  //     pos[i].second = std::rand() % (width / 2);
-  //   }
-  // }
+// Serial version of finding locations to place verticies
+void fdgOutput::defineLocationsSerial(
+    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
+    int scale, unsigned iterations, int classAmnt) {
+  setVariables(graph, classAmnt, scale, subjectFrequencies);
+  float t = area, K = std::sqrt(area / v.size());
+
+  if (iterations < 0 || iterations > v.size()) iterations = v.size();
+
+//   double radius = width / 2;
+//   std::pair<double, double> center = {width / 2, width / 2};
+
+//   std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
+//   double currAngle = 0;
+//   for (auto& subject : subjectFrequencies) {
+//     double nextAngle = currAngle + 2 * M_PI * subject.second;
+//     subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
+//   }
+//   srand(time(NULL));
+//   int i = 0;
+//   for (Vertex& course : v) {
+//     std::string subjectName = getCourseSubject(course);
+//     std::pair<double, double> angleBounds = subjectAngles[subjectName];
+//     double angle = fRand(angleBounds.first, angleBounds.second);
+//     double rad = fRand(0, radius);
+
+//     pos[i].first = rad * cos(angle) + center.first;
+//     pos[i].second = rad * sin(angle) + center.second;
+//     i++;
+//   }
 
   for (unsigned i = 0; i < iterations; i++) {
     // Repulsion forces
@@ -154,18 +154,12 @@ void fdgOutput::defineLocationsSerial(
 }
 
 // Parallel version of finding locations to place verticies
-void fdgOutput::defineLocationsParallel(Graph graph, int scale,
-                                        unsigned iterations, int classAmnt) {
-  setVariables(graph, classAmnt, scale);
+void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
+                                int scale, unsigned iterations, int classAmnt) {
+  setVariables(graph, classAmnt, scale, subjectFrequencies);
   float t = area, K = std::sqrt(area / v.size());
 
   if (iterations < 0 || iterations > v.size()) iterations = v.size();
-
-  // Assign random positions
-  for (unsigned i = 0; i < pos.size(); i++) {
-    pos[i].first = std::rand() % width;
-    pos[i].second = std::rand() % width;
-  }
 
   for (unsigned i = 0; i < iterations; i++) {
     // Run threads on attractive and repulsion functions
@@ -241,7 +235,7 @@ void fdgOutput::repulsionFunc(int i) {
 }
 
 // Uses new locations to create output PNG using cs225's PNG class
-cs225::PNG fdgOutput::createOutputImage() {
+cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> subjectFrequencies) {
   cs225::PNG out(width + 2, width + 2);
 
   // Draw verticies
@@ -260,6 +254,14 @@ cs225::PNG fdgOutput::createOutputImage() {
     // out->getPixel(pos[i].first, pos[i].second).l = 0;
   }
 
+  std::unordered_map<std::string, cs225::HSLAPixel> cols;
+//   for(auto it : subjectFrequencies)
+//       cols.insert({it.first, getRandColor()});
+  cols["CS"] = cs225::HSLAPixel(0, 1, .5); // red
+  cols["ECE"] = cs225::HSLAPixel(72, 1, .5); // yellow
+  cols["PHYS"] = cs225::HSLAPixel(144, 1, .5); // green
+  cols["MATH"] = cs225::HSLAPixel(216, 1, .5); // blue
+
   // Draw edges
   for (unsigned i = 0; i < e.size(); i++) {
     auto temp1 = find(v.begin(), v.end(), e[i].source);
@@ -275,7 +277,8 @@ cs225::PNG fdgOutput::createOutputImage() {
     for (int j = std::min(pt1.first, pt2.first); j < end; j++) {
       int y = (slope * j) + yIntercept;
       if (j < 0 || j > width + 2 || y < 0 || y > width + 2) continue;
-      out.getPixel(j, y).l = 0.6;
+      //out.getPixel(j, y).l = 0.6;
+      out.getPixel(j, y) = cols.at(v[temp1 - v.begin()].substr(0, v[temp1 - v.begin()].find(' ')));
     }
   }
 

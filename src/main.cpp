@@ -21,7 +21,7 @@ int main(int argc, char * argv[]) {
 
     //fdgOutput newOut(g, 10, 10, 100);
     fdgOutput newOut(0, g, 100, test.getFrequencies()); // Serial
-    cs225::PNG img = newOut.createOutputImage();
+    cs225::PNG img = newOut.createOutputImage(test.getFrequencies());
     img.writeToFile("testOutput"+ string(".png"));
     newOut.printLocations();
   } else {
@@ -33,7 +33,7 @@ int main(int argc, char * argv[]) {
 
     //fdgOutput newOut(g, 10, 10, 100);
     fdgOutput newOut(1, g, 100, test.getFrequencies()); // Parallel
-    cs225::PNG img = newOut.createOutputImage();
+    cs225::PNG img = newOut.createOutputImage(test.getFrequencies());
     img.writeToFile("testOutput"+ string(".png"));
     newOut.printLocations();
   }

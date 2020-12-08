@@ -16,7 +16,7 @@ TEST_CASE("BFS-CS225", "[weight=10][part1]")
 {
 	Classes test;
 	Graph g = test.getGraph();
-	std::vector<Vertex> output, expectedOutput{ "CS 225", "CS 125", "ECE 220", "ECE 120", "CS 173", "MATH 213" };
+	std::vector<Vertex> output, expectedOutput{"CS 225", "CS 125", "ECE 220", "ECE 120", "CS 173", "MATH 213"};
 	g.BFS("CS 225", output);
 
 	std::sort(output.begin(), output.end());
@@ -24,7 +24,7 @@ TEST_CASE("BFS-CS225", "[weight=10][part1]")
 
 	// for(unsigned i = 0; i < output.size(); i++) {
 	// 	std::cout << output[i];
-		
+
 	// 	if(i != output.size() - 1)
 	// 		std::cout << ", ";
 	// }
@@ -38,7 +38,7 @@ TEST_CASE("BFS-ECE391", "[weight=10][part1]")
 {
 	Classes test;
 	Graph g = test.getGraph();
-	std::vector<Vertex> output, expectedOutput{ "ECE 391", "ECE 220", "CS 233", "ECE 120", "CS 125", "CS 173", "CS 225" };
+	std::vector<Vertex> output, expectedOutput{"ECE 391", "ECE 220", "CS 233", "ECE 120", "CS 125", "CS 173", "CS 225"};
 	g.BFS("ECE 391", output);
 
 	std::sort(output.begin(), output.end());
@@ -48,11 +48,11 @@ TEST_CASE("BFS-ECE391", "[weight=10][part1]")
 	REQUIRE(output == expectedOutput);
 }
 
-TEST_CASE("BFS-ECE420", "[weight=5][part1]")
+TEST_CASE("BFS-ECE420", "[weight=10][part1]")
 {
 	Classes test;
 	Graph g = test.getGraph();
-	std::vector<Vertex> output, expectedOutput{ "ECE 420", "ECE 310", "ECE 210", "ECE 110", "PHYS 212", "MATH 285", "MATH 286" };
+	std::vector<Vertex> output, expectedOutput{"ECE 420", "ECE 310", "ECE 210", "ECE 110", "PHYS 212", "MATH 285", "MATH 286"};
 	g.BFS("ECE 420", output);
 
 	std::sort(output.begin(), output.end());
