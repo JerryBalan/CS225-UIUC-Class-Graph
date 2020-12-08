@@ -49,9 +49,45 @@ void fdgOutput::defineLocationsSerial(Graph graph, int scale, unsigned iteration
         iterations = v.size();
 
     // Assign random positions
-    for(unsigned i = 0; i < pos.size(); i++) {
-        pos[i].first = std::rand() % width;
-        pos[i].second = std::rand() % width;
+    // for(unsigned i = 0; i < pos.size(); i++) {
+    //     pos[i].first = std::rand() % width;
+    //     pos[i].second = std::rand() % width;
+    // }
+
+    std::vector<std::string> classTypes = {"CS", "ECE", "MATH", "PHYS", "ENG"};
+
+    // Determine parts of circle for each department
+    int size = classTypes.size();
+    double radius = width / 2;
+    std::vector<std::pair<double, double>> pts, slInt;
+    std::pair<double, double> center = {width / 2, width / 2};
+
+    for(int i = 0; i < size; i++) {
+        float rad = ((i * (360 / size)) * (M_PI / 180));
+        float x = radius * cos(rad) + (width / 2);
+        float y = radius * sin(rad) + (width / 2);
+        pts.push_back({x, y});
+
+        // Find slopes/incercepts
+        double slope = (pts[i].second - center.second) / (pts[i].first - center.first);
+        double intercept = pts[i].second - (slope * pts[i].first);
+        slInt.push_back({slope, intercept});
+
+        std::cout << "x: " << pts[i].first << ", y: " << pts[i].second << std::endl;
+    }
+
+
+    // Assigned grouped location based on departments
+    for(unsigned i = 0; i < v.size(); i++) {
+        std::string dept = v[i].substr(0, v[i].find(' '));
+
+        if(v[i].rfind("ECE", 0) == 0 || v[i].rfind("CS", 0) == 0) {
+            pos[i].first = (std::rand() % (width));
+            pos[i].second = (std::rand() % (width / 2)) + (width / 2);
+        } else {
+            pos[i].first = (std::rand() % (width));
+            pos[i].second = std::rand() % (width / 2);
+        }
     }
 
     for(unsigned i = 0; i < iterations; i++) {
