@@ -4,17 +4,32 @@
 #include <sstream>
 #include <string>
 #include <stack>
+#include "../fileIO.h"
+#include "../fdgOutput.h"
+#include "../classes.h"
 #include "../structures/PNG.h"
 
 using namespace cs225;
 using namespace std;
 
 
-TEST_CASE("addElements1", "[weight=10][part1]")
+TEST_CASE("BFS1", "[weight=10][part1]")
 {
-	// DisjointSets disjSets;
-	// disjSets.addelements(5);
-	// REQUIRE(3 == disjSets.find(3));
+	Classes test;
+	Graph g = test.getGraph();
+	std::vector<Vertex> output, expectedOutput{ "CS 125", "ECE 220", "CS 173", "MATH 213" };
+	g.BFS("CS 225", output);
+
+	std::sort(output.begin(), output.end());
+	std::sort(expectedOutput.begin(), expectedOutput.end());
+
+	for(unsigned i = 0; i < output.size(); i++)
+		std::cout << output[i] << ", ";
+	std::cout << std::endl;
+
+
+	REQUIRE(output.size() == 4);
+	REQUIRE(output == expectedOutput);
 }
 
 TEST_CASE("addElements2", "[weight=10][part1]")
