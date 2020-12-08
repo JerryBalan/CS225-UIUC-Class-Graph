@@ -16,6 +16,7 @@ class Classes {
     void savePNG();
 
     Graph getGraph();
+    std::unordered_map<std::string, double> getFrequencies();
 
     /**
      * Print shortest path from two classes
@@ -33,7 +34,4 @@ class Classes {
     Graph g_;
     void buildClassesGraph(std::string filePath);
     std::unordered_map<std::string, double> subjectFrequencies;
-
-    void initSubjectFrequencies(std::vector<std::vector<std::string>>& allClassesVector);
-
 };

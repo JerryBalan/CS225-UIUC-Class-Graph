@@ -11,10 +11,25 @@ using std::vector;
 void Classes::buildClassesGraph(string filePath) {
   g_ = Graph();
   vector<vector<string>> allClasses = csvToVector(filePath);
+  int total = 0;
 
   for (auto& v : allClasses) {
+    // Update class frequencies
+    total++;
+    std::string dept = v[0].substr(0, v[0].find(' '));
+    if(subjectFrequencies.find(dept) == subjectFrequencies.end())
+      subjectFrequencies.insert({dept, 1});
+    else
+      subjectFrequencies[dept]++;
+
     g_.insertVertex(v[0]);
   }
+
+  std::cout << "total: " << total << std::endl;
+
+  // Convert number of classes to percentage amount
+  for(auto &it : subjectFrequencies)
+    it.second /= total;
 
   for (auto& v : allClasses) {
     for (unsigned i = 1; i < v.size(); i++) {
@@ -84,6 +99,10 @@ vector<string> Classes::shortestPath(string origin, string dest) {
   return path;
 }
 
+std::unordered_map<std::string, double> Classes::getFrequencies() {
+  return subjectFrequencies;
+}
+
 void Classes::print() {}
 
 void Classes::savePNG() {}
@@ -92,14 +111,5 @@ Graph Classes::getGraph() {
   return g_;
 }
 
-void Classes::initSubjectFrequencies(std::vector<std::vector<std::string>>& allClassesVector) {
 
-  // allClassesVector is what was gotten from csvToVec function. 
-  // make subject frequencies, and call this in constructor. 
-  subjectFrequencies["CS"] = 0.5;
-  subjectFrequencies["ECE"] = 0.3;
-  subjectFrequencies["MATH"] = 0.1;
-  subjectFrequencies["PHYS"] = 0.1;
-
-}
 
