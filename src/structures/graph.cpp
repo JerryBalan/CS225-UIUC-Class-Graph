@@ -89,6 +89,24 @@ vector<Vertex> Graph::getAdjacent(Vertex source) const
     }
 }
 
+vector<Vertex> graph::getAdjacentFrom(Vertex dest) const {
+    vector<Vertex> output;
+
+    for(auto it = adjacency_list.begin(); it != adjacency_list.end(); ++it) {
+        Vertex source = it->first;
+        if (source == dest) {
+            continue;
+        }
+        unordered_map <Vertex, Edge> & map = adjacency_list[source];
+        for(auto itt = map.begin(); itt != map.end(); ++itt) {
+            Vertex pos_dest = itt->first;
+            if (pos_dest == dest) {
+                output.push_back(pos_dest);
+            }
+        }
+    }
+}
+
 
 Vertex Graph::getStartingVertex() const
 {
@@ -306,24 +324,24 @@ void Graph::clear()
 }
 
 void Graph::BFS(Vertex startVertex) {
-    // std::map<Vertex, bool> visited;
-    // std::queue<Vertex> queue;
+    std::map<Vertex, bool> visited;
+    std::queue<Vertex> queue;
 
-    // visited.insert(startVertex, true);
-    // queue.push(startVertex);
+    visited.insert(startVertex, true);
+    queue.push(startVertex);
 
-    // while (!queue.empty()) {
-    //     Vertex currVertex = queue.front();
-    //     queue.pop();
-    //     std::vector<Vertex> adjacents = getAdjacent(startVertex);
+    while (!queue.empty()) {
+         Vertex currVertex = queue.front();
+         queue.pop();
+         std::vector<Vertex> adjacents = getAdjacentFrom(startVertex);
 
-    //     for (auto &i : adjacents) {
-    //         if (visited.find(i) == visited.end()) {
-    //            visited.insert(i, true);
-    //            queue.push_back(i); 
-    //         }
-    //     }
-    // }
+         for (auto &i : adjacents) {
+             if (visited.find(i) == visited.end()) {
+                visited.insert(i, true);
+                queue.push_back(i); 
+             }
+         }
+     }
 }
 
 /**

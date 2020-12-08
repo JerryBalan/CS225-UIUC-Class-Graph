@@ -76,6 +76,8 @@ public:
      */
     vector<Vertex> getAdjacent(Vertex source) const;
 
+    vector<Vertex> getAdjacentFrom(Vertex dest) const;
+
     /**
      * Returns one vertex in the graph. This function can be used
      *  to find a random vertex with which to start a traversal.
