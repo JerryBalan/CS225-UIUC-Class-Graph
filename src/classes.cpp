@@ -25,8 +25,6 @@ void Classes::buildClassesGraph(string filePath) {
     g_.insertVertex(v[0]);
   }
 
-  std::cout << "total: " << total << std::endl;
-
   // Convert number of classes to percentage amount
   for(auto &it : subjectFrequencies)
     it.second /= total;
