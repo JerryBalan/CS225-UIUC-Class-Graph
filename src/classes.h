@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <unordered_map>
 
 class Classes {
   public:
@@ -31,4 +32,8 @@ class Classes {
   private:
     Graph g_;
     void buildClassesGraph(std::string filePath);
+    std::unordered_map<std::string, double> subjectFrequencies;
+
+    void initSubjectFrequencies(std::vector<std::vector<std::string>>& allClassesVector);
+
 };

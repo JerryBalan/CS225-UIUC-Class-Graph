@@ -4,6 +4,7 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
+
 using std::string;
 using std::vector;
 
@@ -90,3 +91,15 @@ void Classes::savePNG() {}
 Graph Classes::getGraph() {
   return g_;
 }
+
+void Classes::initSubjectFrequencies(std::vector<std::vector<std::string>>& allClassesVector) {
+
+  // allClassesVector is what was gotten from csvToVec function. 
+  // make subject frequencies, and call this in constructor. 
+  subjectFrequencies["CS"] = 0.5;
+  subjectFrequencies["ECE"] = 0.3;
+  subjectFrequencies["MATH"] = 0.2;
+  subjectFrequencies["PHYS"] = 0.1;
+
+}
+
