@@ -71,6 +71,7 @@ void fdgOutput::defineLocationsSerial(
     double nextAngle = currAngle + 2 * M_PI * subject.second;
     subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
   }
+  srand(time(NULL));
   int i = 0;
   for (Vertex& course : v) {
     std::string subjectName = getCourseSubject(course);
