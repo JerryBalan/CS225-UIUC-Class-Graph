@@ -333,18 +333,18 @@ void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
     queue.push(startVertex);
 
     while (!queue.empty()) {
-         Vertex currVertex = queue.front();
-         queue.pop();
-         output.push_back(currVertex);
-         std::vector<Vertex> adjacents = getAdjacent(startVertex);
+        Vertex currVertex = queue.front();
+        queue.pop();
+        output.push_back(currVertex);
+        std::vector<Vertex> adjacents = getAdjacent(currVertex);
 
-         for (auto &i : adjacents) {
-             if (visited.find(i) == visited.end()) {
+        for (auto &i : adjacents) {
+            if (visited.find(i) == visited.end()) {
                 visited.insert({i, true});
                 queue.push(i); 
-             }
-         }
-     }
+            }
+        }
+    }
 }
 
 /**
