@@ -23,9 +23,9 @@ void Classes::buildClassesGraph(string filePath) {
         // set prereq connection classes[i] to classes[0]
         g_.insertVertex(v[i]);
       }
-      // connect v[i] to v[0]
-      g_.insertEdge(v[i], v[0]);
-      g_.setEdgeLabel(v[i], v[0], "prerequisite");
+      // connect v[0] to v[i]
+      g_.insertEdge(v[0], v[i]);
+      g_.setEdgeLabel(v[0], v[i], "prereq");
     }
   }
 }
