@@ -26,9 +26,9 @@ class Classes {
      * List all classes up to a certain depth from an origin class
      */
     std::vector<std::string> bfs(std::string originClass);
-
+    std::vector<std::string> warshall(std::string, std::string);
     void displayClass(std::string classStr, unsigned depth);
-
+    
 
   private:
     Graph g_;

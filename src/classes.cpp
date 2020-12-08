@@ -98,7 +98,43 @@ vector<string> Classes::shortestPath(string origin, string dest) {
 
   return path;
 }
+std::vector<std::string> Classes::warshall(std::string origin, std::string dest) {
+  //vector<vector<int>> distMatrix;
+  //vector<vector<string>> pathMatrix;
+  std::unordered_map<string, std::unordered_map<string, int>> distMatrix; // last int is the distance
+  std::unordered_map<string, std::unordered_map<string, Vertex>> pathMatrix; //last str is the class (vtx)
+  int inf = INT_MAX;
 
+  vector<Vertex> allClasses = g_.getVertices();
+  vector<Edge> allEdges = g_.getEdges();
+
+  // map default values of infinity
+  for(Vertex outerClass : allClasses) {
+    for(Vertex innerClass : allClasses) {
+      distMatrix[outerClass][innerClass] = inf;
+    }
+  }
+
+  for(Vertex singleClass : allClasses) {
+    distMatrix[singleClass][singleClass] = 0;
+    pathMatrix[singleClass][singleClass] = singleClass;
+  }
+  for(Edge e : allEdges) {
+    distMatrix[e.source][e.dest] = 1; //all edges have weight 1
+    pathMatrix[e.source][e.dest] = e.dest;
+  }
+
+  for(Vertex w : allClasses) {
+    for(Vertex u : allClasses) {
+      for(Vertex v : allClasses) {
+        if(distMatrix[u][v] > distMatrix[u][w] + distMatrix[w][v]) {
+          distMatrix[u][v] = distMatrix[u][w] + distMatrix[w][v];
+          pathMatrix[u][v] = pathMatrix[u][w];
+        }
+      }
+    }
+  }
+}
 std::unordered_map<std::string, double> Classes::getFrequencies() {
   return subjectFrequencies;
 }
