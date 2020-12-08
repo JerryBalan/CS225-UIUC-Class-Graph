@@ -199,7 +199,7 @@ public:
 
     void clear();
 
-    void BFS(Vertex startVertex);
+    void BFS(Vertex startVertex, vector <Vertex> & output);
 
 
     const static Vertex InvalidVertex;

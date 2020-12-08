@@ -323,7 +323,7 @@ void Graph::clear()
     adjacency_list.clear();
 }
 
-void Graph::BFS(Vertex startVertex) {
+void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
     std::map<Vertex, bool> visited;
     std::queue<Vertex> queue;
 
@@ -333,6 +333,7 @@ void Graph::BFS(Vertex startVertex) {
     while (!queue.empty()) {
          Vertex currVertex = queue.front();
          queue.pop();
+         output.push_back(currVertex);
          std::vector<Vertex> adjacents = getAdjacentFrom(startVertex);
 
          for (auto &i : adjacents) {
