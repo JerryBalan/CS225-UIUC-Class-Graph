@@ -23,7 +23,8 @@ fdgOutput::fdgOutput(int version, Graph graph, int scale, unsigned iterations, i
 
 fdgOutput::~fdgOutput() {}
 
-void fdgOutput::defineLocationsSerial(Graph graph, int scale, unsigned iterations, int classAmnt) {
+// Helper function to set variables since multiple methods use it
+void fdgOutput::setVariables(Graph graph, int classAmnt, int scale) {
     v = graph.getVertices();
     e = graph.getEdges();
     v.resize(classAmnt);
@@ -35,6 +36,13 @@ void fdgOutput::defineLocationsSerial(Graph graph, int scale, unsigned iteration
 
     width = v.size() * scale;
     area = width * width;
+
+    return;
+}
+
+// Serial version of finding locations to place verticies
+void fdgOutput::defineLocationsSerial(Graph graph, int scale, unsigned iterations, int classAmnt) {
+    setVariables(graph, classAmnt, scale);
     float t = area, K = std::sqrt(area / v.size());
 
     if(iterations < 0 || iterations > v.size())
@@ -101,21 +109,9 @@ void fdgOutput::defineLocationsSerial(Graph graph, int scale, unsigned iteration
     return;
 }
 
+// Parallel version of finding locations to place verticies
 void fdgOutput::defineLocationsParallel(Graph graph, int scale, unsigned iterations, int classAmnt) {
-    v = graph.getVertices();
-    e = graph.getEdges();
-
-    classAmnt = (unsigned)classAmnt > v.size() ? v.size() : classAmnt;
-
-    v.resize(classAmnt);
-
-    disp.clear();
-    pos.clear();
-    disp.resize(v.size(), {0, 0});
-    pos.resize(v.size(), {0, 0});
-
-    width = v.size() * scale;
-    area = width * width;
+    setVariables(graph, classAmnt, scale);
     float t = area, K = std::sqrt(area / v.size());
 
     if(iterations < 0 || iterations > v.size())
@@ -155,6 +151,7 @@ void fdgOutput::defineLocationsParallel(Graph graph, int scale, unsigned iterati
     return;
 }
 
+// Helper function to find attractive forces for parallel version
 void fdgOutput::attractiveFunc(int i) {
     // Attractive forces
     float K = std::sqrt(area / v.size());
@@ -178,6 +175,7 @@ void fdgOutput::attractiveFunc(int i) {
     }
 }
 
+// Helper function to find repulsion forces for parallel version
 void fdgOutput::repulsionFunc(int i) {
     // Repulsion forces
     float K = std::sqrt(area / v.size());
@@ -210,7 +208,6 @@ cs225::PNG fdgOutput::createOutputImage() {
             for(int k = -1; k < 2; k++) {
                 int x = std::max(0, (int)pos[i].first + j);
                 int y = std::max(0, (int)pos[i].second + k);
-                //out.getPixel(x, y).l = 0;
                 out.getPixel(x, y) = curr;
             }
         }
@@ -236,13 +233,13 @@ cs225::PNG fdgOutput::createOutputImage() {
             if(j < 0 || j > width + 2 || y < 0 || y > width + 2)
                 continue;
             out.getPixel(j, y).l = 0.6;
-            //out.getPixel(j, y) = getRandColor();
         }
     }
 
     return out;
 }
 
+// Helper function to get HSLAPixel with random color
 cs225::HSLAPixel fdgOutput::getRandColor() {
     double f = (double)rand() / RAND_MAX;
     double f2 = (double)rand() / RAND_MAX;

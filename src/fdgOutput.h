@@ -6,7 +6,6 @@
 #include <iostream>
 #include <string>
 #include <tuple>
-//#include <pthread.h>
 #include <thread>
 
 class fdgOutput {
@@ -19,10 +18,6 @@ class fdgOutput {
     void defineLocationsParallel(Graph graph, int scale, unsigned iterations, int classAmnt);
     void printLocations();
 
-    void attractiveFunc(int i);
-    void repulsionFunc(int i);
-
-    cs225::HSLAPixel getRandColor();
     cs225::PNG createOutputImage();
 
   private:
@@ -33,5 +28,8 @@ class fdgOutput {
     std::vector<Vertex> v;
     std::vector<Edge> e;
 
-
+    void setVariables(Graph graph, int classAmnt, int scale);
+    void attractiveFunc(int i);
+    void repulsionFunc(int i);
+    cs225::HSLAPixel getRandColor();
 };
