@@ -12,97 +12,77 @@
 using namespace cs225;
 using namespace std;
 
-TEST_CASE("BFS1", "[weight=10][part1]")
+TEST_CASE("BFS-CS225", "[weight=10][part1]")
 {
 	Classes test;
 	Graph g = test.getGraph();
-	std::vector<Vertex> output, expectedOutput{ "CS 125", "ECE 220", "ECE 120", "CS 173", "MATH 213" };
+	std::vector<Vertex> output, expectedOutput{ "CS 225", "CS 125", "ECE 220", "ECE 120", "CS 173", "MATH 213" };
 	g.BFS("CS 225", output);
 
 	std::sort(output.begin(), output.end());
 	std::sort(expectedOutput.begin(), expectedOutput.end());
 
-	for(unsigned i = 0; i < output.size(); i++) {
-		std::cout << output[i];
+	// for(unsigned i = 0; i < output.size(); i++) {
+	// 	std::cout << output[i];
 		
-		if(i != output.size() - 1)
-			std::cout << ", ";
-	}
-	std::cout << std::endl;
+	// 	if(i != output.size() - 1)
+	// 		std::cout << ", ";
+	// }
+	// std::cout << std::endl;
 
 	REQUIRE(output.size() == expectedOutput.size());
 	REQUIRE(output == expectedOutput);
 }
 
-TEST_CASE("addElements2", "[weight=10][part1]")
+TEST_CASE("BFS-ECE391", "[weight=10][part1]")
 {
-	// DisjointSets disjSets;
-	// disjSets.addelements(5);
-	// REQUIRE(0 == disjSets.find(0));
-	// disjSets.addelements(5);
-	// REQUIRE(9 == disjSets.find(9));
+	Classes test;
+	Graph g = test.getGraph();
+	std::vector<Vertex> output, expectedOutput{ "ECE 391", "ECE 220", "CS 233", "ECE 120", "CS 125", "CS 173", "CS 225" };
+	g.BFS("ECE 391", output);
+
+	std::sort(output.begin(), output.end());
+	std::sort(expectedOutput.begin(), expectedOutput.end());
+
+	REQUIRE(output.size() == expectedOutput.size());
+	REQUIRE(output == expectedOutput);
 }
 
-TEST_CASE("testFindAndSetUnion1", "[weight=10][part1]")
+TEST_CASE("BFS-ECE420", "[weight=5][part1]")
 {
-	// DisjointSets disjSets;
-	// disjSets.addelements(4);
-	// disjSets.setunion(1, 2);
-	// REQUIRE(disjSets.find(2) == disjSets.find(1));
+	Classes test;
+	Graph g = test.getGraph();
+	std::vector<Vertex> output, expectedOutput{ "ECE 420", "ECE 310", "ECE 210", "ECE 110", "PHYS 212", "MATH 285", "MATH 286" };
+	g.BFS("ECE 420", output);
+
+	std::sort(output.begin(), output.end());
+	std::sort(expectedOutput.begin(), expectedOutput.end());
+
+	REQUIRE(output.size() == expectedOutput.size());
+	REQUIRE(output == expectedOutput);
 }
 
-TEST_CASE("testFindAndSetUnion2", "[weight=10][part1]")
+TEST_CASE("A-Star-1", "[weight=10][part1]")
 {
-	// DisjointSets disjSets;
-	// disjSets.addelements(10);
-
-	// disjSets.setunion(4, 8);
-	// disjSets.setunion(1, 3);
-	// disjSets.setunion(1, 5);
-	// disjSets.setunion(8, 3);
-	// disjSets.setunion(6, 7);
-	// disjSets.setunion(2, 8);
-	// disjSets.setunion(7, 1);
-
-	// int root = disjSets.find(1);
-	// for (int i = 2; i <= 8; i++)
-	// 	REQUIRE(root == disjSets.find(i));
-	// REQUIRE(disjSets.find(0) != disjSets.find(9));
+	REQUIRE(1 == 2);
 }
 
-TEST_CASE("testFindAndSetUnion3", "[weight=10][part1]")
+TEST_CASE("A-Star-2", "[weight=10][part1]")
 {
-	// DisjointSets disjSets;
-	// disjSets.addelements(8);
-
-	// disjSets.setunion(1, 2);
-	// disjSets.setunion(1, 3);
-	// disjSets.setunion(4, 5);
-	// disjSets.setunion(4, 6);
-	// disjSets.setunion(3, 6);
-
-	// REQUIRE(disjSets.find(4) == disjSets.find(1));
-	// REQUIRE(disjSets.find(0) != disjSets.find(4));
+	REQUIRE(1 == 2);
 }
 
-TEST_CASE("size1", "[weight=5][part1]")
+TEST_CASE("A-Star-3", "[weight=10][part1]")
 {
-	// DisjointSets disjSets;
-	// disjSets.addelements(4);
-	// REQUIRE(1 == disjSets.size(2));
+	REQUIRE(1 == 2);
 }
 
-TEST_CASE("size2", "[weight=10][part1]")
+TEST_CASE("Output-Img-1", "[weight=10][part1]")
 {
-	// DisjointSets disjSets;
-	// disjSets.addelements(8);
+	REQUIRE(1 == 2);
+}
 
-	// disjSets.setunion(1, 7);
-	// disjSets.setunion(2, 6);
-	// disjSets.setunion(3, 5);
-	// disjSets.setunion(2, 3);
-	// REQUIRE(4 == disjSets.size(3));
-	// disjSets.setunion(1, 3);
-	// REQUIRE(6 == disjSets.size(6));
-
+TEST_CASE("Output-Img-2", "[weight=10][part1]")
+{
+	REQUIRE(1 == 2);
 }
