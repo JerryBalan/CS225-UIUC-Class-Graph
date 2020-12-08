@@ -89,7 +89,7 @@ vector<Vertex> Graph::getAdjacent(Vertex source) const
     }
 }
 
-vector<Vertex> graph::getAdjacentFrom(Vertex dest) const {
+vector<Vertex> Graph::getAdjacentFrom(Vertex dest) const {
     vector<Vertex> output;
 
     for(auto it = adjacency_list.begin(); it != adjacency_list.end(); ++it) {
@@ -105,6 +105,8 @@ vector<Vertex> graph::getAdjacentFrom(Vertex dest) const {
             }
         }
     }
+
+    return output;
 }
 
 
@@ -327,7 +329,7 @@ void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
     std::map<Vertex, bool> visited;
     std::queue<Vertex> queue;
 
-    visited.insert(startVertex, true);
+    visited.insert({startVertex, true});
     queue.push(startVertex);
 
     while (!queue.empty()) {
@@ -338,8 +340,8 @@ void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
 
          for (auto &i : adjacents) {
              if (visited.find(i) == visited.end()) {
-                visited.insert(i, true);
-                queue.push_back(i); 
+                visited.insert({i, true});
+                queue.push(i); 
              }
          }
      }
