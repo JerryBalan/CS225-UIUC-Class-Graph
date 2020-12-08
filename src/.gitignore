@@ -2,3 +2,4 @@
 main
 .obj
 *.d
+*.out
