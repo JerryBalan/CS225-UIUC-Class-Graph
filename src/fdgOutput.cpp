@@ -102,12 +102,10 @@ void fdgOutput::defineLocationsSerial(Graph graph, int scale, unsigned iteration
 }
 
 void fdgOutput::defineLocationsParallel(Graph graph, int scale, unsigned iterations, int classAmnt) {
-
-
     v = graph.getVertices();
     e = graph.getEdges();
 
-    classAmnt = classAmnt > v.size() ? v.size() : classAmnt;
+    classAmnt = (unsigned)classAmnt > v.size() ? v.size() : classAmnt;
 
     v.resize(classAmnt);
 
