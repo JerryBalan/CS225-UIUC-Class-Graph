@@ -110,6 +110,7 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
   for(Vertex outerClass : allClasses) {
     for(Vertex innerClass : allClasses) {
       distMatrix[outerClass][innerClass] = inf;
+      pathMatrix[outerClass][innerClass] = "";
     }
   }
 
@@ -132,6 +133,19 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
       }
     }
   }
+
+  // convert adj matrix to path
+  vector<Vertex> path;
+  Vertex temp = origin;
+  if(pathMatrix[origin][dest] == "") {
+    return path;
+  }
+  path.push_back(origin);
+  while(temp != dest) {
+    temp = pathMatrix[temp][dest];
+    path.push_back(temp);
+  }
+  return path;
 }
 std::unordered_map<std::string, double> Classes::getFrequencies() {
   return subjectFrequencies;
