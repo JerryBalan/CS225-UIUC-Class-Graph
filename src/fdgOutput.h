@@ -14,8 +14,9 @@ class fdgOutput {
     fdgOutput(int version, Graph graph, int scale, unsigned iterations, int classAmnt, std::unordered_map<std::string, double> subjectFrequencies);
     ~fdgOutput();
 
-    void defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt);
-    void defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt);
+    // void defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt);
+
+    void defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> subjectFrequencies);
     void printLocations();
 
     cs225::PNG createOutputImage(std::unordered_map<std::string, double> subjectFrequencies);
@@ -31,8 +32,10 @@ class fdgOutput {
     std::string getCourseSubject(std::string course);
     double fRand(double fMin, double fMax);
 
-    void setVariables(Graph graph, int classAmnt, int scale, std::unordered_map<std::string, double> &subjectFrequencies);
-    void attractiveFunc(int i);
-    void repulsionFunc(int i);
+    float fA(float k, float x);
+    float fT(float k, float x);
+
+
+
     cs225::HSLAPixel getRandColor();
 };

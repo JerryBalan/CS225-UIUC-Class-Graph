@@ -49,8 +49,10 @@ std::vector<std::vector<std::string>> csvToVector(std::string fileName) {
     }
 
     // Only CS/ECE courses
-    if(tempVec[0].rfind("MATH", 0) == 0 || tempVec[0].rfind("PHYS", 0) == 0 || (tempVec[0].rfind("CS", 0) == 0 && tempVec[0].rfind("CSE", 0) != 0) || tempVec[0].rfind("ECE", 0) == 0)
-      fileContent.push_back(tempVec);
+    if(tempVec[0].rfind("MATH", 0) == 0 || tempVec[0].rfind("PHYS", 0) == 0 || (tempVec[0].rfind("CS", 0) == 0 && tempVec[0].rfind("CSE", 0) != 0) || tempVec[0].rfind("ECE", 0) == 0) {
+      if(tempVec.size() > 1)
+        fileContent.push_back(tempVec);
+    }
   }
 
   return fileContent;

@@ -6,36 +6,20 @@
 #include "structures/PNG.h"
 
 int main(int argc, char * argv[]) {
-//   std::vector<std::vector<std::string>> csvVect = csvToVector("Data/uiuc-prerequisites.csv");
-//   printVect(csvVect);
-  if (argc < 2) {
-    std::cout << "Please input an argument" << std::endl;
-    return -1;
-  }
-  if(argv[1][0] == '0') {
-    std::cout << "Using serial method..." << std::endl;
+  // std::vector<std::vector<std::string>> csvVect = csvToVector("Data/uiuc-prerequisites-less.csv");
+  // printVect(csvVect);
 
-    Classes test;
+  std::cout << "Using serial method..." << std::endl;
 
-    Graph g = test.getGraph();
+  Classes test;
 
-    //fdgOutput newOut(g, 10, 10, 100);
-    fdgOutput newOut(0, g, 100, test.getFrequencies()); // Serial
-    cs225::PNG img = newOut.createOutputImage(test.getFrequencies());
-    img.writeToFile("testOutput"+ string(".png"));
-    newOut.printLocations();
-  } else {
-    std::cout << "Using parallel method..." << std::endl;
+  Graph g = test.getGraph();
 
-    Classes test;
-
-    Graph g = test.getGraph();
-
-    //fdgOutput newOut(g, 10, 10, 100);
-    fdgOutput newOut(1, g, 100, test.getFrequencies()); // Parallel
-    cs225::PNG img = newOut.createOutputImage(test.getFrequencies());
-    img.writeToFile("testOutput"+ string(".png"));
-    newOut.printLocations();
-  }
+  //fdgOutput newOut(g, 10, 10, 100);
+  fdgOutput newOut(0, g, 5, test.getFrequencies()); // Serial
+  cs225::PNG img = newOut.createOutputImage(test.getFrequencies());
+  img.writeToFile("testOutput"+ string(".png"));
+  newOut.printLocations();
+  
   return 0;
 }
