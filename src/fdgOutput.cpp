@@ -255,8 +255,10 @@ void fdgOutput::centerFunc(double centerConstant) {
       f.first = tempF * deltaX / dist;
       f.second = tempF * deltaY / dist;
 
+      mtx.lock();
       forces[j].first += f.first;
       forces[j].second += f.second;
+      mtx.unlock();
     }
   }
 }
