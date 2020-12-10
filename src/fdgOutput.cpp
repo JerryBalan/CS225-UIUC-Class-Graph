@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <mutex>
+#include <cassert>
 
 #include "structures/PNG.h"
 
@@ -12,59 +13,34 @@ std::mutex mtx;
 
 fdgOutput::fdgOutput(int version, Graph graph, unsigned iterations, std::unordered_map<std::string, double> subjectFrequencies) {
   if (version == 0)
-    // defineLocationsSerial(graph, subjectFrequencies, 5, iterations, graph.getVertices().size());
-    defineLocationsSerial(graph, subjectFrequencies);
+    defineLocationsSerial(graph, subjectFrequencies, 5, iterations, graph.getVertices().size());
+  else
+    defineLocationsParallel(graph, subjectFrequencies, 5, iterations, graph.getVertices().size());
 }
 
 fdgOutput::fdgOutput(int version, Graph graph, int scale, unsigned iterations,
                      int classAmnt, std::unordered_map<std::string, double> subjectFrequencies) {
   if (version == 0)
-    // defineLocationsSerial(graph, subjectFrequencies, scale, iterations, classAmnt);
-    defineLocationsSerial(graph, subjectFrequencies);
+    defineLocationsSerial(graph, subjectFrequencies, scale, iterations, classAmnt);
+  else
+    defineLocationsParallel(graph, subjectFrequencies, scale, iterations, classAmnt);
 }
 
 fdgOutput::~fdgOutput() {}
 
-
-
-// // works somewhat good
-void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> subjectFrequencies) {
+// Helper function to set variables since multiple methods use it
+void fdgOutput::setVariables(Graph graph, int classAmnt, int scale, std::unordered_map<std::string, double> &subjectFrequencies) {
   v = graph.getVertices();
   e = graph.getEdges();
+  v.resize(classAmnt);
+
+  disp.clear();
   pos.clear();
-
-
-
-  width = v.size() * 5;
-  area = width * width;
-
-  pos.resize(v.size(), {width / 2, width / 2});
   disp.resize(v.size(), {0, 0});
+  pos.resize(v.size(), {0, 0});
 
-
-
-  // bool first = false, second = false, third = false, fourth = false;
-
-  // for(unsigned i = 0; i < v.size(); i++) {
-  //   if(!first && v[i].rfind("MATH 357", 0) == 0) {
-  //     std::cout << "i: " << i << ", cl: " << v[i] << std::endl;
-  //     first = true;
-  //   } else if(!second && v[i].rfind("PHYS 419", 0) == 0) {
-  //     std::cout << "i: " << i << ", cl: " << v[i] << std::endl;
-  //     second = true;
-  //   }
-
-  //   if(first && second)
-  //     break;
-  // }
-
-  // 0, 1, 3, 7 - MATH 574, CS 241, ECE 556, PHYS 222
-  // CS 357 - 284, ECE510 - 188, MATH 357 - 42, PHYS 419 - 453
-  // std::cout << v.size(); - 574
-
-
-  // find the class with most pre-reqs in each subject inputted
-
+  width = v.size() * scale;
+  area = width * width;
 
   // double radius = width / 2;
   // std::pair<double, double> center = {width / 2, width / 2};
@@ -88,249 +64,108 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
   //   i++;
   // }
 
-  pos[42] = {500, 2500};
-  pos[453] = {500, 500};
-  pos[284] = {2000, 500};
-  pos[188] = {2000, 2500};
-
-  std::vector<int> dontDo = {42, 453, 284, 188};
-
-  // for(unsigned i = 0; i < pos.size(); i++)
-  //   std::cout << "(" << pos[i].first << ", " << pos[i].second << ")" << std::endl;
-
-
-  while(dontDo.size() < v.size()) {
-    for(unsigned i = 0; i < v.size(); i++) {
-      if(std::find(dontDo.begin(), dontDo.end(), i) == dontDo.end()) {
-        int newX = 0, newY = 0;
-        int vAmnt = 0;
-        bool didNotConverge = false;
-        for(unsigned j = 0; j < e.size(); j++) {
-          // get sum for x and y
-          //std::cout << "curr " << v[i] << std::endl;
-
-          if(e[j].source == v[i]) {
-            // find x and y of source
-            int loc = std::find(v.begin(), v.end(), e[j].dest) - v.begin();
-            std::cout << "Curr is " << v[i] << ", loc is " << loc << ", dest is " << v[loc] << ", (" << pos[loc].first << ", " << pos[loc].second << ") - ";
-            if(loc < 0 || (unsigned)loc > pos.size())
-              continue;
-            newX += pos[loc].first;
-            newY += pos[loc].second;
-            vAmnt++;
-
-            std::cout << "(" << newX << ", " << newY << ")" << std::endl;
-          }
-
-          
-        }
-
-        //int vAmnt = graph.getAdjacent(v[i]).size();
-        vAmnt = std::max(1, vAmnt);
-        //std::cout << "newX: " << newX << " vAmnt : " << vAmnt;
-        
-        newX /= vAmnt;
-        newY /= vAmnt;
-
-
-        // if(newX <= 0 || newX >= width || newY <= 0 || newY >= width) {
-        //   newX = width / 2 + std::rand() % (width / 4);
-        //   newY = width / 2 + std::rand() % (width / 4);
-        //   // dontDo.push_back(i);
-        //   //didNotConverge = true;
-        // }
-
-
-        float dist = (pos[i].first - newX) * (pos[i].first - newX);
-        dist += (pos[i].second - newY) * (pos[i].second - newY);
-        dist = std::sqrt(dist);
-
-        //std::cout << "HERE" << std::endl;
-
-
-
-
-
-        pos[i].first = newX;
-        pos[i].second = newY;
-
-        // if(dist > 500)
-        //   std::cout << "newX: " << newX << ", newY: " << newY << ", dist: " << dist << ", vamnt: " << vAmnt << std::endl;
-        if(dist < 500)
-          dontDo.push_back(i);
-      }
-    }
-
-    std::cout << "v.size() = " << v.size() << ", dontDo.size() = " << dontDo.size() << std::endl;
+  // rand location
+  for(unsigned i = 0; i < v.size(); i++) {
+    pos[i].first = std::rand() % width;
+    pos[i].second = std::rand() % width;
   }
 
 
-
+  return;
 }
 
+// Serial version of finding locations to place verticies
+// void fdgOutput::defineLocationsSerial(
+//     Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
+//     int scale, unsigned iterations, int classAmnt) {
+//   setVariables(graph, classAmnt, scale, subjectFrequencies);
+//   float t = area, K = std::sqrt(area / v.size());
 
+//   if (iterations < 0 || iterations > v.size()) iterations = v.size();
 
+// //   double radius = width / 2;
+// //   std::pair<double, double> center = {width / 2, width / 2};
 
+// //   std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
+// //   double currAngle = 0;
+// //   for (auto& subject : subjectFrequencies) {
+// //     double nextAngle = currAngle + 2 * M_PI * subject.second;
+// //     subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
+// //   }
+// //   srand(time(NULL));
+// //   int i = 0;
+// //   for (Vertex& course : v) {
+// //     std::string subjectName = getCourseSubject(course);
+// //     std::pair<double, double> angleBounds = subjectAngles[subjectName];
+// //     double angle = fRand(angleBounds.first, angleBounds.second);
+// //     double rad = fRand(0, radius);
 
+// //     pos[i].first = rad * cos(angle) + center.first;
+// //     pos[i].second = rad * sin(angle) + center.second;
+// //     i++;
+// //   }
 
+//   for (unsigned i = 0; i < iterations; i++) {
+//     std::cout << "iteration " << i << std::endl;
+//     // Repulsion forces
+//     for (unsigned j = 0; j < v.size(); j++) {
+//       disp[j] = {0, 0};
 
-
-
-
-
-// void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> subjectFrequencies) {
-//   v = graph.getVertices();
-//   e = graph.getEdges();
-
-//   pos.clear();
-
-
-
-//   width = v.size() * 5;
-//   area = width * width;
-
-//   pos.resize(v.size(), {width / 2, width / 2});
-//   disp.resize(v.size(), {0, 0});
-
-
-
-//   // bool first = false, second = false, third = false, fourth = false;
-
-//   // for(unsigned i = 0; i < v.size(); i++) {
-//   //   if(!first && v[i].rfind("MATH 357", 0) == 0) {
-//   //     std::cout << "i: " << i << ", cl: " << v[i] << std::endl;
-//   //     first = true;
-//   //   } else if(!second && v[i].rfind("PHYS 419", 0) == 0) {
-//   //     std::cout << "i: " << i << ", cl: " << v[i] << std::endl;
-//   //     second = true;
-//   //   }
-
-//   //   if(first && second)
-//   //     break;
-//   // }
-
-//   // 0, 1, 3, 7 - MATH 574, CS 241, ECE 556, PHYS 222
-//   // CS 357 - 284, ECE510 - 188, MATH 357 - 42, PHYS 419 - 453
-//   // std::cout << v.size(); - 574
-
-
-//   // find the class with most pre-reqs in each subject inputted
-
-
-//   double radius = width / 2;
-//   std::pair<double, double> center = {width / 2, width / 2};
-
-//   std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
-//   double currAngle = 0;
-//   for (auto& subject : subjectFrequencies) {
-//     double nextAngle = currAngle + 2 * M_PI * subject.second;
-//     subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
-//   }
-//   srand(time(NULL));
-//   int i = 0;
-//   for (Vertex& course : v) {
-//     std::string subjectName = getCourseSubject(course);
-//     std::pair<double, double> angleBounds = subjectAngles[subjectName];
-//     double angle = fRand(angleBounds.first, angleBounds.second);
-//     double rad = fRand(0, radius);
-
-//     pos[i].first = rad * cos(angle) + center.first;
-//     pos[i].second = rad * sin(angle) + center.second;
-//     i++;
-//   }
-
-//   pos[42] = {500, 2500};
-//   pos[453] = {500, 500};
-//   pos[284] = {2000, 500};
-//   pos[188] = {2000, 2500};
-
-//   std::vector<int> dontDo = {42, 453, 284, 188};
-
-//   // for(unsigned i = 0; i < pos.size(); i++)
-//   //   std::cout << "(" << pos[i].first << ", " << pos[i].second << ")" << std::endl;
-
-
-//   while(dontDo.size() != v.size()) {
-//     for(unsigned i = 0; i < v.size(); i++) {
-//       if(std::find(dontDo.begin(), dontDo.end(), i) == dontDo.end()) {
-//         float newX = 0, newY = 0;
-//         for(unsigned j = 0; j < e.size(); j++) {
-//           // get sum for x and y
-//           if(e[j].dest == v[i]) {
-//             // find x and y of source
-//             int loc = std::find(v.begin(), v.end(), e[j].source) - v.begin();
-//             std::cout << "Dest is " << e[j].dest << ", loc is " << loc << ", source is " << v[loc] << ", (" << pos[loc].first << ", " << pos[loc].second << ") - "; 
-//             newX += pos[loc].first;
-//             newY += pos[loc].second;
-
-//             std::cout << "(" << newX << ", " << newY << ")" << std::endl;
-//           }
-//         }
-
-//         int vAmnt = graph.getAdjacent(v[i]).size();
-//         vAmnt = std::max(1, vAmnt);
-//         //std::cout << "newX: " << newX << " vAmnt : " << vAmnt;
-//         newX /= vAmnt;
-//         newY /= vAmnt;
-
-//         //std::cout << ", updated: " << newX << std::endl;
-
-//         // if((newX == 0 && newY == 0) || (newX == width && newY == width) || (newX == 0 && newY == width) || (newX == width && newY == 0)) {
-//         //   newX = width / 2;
-//         //   newY = width / 2;
-//         // }
-
-//         if(newX <= 0 || newX >= width || newY <= 0 || newY == width) {
-//           newX = width / 2;
-//           newY = width / 2;
-//         }
-
-        
-
-
-//         // if(newX > 0 && newX < width && newY > 0 && newY < width) {
-//         //   int p = 0;
-//         //   p++;
-//         // } else {
-//         //   while(newX > width)
-//         //     newX = (int)newX % width;
-//         //   while(newY > width)
-//         //     newY = (int)newY % width;
-
-//         //   while(newX < 0)
-//         //     newX += width;
-//         //   while(newY < 0)
-//         //     newY += width;
-//         // }
-
-
-//         float dist = (pos[i].first - newX) * (pos[i].first - newX);
-//         dist += (pos[i].second - newY) * (pos[i].second - newY);
-//         dist = std::sqrt(dist);
-
-
-
-
-
-//         pos[i].first = newX;
-//         pos[i].second = newY;
-
-//         //std::cout << "newX: " << newX << ", newY: " << newY << ", dist: " << dist << std::endl;
-//         if(dist < 10)
-//           dontDo.push_back(i);
+//       for (unsigned k = 0; k < v.size(); k++) {
+//         float d = pos[j].first - pos[k].first;
+//         float d2 = pos[j].second - pos[k].second;
+//         float dist = std::max((float)0.001, std::sqrt(d * d + d2 * d2));
+//         float aForce = K * K / dist / v.size() / 100.0;
+//         disp[j].first += d / dist * aForce;
+//         disp[j].second += d2 / dist * aForce;
 //       }
 //     }
 
-//     std::cout << "v.size() = " << v.size() << ", dontDo.size() = " << dontDo.size() << std::endl;
+//     // Attractive forces
+//     for (unsigned j = 0; j < e.size(); j++) {
+//       auto temp1 = find(v.begin(), v.end(), e[j].source);
+//       auto temp2 = find(v.begin(), v.end(), e[j].dest);
+//       if (temp1 == v.end() || temp2 == v.end()) continue;
+//       float loc1 = temp1 - v.begin();
+//       float loc2 = temp2 - v.begin();
+
+//       float x = pos[i].first - pos[loc1].first;
+//       float y = pos[i].second - pos[loc2].second;
+
+//       float dist = std::max((float)0.001, std::sqrt(x * x + y * y));
+//       float aForce = dist * dist / K / v.size();
+
+//       disp[i].first -= x / dist * aForce;
+//       disp[i].second += y / dist * aForce;
+//     }
+
+//     // Change position values based on displacement
+//     for (unsigned j = 0; j < v.size(); j++) {
+//       float d = std::sqrt(disp[j].first * disp[j].first +
+//                           disp[j].second * disp[j].second);
+//       pos[j].first += d > t ? disp[j].first / d * t : disp[j].first;
+//       pos[j].second += d > t ? disp[j].second / d * t : disp[j].second;
+
+//       pos[j].first = std::min((float)width, std::max((float)0, pos[j].first));
+//       pos[j].second = std::min((float)width, std::max((float)0, pos[j].second));
+
+//       // if ((pos[j].first == 0 || pos[j].second == 0) ||
+//       //     (pos[j].first == width || pos[j].second == width)) {
+//       //   pos[i].first = std::rand() % width;
+//       //   pos[i].second = std::rand() % width;
+//       // }
+//     }
+
+//     t *= 0.99;
 //   }
 
-
-
+//   return;
 // }
 
 
-// void fdgOutput::defineLocationsSerial(Graph graph) {
-//   unsigned iterations = 20;
+// best working
+// void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt) {
+//   iterations = 100;
 
 //   v = graph.getVertices();
 //   e = graph.getEdges();
@@ -347,60 +182,337 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
 //     pos[i].second = std::rand() % width;
 //   }
 
-//   float k = std::sqrt(area / v.size());
-//   float t = width / 2;
+//   double k = std::sqrt(area / v.size());
+//   double t = width / 2;
 
 //   for(unsigned i = 1; i < iterations; i++) {
-//     std::cout << "iteration " << i << std::endl;
+//     if(i % 100 == 0)
+//       std::cout << "iteration " << i << std::endl;
 //     // repulsion
 //     for(unsigned vit = 0; vit < v.size(); vit++) {
 //       disp[vit] = {0, 0};
 
 //       for(unsigned u = 0; u < v.size(); u++) {
 //         if(u != vit) {
-//           float deltaX = pos[vit].first - pos[u].first;
-//           float deltaY = pos[vit].second - pos[u].first;
-//           disp[vit].first += (deltaX / std::abs(deltaX)) * fT(k, std::abs(deltaX));
-//           disp[vit].second += (deltaY / std::abs(deltaY)) * fT(k, std::abs(deltaY));
+//           double deltaX = pos[vit].first - pos[u].first;
+//           double deltaY = pos[vit].second - pos[u].second;
+
+
+//           if(deltaX == 0 && deltaY == 0) {
+//             pos[vit] = {std::rand() % width, std::rand() % width};
+//             deltaX = pos[vit].first - pos[u].first;
+//             deltaY = pos[vit].second - pos[u].second;
+//           }
+
+
+//           double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+//           //std::cout << "deltaX: " << deltaX << ", deltaY: " << deltaY << ", dist: " << dist << std::endl;
+//           //std::cout << " fT(k, dist): " << fT(k, dist) << ", deltaX: " << deltaX << ", deltaY: " << deltaY << ", dist: " << dist << std::endl;
+
+//           // disp[vit].first += (deltaX / std::abs(deltaX + 0.001)) * fT(k, std::abs(deltaX + 0.001));
+//           // disp[vit].second += (deltaY / std::abs(deltaY + 0.001)) * fT(k, std::abs(deltaY + 0.001));
+
+//           disp[vit].first += (deltaX / dist) * fT(k, dist);
+//           disp[vit].second += (deltaY / dist) * fT(k, dist);
+
+//           assert(!isnan(disp[vit].first) && !isnan(disp[vit].second));
+
+//           //std::cout << "disp[vit].first: " << disp[vit].first << ", disp[vit].second: " << disp[vit].second << std::endl;
 //         }
 //       }
 //     }
 
+
 //     // attractive
 //     for(unsigned eit = 0; eit < e.size(); eit++) {
-//       float loc1 = find(v.begin(), v.end(), e[eit].source) - v.begin();
-//       float loc2 = find(v.begin(), v.end(), e[eit].dest) - v.begin();
+//       int loc1 = find(v.begin(), v.end(), e[eit].source) - v.begin();
+//       int loc2 = find(v.begin(), v.end(), e[eit].dest) - v.begin();
 
-//       float deltaX = disp[loc1].first - disp[loc2].first;
-//       float deltaY = disp[loc1].second - disp[loc2].second;
+//       //std::cout << "loc1: " << loc1 << ", loc2: " << loc2 << ", disp.size(): " << disp.size() << std::endl;
 
-//       disp[loc1].first -= (deltaX / std::abs(deltaX)) * fA(k, std::abs(deltaX));
-//       disp[loc1].second -= (deltaY / std::abs(deltaY)) * fA(k, std::abs(deltaY));
+//       double deltaX = pos[loc1].first - pos[loc2].first;
+//       double deltaY = pos[loc1].second - pos[loc2].second;
 
-//       disp[loc2].first += (deltaX / std::abs(deltaX)) * fA(k, std::abs(deltaX));
-//       disp[loc2].second += (deltaY / std::abs(deltaY)) * fA(k, std::abs(deltaY));
+//       if(deltaX == 0 && deltaY == 0) {
+//         pos[loc1] = {std::rand() % width, std::rand() % width};
+//         deltaX = pos[loc1].first - pos[loc2].first;
+//         deltaY = pos[loc1].second - pos[loc2].second;
+//       }
+
+
+
+
+//       double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+//       // if(dist == 0)
+//       //   continue;
+
+//       //std::cout << "disp[loc1].first: " << disp[loc1].first << ", disp[loc1].second: " << disp[loc1].second << ", disp[loc2].first: " << disp[loc2].first << ", disp[loc2].second: " << disp[loc2].second << std::endl;
+
+//       // double subValX = (deltaX / std::abs(deltaX + 0.001)) * fA(k, std::abs(deltaX + 0.001)), subValY = (deltaY / std::abs(deltaY + 0.001)) * fA(k, std::abs(deltaY + 0.001));
+//       //assert(!isnan(subValX));
+//       //std::cout << "deltaX: " << deltaX << ", fA: " << fA(k, std::abs(deltaX)) << ", deltaY: " << deltaY << ", fA: " << fA(k, std::abs(deltaY)) << std::endl;
+
+//       disp[loc1].first -= (deltaX / dist) * fA(k, dist);
+//       disp[loc1].second -= (deltaY / dist) * fA(k, dist);
+
+//       disp[loc2].first += (deltaX / dist) * fA(k, dist);
+//       disp[loc2].second += (deltaY / dist) * fA(k, dist);
+
+//       //std::cout << "DeltaX: " << deltaX << ", deltaY: " << deltaY << ", disp[loc1].first: " << disp[loc1].first << ", disp[loc1].second: " << disp[loc1].second << std::endl;
 //     }
 
 //     // set points
 //     for(unsigned vit = 0; vit < v.size(); vit++) {
-//       pos[vit].first += (disp[vit].first / std::abs(disp[vit].first)) * std::min(disp[vit].first, t);
-//       pos[vit].second += (disp[vit].second / std::abs(disp[vit].second)) * std::min(disp[vit].second, t);
+//       double dist = std::sqrt((pos[vit].first * pos[vit].first) + (pos[vit].second * pos[vit].second));  
+//       pos[vit].first += (disp[vit].first / dist) * std::min(disp[vit].first, t);
+//       pos[vit].second += (disp[vit].second / dist) * std::min(disp[vit].second, t);
 
-//       pos[vit].first = std::min((float)width, std::max((float)0, pos[vit].first));
-//       pos[vit].second = std::min((float)width, std::max((float)0, pos[vit].second));
+//       pos[vit].first = std::min((double)width, std::max((double)0, pos[vit].first));
+//       pos[vit].second = std::min((double)width, std::max((double)0, pos[vit].second));
 //     }
 
-//     t *= 0.85;
+//     t *= 0.98;
 //   }
+
+//   // for(unsigned i = 0; i < pos.size(); i++) {
+//   //   std::cout << "(" << pos[i].first << ", " << pos[i].second << ")" << std::endl;
+//   // }
 
 // }
 
-float fdgOutput::fT(float k, float x) {
-  return k * k / x;
+// double fdgOutput::fT(double k, double x) {
+//   return (k * k) / x;
+// }
+
+// double fdgOutput::fA(double k, double x) {
+//   return (x * x) / k;
+// }
+
+
+void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt) {
+  iterations = 1500;
+  int springRestLength = 400, repulsiveForceConstant = 1000, attractionConstant = 8000, springConstant = 50, maxDisplacementSquared = 400;
+  double deltaT = 0.0003, centerConstant = 0.6;
+
+  v = graph.getVertices();
+  e = graph.getEdges();
+  width = v.size() * 10;
+  area = width * width;
+
+  pos.resize(v.size(), {0, 0});
+  forces.resize(v.size(), {0, 0});
+
+  for(unsigned i = 0; i < v.size(); i++)
+    pos[i] = {(std::rand() % (width / 6) ) + (5 * width / 12), (std::rand() % (width / 6) ) + (5 * width / 12)};
+
+  for(unsigned i = 0; i < iterations; i++) {
+    if(i % 25 == 0)
+      std::cout << "iteration: " << i << std::endl;
+    // Repulsion force
+
+    for(unsigned j = 0; j < v.size(); j++) {
+      for(unsigned k = j + 1; k < v.size(); k++) {
+        double deltaX = pos[j].first - pos[k].first, deltaY = pos[j].second - pos[k].second;
+        double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+        std::pair<double, double> f = {0, 0};
+
+        if(dist == 0) {
+          f = {std::rand() % 2500, std::rand() % 2500};
+        } else {
+          double tempF = repulsiveForceConstant / (dist * dist);
+          f.first = tempF * deltaX / dist;
+          f.second = tempF * deltaY / dist;
+        }
+
+        forces[j].first -= f.first;
+        forces[j].second -= f.second;
+        forces[k].first += f.first;
+        forces[k].second += f.second;
+      }
+    }
+
+    // for(unsigned j = 0; j < v.size(); j++) {
+    //   std::cout << "forcesX: " << forces[j].first << ", forcesY: " << forces[j].second << std::endl;
+    // }
+
+
+    // Attraction forces
+    // for(unsigned j = 0; j < v.size(); j++) {
+    //   std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
+
+    //   for(unsigned k = 0; k < neighbors.size(); k++) {
+    //     if(j < k) {
+    //       int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
+    //       double deltaX = pos[loc1].first - pos[j].first, deltaY = pos[loc1].second - pos[j].first;
+
+    //       double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    //       if(dist != 0) {
+    //         std::pair<double, double> f = {0, 0};
+    //         double tempF = attractionConstant * dist;
+    //         f.first = tempF * deltaX / dist;
+    //         f.second = tempF * deltaY / dist;
+
+    //         forces[j].first += f.first;
+    //         forces[j].second += f.second;
+    //         forces[loc1].first -= f.first;
+    //         forces[loc1].second -= f.second;
+    //       }
+    //     }
+    //   }
+
+    // }
+
+    // Spring force
+    for(unsigned j = 0; j < v.size(); j++) {
+      std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
+
+      for(unsigned k = 0; k < neighbors.size(); k++) {
+        //if(j < k) {
+          int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
+          if(loc1 < 0 || loc1 > (int)v.size())
+            continue;
+          double deltaX = pos[loc1].first - pos[j].first, deltaY = pos[loc1].second - pos[j].first;
+
+          double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+          if(dist != 0) {
+            std::pair<double, double> f = {0, 0};
+            double tempF = springConstant * (dist - springRestLength);
+            f.first = tempF * deltaX / dist;
+            f.second = tempF * deltaY / dist;
+
+            forces[j].first += f.first;
+            forces[j].second += f.second;
+            forces[loc1].first -= f.first;
+            forces[loc1].second -= f.second;
+          }
+        //}
+      }
+    }
+
+    // Center force
+    for(unsigned j = 0; j < v.size(); j++) {
+      double deltaX = pos[j].first - (width / 2), deltaY = pos[j].second - (width / 2);
+      double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      if(dist != 0) {
+        std::pair<double, double> f = {0, 0};
+        double tempF = dist * centerConstant;
+        f.first = tempF * deltaX / dist;
+        f.second = tempF * deltaY / dist;
+
+        forces[j].first += f.first;
+        forces[j].second += f.second;
+      }
+    }
+
+
+    // Update positions
+    for(unsigned j = 0; j < v.size(); j++) {
+      double deltaX = deltaT * forces[j].first, deltaY = deltaT * forces[j].second;
+      double dispSq = deltaX * deltaX + deltaY * deltaY;
+
+      if(dispSq > maxDisplacementSquared) {
+        deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
+        deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
+      }
+
+      pos[j].first += deltaX;
+      pos[j].second += deltaY;
+    }
+  }
+
+  for(unsigned i = 0; i < pos.size(); i++) {
+    pos[i].first /= 10;
+    pos[i].second /= 10;
+  }
+
+
 }
 
-float fdgOutput::fA(float k, float x) {
-  return x * x / k;
+// Parallel version of finding locations to place verticies
+void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
+                                int scale, unsigned iterations, int classAmnt) {
+  setVariables(graph, classAmnt, scale, subjectFrequencies);
+  float t = area, K = std::sqrt(area / v.size());
+
+  if (iterations < 0 || iterations > v.size()) iterations = v.size();
+
+  for (unsigned i = 0; i < iterations; i++) {
+    // Run threads on attractive and repulsion functions
+    std::thread th1(&fdgOutput::attractiveFunc, this, i);
+    std::thread th2(&fdgOutput::repulsionFunc, this, i);
+    th1.join();
+    th2.join();
+
+    // Change position values based on displacement
+    for (unsigned j = 0; j < v.size(); j++) {
+      float d = std::sqrt(disp[j].first * disp[j].first +
+                          disp[j].second * disp[j].second);
+      pos[j].first += d > t ? disp[j].first / d * t : disp[j].first;
+      pos[j].second += d > t ? disp[j].second / d * t : disp[j].second;
+
+      pos[j].first = std::min((double)width, std::max((double)0, pos[j].first));
+      pos[j].second = std::min((double)width, std::max((double)0, pos[j].second));
+
+      if ((pos[j].first == 0 || pos[j].second == 0) ||
+          (pos[j].first == width || pos[j].second == width)) {
+        pos[i].first = std::rand() % width;
+        pos[i].second = std::rand() % width;
+      }
+    }
+
+    t *= 0.99;
+  }
+
+
+
+  return;
+}
+
+// Helper function to find attractive forces for parallel version
+void fdgOutput::attractiveFunc(int i) {
+  // Attractive forces
+  float K = std::sqrt(area / v.size());
+  for (unsigned j = 0; j < e.size(); j++) {
+    auto temp1 = find(v.begin(), v.end(), e[j].source);
+    auto temp2 = find(v.begin(), v.end(), e[j].dest);
+    if (temp1 == v.end() || temp2 == v.end()) continue;
+    float loc1 = temp1 - v.begin();
+    float loc2 = temp2 - v.begin();
+
+    float x = pos[i].first - pos[loc1].first;
+    float y = pos[i].second - pos[loc2].second;
+
+    float dist = std::max((float)0.001, std::sqrt(x * x + y * y));
+    float aForce = dist * dist / K / v.size();
+    mtx.lock();
+    disp[i].first -= x / dist * aForce;
+    disp[i].second += y / dist * aForce;
+    mtx.unlock();
+  }
+}
+
+// Helper function to find repulsion forces for parallel version
+void fdgOutput::repulsionFunc(int i) {
+  // Repulsion forces
+  float K = std::sqrt(area / v.size());
+  for (unsigned j = 0; j < v.size(); j++) {
+    disp[j] = {0, 0};
+
+    for (unsigned k = 0; k < v.size(); k++) {
+      float d = pos[j].first - pos[k].first;
+      float d2 = pos[j].second - pos[k].second;
+      float dist = std::max((float)0.001, std::sqrt(d * d + d2 * d2));
+      float aForce = K * K / dist / v.size() / 100.0;
+      mtx.lock();
+      disp[j].first += d / dist * aForce;
+      disp[j].second += d2 / dist * aForce;
+      mtx.unlock();
+    }
+  }
 }
 
 // Uses new locations to create output PNG using cs225's PNG class
@@ -410,16 +522,8 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
   // Draw verticies
   for (unsigned i = 0; i < v.size(); i++) {
     // Square of size 3x3 instead of single pixel
-    cs225::HSLAPixel curr(0, 0, 0);
-    // colors.push_back({curr.h, curr.s, curr.l});
-    // for (int j = -1; j < 2; j++) {
-    //   for (int k = -1; k < 2; k++) {
-    //     int x = std::max(0, (int)pos[i].first + j);
-    //     int y = std::max(0, (int)pos[i].second + k);
-    //     out.getPixel(x, y) = curr;
-    //   }
-    // }
-    int x = pos[i].first, y = pos[i].second;
+    cs225::HSLAPixel curr(0, 0, 0); //= getRandColor();
+    int x= pos[i].first, y = pos[i].second;
     out.getPixel(x, y) = curr;
     out.getPixel(x+1,y)= curr;
     out.getPixel(x+2,y)= curr;
@@ -431,6 +535,14 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
     out.getPixel(x,y+3)= curr;
     out.getPixel(x,y-1)= curr;
     out.getPixel(x,y-2)= curr;
+    colors.push_back({curr.h, curr.s, curr.l});
+    // for (int j = -1; j < 2; j++) {
+    //   for (int k = -1; k < 2; k++) {
+    //     int x = std::max(0, (int)pos[i].first + j);
+    //     int y = std::max(0, (int)pos[i].second + k);
+    //     out.getPixel(x, y) = curr;
+    //   }
+    // }
 
     //out.getPixel(pos[i].first, pos[i].second).l = 0;
   }
@@ -438,10 +550,10 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
   std::unordered_map<std::string, cs225::HSLAPixel> cols;
 //   for(auto it : subjectFrequencies)
 //       cols.insert({it.first, getRandColor()});
-  cols["MATH"] = cs225::HSLAPixel(0, 1, .5); // red
-  cols["PHYS"] = cs225::HSLAPixel(72, 1, .5); // yellow
-  cols["CS"] = cs225::HSLAPixel(144, 1, .5); // green
-  cols["ECE"] = cs225::HSLAPixel(216, 1, .5); // blue
+  cols["CS"] = cs225::HSLAPixel(0, 1, .5); // red
+  cols["ECE"] = cs225::HSLAPixel(72, 1, .5); // yellow
+  cols["PHYS"] = cs225::HSLAPixel(144, 1, .5); // green
+  cols["MATH"] = cs225::HSLAPixel(216, 1, .5); // blue
 
   // Draw edges
   for (unsigned i = 0; i < e.size(); i++) {
@@ -483,7 +595,9 @@ void fdgOutput::printLocations() {
   for (unsigned i = 0; i < v.size(); i++)
     outFile << "Vertex: " << v[i] << ", location: (" << pos[i].first << ", "
             << pos[i].second << ")"
-            << std::endl;
+            << ", color (HSL): (" << std::get<0>(colors[i]) << ", "
+            << std::get<1>(colors[i]) << ", " << std::get<2>(colors[i])
+            << ")\n";
 
   outFile << "width: " << width << " (size : " << area << ")\n";
   outFile << "vertex amount: " << v.size() << ", edge amount: " << e.size()
