@@ -46,52 +46,54 @@ int main(int argc, char * argv[]) {
   std::cout << "3) A performance analysis of serial vs parallel force direct graphing (Fruchterman-Reingold algorithm)" << std::endl;
   //std::cout << "" << std::endl;
 
-  int displayInput = 0;
-  std::cin >> displayInput;
+  std::string dInStr;
+  getline(std::cin, dInStr);
+  int displayInput = std::stoi(dInStr);
   std::cout << "\n";
 
   if(displayInput == 0) { // cin fail state, also happens to be an invalid default state
     std::cout << "Incorrect input. Terminating program." << std::endl;
     return -1;
   }
-  if(displayInput == 1) { // run BFS
 
+  if(displayInput == 1) { // run BFS
     std::cout << "Please select a class to graph. Limited to CS/ECE and their prerequisites." << std::endl;
     std::cout << "Use the following format (with the space): 'ECE 391' or 'CS 225'" << std::endl;
 
-    string classType;
-    string classNum;
-    std::cin >> classType >> classNum;
-    string inputClass = classType + " " + classNum;
+    std::string inputClass;
+    getline(std::cin, inputClass);
     std::cout << "\n";
     
-    std::cout << "[" << inputClass << "]";
+    std::cout << "Results for [" << inputClass << "]" << std::endl;;
 
     if(!g.vertexExists(inputClass)) { // invalid input
       std::cout << "Invalid class input. Terminating program." << std::endl;
       return -1;
     }
+
     vector<Vertex> path = courses.bfs(inputClass);
+    std::cout << "size: " << path.size() << std::endl;
 
     // test read
-    for(size_t i = 0; i < path.size(); i++) {
-      std::cout << path[i] << ",";
-    }
+    for(unsigned i = 0; i < path.size(); i++)
+      std::cout << path[i] << std::endl;
     std::cout << std::endl;
-
   }
+  
   if(displayInput == 2) { // djik/floyd-warshall
     
   }
+  
   if(displayInput == 3) { // run fdg
     std::cout << "Please select one of the following options ('1', '2', etc.):" << std::endl;
     std::cout << "1) Serial" << std::endl;
     std::cout << "2) Parallel" << std::endl;
 
-    int methodInput = 0;
-    std::cin >> methodInput;
+    std::string mInStr;
+    getline(std::cin, mInStr);
+    int methodInput = std::stoi(mInStr);
     std::cout << "\n";
-    if(methodInput == 0) { // cin fail state, also happens to be an invalid default state
+    if(methodInput != 1 && methodInput != 2) { // cin fail state, also happens to be an invalid default state
       std::cout << "Incorrect input. Terminating program." << std::endl;
       return -1;
     }
