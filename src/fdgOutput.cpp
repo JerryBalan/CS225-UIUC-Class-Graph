@@ -33,7 +33,8 @@ void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::str
   e = graph.getEdges();
 
   width = v.size() * scale;
-  area = width * width;
+  height = width;
+  area = width * height;
 
   if(setCompletlyRandom) {
     pos.resize(v.size(), {0, 0});
@@ -68,9 +69,51 @@ void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::str
     }
   }
 
-
-
   return;
+}
+
+// Center all points and resize image to reduce wasted space
+void fdgOutput::recenterPts() {
+  double xLoc = 0, yLoc = 0;
+  std::pair<double, double> xMax, xMin, yMax, yMin;
+  for(unsigned i = 0; i < pos.size(); i++) {
+    pos[i].first /= 10;
+    pos[i].second /= 10;
+
+    xLoc += pos[i].first;
+    yLoc += pos[i].second;
+
+    if(pos[i].first > xMax.first) {
+      xMax.first = pos[i].first;
+      xMax.second = pos[i].second;
+    }
+
+    if(pos[i].first < xMin.first) {
+      xMin.first = pos[i].first;
+      xMin.second = pos[i].second;
+    }
+
+    if(pos[i].second > yMax.second) {
+      yMax.first = pos[i].first;
+      yMax.second = pos[i].second;
+    }
+
+    if(pos[i].second < yMin.second) {
+      yMin.first = pos[i].first;
+      yMin.second = pos[i].second;
+    }
+  }
+
+  double xDiff = 0 - xMin.first, yDiff = 0 - yMin.second;
+
+  for(unsigned i = 0; i < pos.size(); i++) {
+    pos[i].first += xDiff;
+    pos[i].second += yDiff;
+  }
+
+  width = xMax.first - xMin.first;
+  height = yMax.second - yMin.second;
+  area = width * height;
 }
 
 // Serial version of finding locations to place verticies
@@ -164,25 +207,7 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
     }
   }
 
-  // Center all points
-  float xLoc = 0, yLoc = 0;
-  for(unsigned i = 0; i < pos.size(); i++) {
-    pos[i].first /= 10;
-    pos[i].second /= 10;
-
-    xLoc += pos[i].first;
-    yLoc += pos[i].second;
-  }
-
-  xLoc /= pos.size();
-  yLoc /= pos.size();
-  xLoc = (width / 2) - xLoc;
-  yLoc = (width / 2) - yLoc;
-
-  for(unsigned i = 0; i < pos.size(); i++) {
-    pos[i].first += xLoc;
-    pos[i].second += yLoc;
-  }
+  recenterPts();
 
   return;
 }
@@ -221,25 +246,7 @@ void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::str
     }
   }
 
-  // Center all points
-  float xLoc = 0, yLoc = 0;
-  for(unsigned i = 0; i < pos.size(); i++) {
-    pos[i].first /= 10;
-    pos[i].second /= 10;
-
-    xLoc += pos[i].first;
-    yLoc += pos[i].second;
-  }
-
-  xLoc /= pos.size();
-  yLoc /= pos.size();
-  xLoc = (width / 2) - xLoc;
-  yLoc = (width / 2) - yLoc;
-
-  for(unsigned i = 0; i < pos.size(); i++) {
-    pos[i].first += xLoc;
-    pos[i].second += yLoc;
-  }
+  recenterPts();
 
   return;
 }
@@ -325,7 +332,7 @@ void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
 
 // Uses new locations to create output PNG using cs225's PNG class
 cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> subjectFrequencies) {
-  cs225::PNG out(width + 2, width + 2);
+  cs225::PNG out(width + 2, height + 2);
 
   // Draw verticies
   for (unsigned i = 0; i < v.size(); i++) {
