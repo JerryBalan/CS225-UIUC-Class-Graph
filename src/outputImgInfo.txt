@@ -4,7 +4,8 @@ Vertex: PHYS 542, location: (781.131, 181.848), color (HSL): (78, 1, 0.5)
 Vertex: CS 411, location: (915.55, 81.9179), color (HSL): (130, 1, 0.5)
 Vertex: PHYS 496, location: (315.49, 1847.38), color (HSL): (78, 1, 0.5)
 Vertex: CS 499, location: (2034.1, 910.037), color (HSL): (130, 1, 0.5)
-Vertex: ECE 340, location: (957.399, 980.35), color (HSL): (133, 1, 0.5)
+Vertex: ECE 340
+, location: (957.399, 980.35), color (HSL): (133, 1, 0.5)
 Vertex: MATH 406, location: (1115.71, 32.0967), color (HSL): (316, 1, 0.5)
 Vertex: CS 519, location: (279.546, 1785.75), color (HSL): (130, 1, 0.5)
 Vertex: PHYS 560, location: (912.092, 912.841), color (HSL): (78, 1, 0.5)
@@ -12,8 +13,10 @@ Vertex: CS 374, location: (614.144, 645.112), color (HSL): (130, 1, 0.5)
 Vertex: CS 242, location: (1251.58, 76.5546), color (HSL): (130, 1, 0.5)
 Vertex: CS 548, location: (527.273, 1946.95), color (HSL): (130, 1, 0.5)
 Vertex: CS 410, location: (602.641, 612.373), color (HSL): (130, 1, 0.5)
-Vertex: MATH 570, location: (1707.81, 1728.48), color (HSL): (316, 1, 0.5)
-Vertex: PHYS 575, location: (1784.5, 1727.41), color (HSL): (78, 1, 0.5)
+Vertex: MATH 570
+, location: (1707.81, 1728.48), color (HSL): (316, 1, 0.5)
+Vertex: PHYS 575
+, location: (1784.5, 1727.41), color (HSL): (78, 1, 0.5)
 Vertex: CS 414, location: (870.464, 78.1976), color (HSL): (130, 1, 0.5)
 Vertex: PHYS 398, location: (103.052, 1448.28), color (HSL): (78, 1, 0.5)
 Vertex: CS 466, location: (820.272, 63.0419), color (HSL): (130, 1, 0.5)
@@ -22,14 +25,17 @@ Vertex: MATH 347, location: (743.764, 769.278), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 427, location: (866.432, 902.268), color (HSL): (78, 1, 0.5)
 Vertex: ECE 333, location: (1121.67, 50.4025), color (HSL): (133, 1, 0.5)
 Vertex: CS 463, location: (1299.78, 108.78), color (HSL): (130, 1, 0.5)
-Vertex: ECE 465, location: (1743.51, 1748.89), color (HSL): (133, 1, 0.5)
+Vertex: ECE 465
+, location: (1743.51, 1748.89), color (HSL): (133, 1, 0.5)
 Vertex: CS 199, location: (635.853, 2037.24), color (HSL): (130, 1, 0.5)
 Vertex: ECE 556, location: (1049.94, 2068.3), color (HSL): (133, 1, 0.5)
 Vertex: CS 575, location: (1714.01, 274.29), color (HSL): (130, 1, 0.5)
 Vertex: MATH 225, location: (724.033, 696.594), color (HSL): (316, 1, 0.5)
-Vertex: CS 438, location: (815.907, 885.56), color (HSL): (130, 1, 0.5)
+Vertex: CS 438
+, location: (815.907, 885.56), color (HSL): (130, 1, 0.5)
 Vertex: CS 533, location: (924.103, 40.6245), color (HSL): (130, 1, 0.5)
-Vertex: ECE 496, location: (1506.51, 1502.79), color (HSL): (133, 1, 0.5)
+Vertex: ECE 496
+, location: (1506.51, 1502.79), color (HSL): (133, 1, 0.5)
 Vertex: CS 481, location: (937.001, 2042.93), color (HSL): (130, 1, 0.5)
 Vertex: PHYS 569, location: (965.776, 81.1888), color (HSL): (78, 1, 0.5)
 Vertex: MATH 403, location: (611.137, 273.733), color (HSL): (316, 1, 0.5)
@@ -48,9 +54,11 @@ Vertex: CS 586, location: (1355.83, 285.611), color (HSL): (130, 1, 0.5)
 Vertex: ECE 463, location: (410.92, 1883.71), color (HSL): (133, 1, 0.5)
 Vertex: ECE 329, location: (1224.15, 1322.11), color (HSL): (133, 1, 0.5)
 Vertex: MATH 441, location: (642.806, 714.098), color (HSL): (316, 1, 0.5)
-Vertex: MATH 461, location: (345.416, 392.13), color (HSL): (316, 1, 0.5)
+Vertex: MATH 461
+, location: (345.416, 392.13), color (HSL): (316, 1, 0.5)
 Vertex: MATH 481, location: (717.946, 1689.97), color (HSL): (316, 1, 0.5)
-Vertex: ECE 350, location: (807.644, 849.641), color (HSL): (133, 1, 0.5)
+Vertex: ECE 350
+, location: (807.644, 849.641), color (HSL): (133, 1, 0.5)
 Vertex: CS 440, location: (554.812, 503.807), color (HSL): (130, 1, 0.5)
 Vertex: CS 173, location: (645.481, 844.38), color (HSL): (130, 1, 0.5)
 Vertex: PHYS 508, location: (904.706, 66.9867), color (HSL): (78, 1, 0.5)
@@ -59,15 +67,18 @@ Vertex: CS 538, location: (919.33, 2109.75), color (HSL): (130, 1, 0.5)
 Vertex: CS 525, location: (732.417, 1242.69), color (HSL): (130, 1, 0.5)
 Vertex: CS 467, location: (817.283, 2048.45), color (HSL): (130, 1, 0.5)
 Vertex: MATH 198, location: (1947.46, 541.293), color (HSL): (316, 1, 0.5)
-Vertex: CS 225, location: (754.546, 799.539), color (HSL): (130, 1, 0.5)
+Vertex: CS 225
+, location: (754.546, 799.539), color (HSL): (130, 1, 0.5)
 Vertex: MATH 444, location: (694.733, 881.399), color (HSL): (316, 1, 0.5)
 Vertex: CS 468, location: (825.777, 2077.84), color (HSL): (130, 1, 0.5)
 Vertex: MATH 487, location: (876.89, 2031.5), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 582, location: (1049.66, 68.0532), color (HSL): (78, 1, 0.5)
-Vertex: ECE 464, location: (1720.44, 1796.48), color (HSL): (133, 1, 0.5)
+Vertex: ECE 464
+, location: (1720.44, 1796.48), color (HSL): (133, 1, 0.5)
 Vertex: ECE 530, location: (1524.28, 191.405), color (HSL): (133, 1, 0.5)
 Vertex: ECE 418, location: (780.644, 1984.19), color (HSL): (133, 1, 0.5)
-Vertex: CS 241, location: (1215.84, 1229.77), color (HSL): (130, 1, 0.5)
+Vertex: CS 241
+, location: (1215.84, 1229.77), color (HSL): (130, 1, 0.5)
 Vertex: CS 398, location: (2029.03, 1266.43), color (HSL): (130, 1, 0.5)
 Vertex: CS 426, location: (1760.91, 406.406), color (HSL): (130, 1, 0.5)
 Vertex: CS 438, location: (722.164, 760.846), color (HSL): (130, 1, 0.5)
@@ -77,7 +88,8 @@ Vertex: CS 484, location: (1273.83, 127.682), color (HSL): (130, 1, 0.5)
 Vertex: CS 493, location: (1406.07, 209.227), color (HSL): (130, 1, 0.5)
 Vertex: PHYS 515, location: (1585.87, 265.071), color (HSL): (78, 1, 0.5)
 Vertex: CS 446, location: (568.812, 622.61), color (HSL): (130, 1, 0.5)
-Vertex: CS 412, location: (359.721, 361.381), color (HSL): (130, 1, 0.5)
+Vertex: CS 412
+, location: (359.721, 361.381), color (HSL): (130, 1, 0.5)
 Vertex: MATH 501, location: (1149.51, 2101.37), color (HSL): (316, 1, 0.5)
 Vertex: ECE 110, location: (776.228, 786.277), color (HSL): (133, 1, 0.5)
 Vertex: ECE 343, location: (1744.2, 1694.47), color (HSL): (133, 1, 0.5)
@@ -88,7 +100,8 @@ Vertex: MATH 510, location: (1087.12, 1089.32), color (HSL): (316, 1, 0.5)
 Vertex: CS 412, location: (611.169, 815.708), color (HSL): (130, 1, 0.5)
 Vertex: ECE 200, location: (2072.94, 886.146), color (HSL): (133, 1, 0.5)
 Vertex: CS 511, location: (240.047, 1656.29), color (HSL): (130, 1, 0.5)
-Vertex: ECE 220, location: (473.25, 536.732), color (HSL): (133, 1, 0.5)
+Vertex: ECE 220
+, location: (473.25, 536.732), color (HSL): (133, 1, 0.5)
 Vertex: CS 418, location: (856.977, 62.6354), color (HSL): (130, 1, 0.5)
 Vertex: ECE 205, location: (1082.31, 1085.05), color (HSL): (133, 1, 0.5)
 Vertex: ECE 496, location: (1719.84, 371.774), color (HSL): (133, 1, 0.5)
@@ -100,12 +113,15 @@ Vertex: MATH 584, location: (1510.02, 1959.85), color (HSL): (316, 1, 0.5)
 Vertex: CS 574, location: (761.366, 117.786), color (HSL): (130, 1, 0.5)
 Vertex: ECE 466, location: (1692, 346.231), color (HSL): (133, 1, 0.5)
 Vertex: CS 100, location: (657.236, 115.491), color (HSL): (130, 1, 0.5)
-Vertex: PHYS 214, location: (1037.21, 1005.63), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 214
+, location: (1037.21, 1005.63), color (HSL): (78, 1, 0.5)
 Vertex: ECE 534, location: (626.656, 622.805), color (HSL): (133, 1, 0.5)
 Vertex: CS 491, location: (774.214, 2041.23), color (HSL): (130, 1, 0.5)
-Vertex: MATH 441, location: (835.799, 830.229), color (HSL): (316, 1, 0.5)
+Vertex: MATH 441
+, location: (835.799, 830.229), color (HSL): (316, 1, 0.5)
 Vertex: CS 526, location: (1313.7, 96.8697), color (HSL): (130, 1, 0.5)
-Vertex: MATH 447, location: (993.379, 1026.54), color (HSL): (316, 1, 0.5)
+Vertex: MATH 447
+, location: (993.379, 1026.54), color (HSL): (316, 1, 0.5)
 Vertex: CS 460, location: (1279.47, 115.55), color (HSL): (130, 1, 0.5)
 Vertex: CS 527, location: (315.76, 1708.5), color (HSL): (130, 1, 0.5)
 Vertex: CS 196, location: (2068.96, 1029.78), color (HSL): (130, 1, 0.5)
@@ -117,19 +133,22 @@ Vertex: CS 424, location: (1327.69, 197.041), color (HSL): (130, 1, 0.5)
 Vertex: CS 361, location: (663.519, 772.592), color (HSL): (130, 1, 0.5)
 Vertex: ECE 499, location: (1268, 2089.88), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 326, location: (908.035, 36.2882), color (HSL): (78, 1, 0.5)
-Vertex: CS 357, location: (356.118, 374.935), color (HSL): (130, 1, 0.5)
+Vertex: CS 357
+, location: (356.118, 374.935), color (HSL): (130, 1, 0.5)
 Vertex: CS 513, location: (1734.67, 1814.07), color (HSL): (130, 1, 0.5)
 Vertex: PHYS 475, location: (980.953, 36.5609), color (HSL): (78, 1, 0.5)
 Vertex: CS 373, location: (495.68, 541.181), color (HSL): (130, 1, 0.5)
 Vertex: ECE 316, location: (1463.47, 1949.53), color (HSL): (133, 1, 0.5)
-Vertex: CS 573, location: (1653.78, 1695.24), color (HSL): (130, 1, 0.5)
+Vertex: CS 573
+, location: (1653.78, 1695.24), color (HSL): (130, 1, 0.5)
 Vertex: ECE 403, location: (735.26, 2047.81), color (HSL): (133, 1, 0.5)
 Vertex: MATH 554, location: (1434.23, 229.259), color (HSL): (316, 1, 0.5)
 Vertex: MATH 586, location: (1719.09, 294.02), color (HSL): (316, 1, 0.5)
 Vertex: ECE 431, location: (1520.33, 1521.63), color (HSL): (133, 1, 0.5)
 Vertex: CS 549, location: (1459.26, 2037.89), color (HSL): (130, 1, 0.5)
 Vertex: ECE 549, location: (774.848, 2003.8), color (HSL): (133, 1, 0.5)
-Vertex: RHET 105, location: (1709.91, 1720.35), color (HSL): (0, 0, 0)
+Vertex: RHET 105
+, location: (1709.91, 1720.35), color (HSL): (0, 0, 0)
 Vertex: CS 241, location: (798.036, 879.272), color (HSL): (130, 1, 0.5)
 Vertex: MATH 461, location: (798.913, 849.121), color (HSL): (316, 1, 0.5)
 Vertex: ECE 445, location: (20, 853.68), color (HSL): (133, 1, 0.5)
@@ -140,7 +159,8 @@ Vertex: CS 419, location: (286.571, 327.717), color (HSL): (130, 1, 0.5)
 Vertex: CHEM 104, location: (521.43, 619.91), color (HSL): (0, 0, 0)
 Vertex: CS 558, location: (1729.97, 1885.02), color (HSL): (130, 1, 0.5)
 Vertex: ECE 448, location: (724.369, 854.672), color (HSL): (133, 1, 0.5)
-Vertex: ECE 487, location: (1581.27, 1625.65), color (HSL): (133, 1, 0.5)
+Vertex: ECE 487
+, location: (1581.27, 1625.65), color (HSL): (133, 1, 0.5)
 Vertex: ECE 555, location: (619.813, 2013.28), color (HSL): (133, 1, 0.5)
 Vertex: MATH 402, location: (753.757, 2023.82), color (HSL): (316, 1, 0.5)
 Vertex: ECE 520, location: (1580.93, 1617.35), color (HSL): (133, 1, 0.5)
@@ -148,19 +168,24 @@ Vertex: MATH 484, location: (786.16, 1991.21), color (HSL): (316, 1, 0.5)
 Vertex: ECE 317, location: (851.934, 318.319), color (HSL): (133, 1, 0.5)
 Vertex: CS 579, location: (719.745, 2021.07), color (HSL): (130, 1, 0.5)
 Vertex: CS 591, location: (1856.78, 455.085), color (HSL): (130, 1, 0.5)
-Vertex: CS 461, location: (1326.89, 1387.38), color (HSL): (130, 1, 0.5)
-Vertex: MATH 518, location: (285.054, 375.371), color (HSL): (316, 1, 0.5)
+Vertex: CS 461
+, location: (1326.89, 1387.38), color (HSL): (130, 1, 0.5)
+Vertex: MATH 518
+, location: (285.054, 375.371), color (HSL): (316, 1, 0.5)
 Vertex: CS 581, location: (573.207, 1891.44), color (HSL): (130, 1, 0.5)
-Vertex: CS 427, location: (342.251, 354.984), color (HSL): (130, 1, 0.5)
+Vertex: CS 427
+, location: (342.251, 354.984), color (HSL): (130, 1, 0.5)
 Vertex: MATH 530, location: (1261.68, 120.287), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 540, location: (919.559, 284.065), color (HSL): (78, 1, 0.5)
 Vertex: CS 584, location: (736.795, 175.936), color (HSL): (130, 1, 0.5)
-Vertex: MATH 453, location: (1191.81, 1137.92), color (HSL): (316, 1, 0.5)
+Vertex: MATH 453
+, location: (1191.81, 1137.92), color (HSL): (316, 1, 0.5)
 Vertex: ECE 547, location: (1046.04, 2090.4), color (HSL): (133, 1, 0.5)
 Vertex: CS 585, location: (1384.9, 136.681), color (HSL): (130, 1, 0.5)
 Vertex: CS 583, location: (1586.13, 322.664), color (HSL): (130, 1, 0.5)
 Vertex: MATH 390, location: (1330.64, 62.1764), color (HSL): (316, 1, 0.5)
-Vertex: MATH 241, location: (1000.12, 1026.43), color (HSL): (316, 1, 0.5)
+Vertex: MATH 241
+, location: (1000.12, 1026.43), color (HSL): (316, 1, 0.5)
 Vertex: ECE 490, location: (581.824, 533.941), color (HSL): (133, 1, 0.5)
 Vertex: ECE 572, location: (1332.69, 1308.74), color (HSL): (133, 1, 0.5)
 Vertex: MATH 181, location: (2070.18, 910.781), color (HSL): (316, 1, 0.5)
@@ -170,7 +195,8 @@ Vertex: CS 571, location: (1058.72, 20), color (HSL): (130, 1, 0.5)
 Vertex: CS 599, location: (1728.44, 324.026), color (HSL): (130, 1, 0.5)
 Vertex: ECE 340, location: (859.784, 738.104), color (HSL): (133, 1, 0.5)
 Vertex: CS 524, location: (1644.87, 262.429), color (HSL): (130, 1, 0.5)
-Vertex: MATH 463, location: (745.835, 830.517), color (HSL): (316, 1, 0.5)
+Vertex: MATH 463
+, location: (745.835, 830.517), color (HSL): (316, 1, 0.5)
 Vertex: ECE 101, location: (72.3799, 1469.33), color (HSL): (133, 1, 0.5)
 Vertex: ECE 414, location: (1275.56, 2050.32), color (HSL): (133, 1, 0.5)
 Vertex: ECE 220, location: (621.414, 668.777), color (HSL): (133, 1, 0.5)
@@ -180,7 +206,8 @@ Vertex: CS 433, location: (926.109, 2081.45), color (HSL): (130, 1, 0.5)
 Vertex: ECE 199, location: (1441.28, 2041.69), color (HSL): (133, 1, 0.5)
 Vertex: ECE 551, location: (1045.62, 94.6475), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 221, location: (1113.99, 57.0164), color (HSL): (78, 1, 0.5)
-Vertex: MATH 489, location: (315.421, 334.827), color (HSL): (316, 1, 0.5)
+Vertex: MATH 489
+, location: (315.421, 334.827), color (HSL): (316, 1, 0.5)
 Vertex: ECE 210, location: (864.731, 969.639), color (HSL): (133, 1, 0.5)
 Vertex: ECE 304, location: (1004.06, 2086.53), color (HSL): (133, 1, 0.5)
 Vertex: MATH 543, location: (854.245, 2056.47), color (HSL): (316, 1, 0.5)
@@ -191,7 +218,8 @@ Vertex: MATH 475, location: (1078.28, 40.5017), color (HSL): (316, 1, 0.5)
 Vertex: ECE 310, location: (1125.49, 1156.1), color (HSL): (133, 1, 0.5)
 Vertex: ECE 437, location: (941.218, 2017.09), color (HSL): (133, 1, 0.5)
 Vertex: ECE 484, location: (1490.52, 564.774), color (HSL): (133, 1, 0.5)
-Vertex: ECE 444, location: (1534.56, 1497.03), color (HSL): (133, 1, 0.5)
+Vertex: ECE 444
+, location: (1534.56, 1497.03), color (HSL): (133, 1, 0.5)
 Vertex: ECE 311, location: (738.359, 85.7336), color (HSL): (133, 1, 0.5)
 Vertex: ECE 206, location: (379.955, 328.285), color (HSL): (133, 1, 0.5)
 Vertex: ATMS 201, location: (1093.72, 1039.38), color (HSL): (0, 0, 0)
@@ -202,10 +230,12 @@ Vertex: CS 240, location: (816.901, 1062.25), color (HSL): (130, 1, 0.5)
 Vertex: CS 508, location: (368.854, 1834.15), color (HSL): (130, 1, 0.5)
 Vertex: ECE 330, location: (1096.66, 83.1753), color (HSL): (133, 1, 0.5)
 Vertex: ECE 580, location: (848.617, 223.658), color (HSL): (133, 1, 0.5)
-Vertex: ECE 453, location: (1566.2, 1595.58), color (HSL): (133, 1, 0.5)
+Vertex: ECE 453
+, location: (1566.2, 1595.58), color (HSL): (133, 1, 0.5)
 Vertex: CS 576, location: (1320.34, 2074.71), color (HSL): (130, 1, 0.5)
 Vertex: MATH 519, location: (350.055, 1841.38), color (HSL): (316, 1, 0.5)
-Vertex: ATMS 302, location: (337.97, 308.923), color (HSL): (0, 0, 0)
+Vertex: ATMS 302
+, location: (337.97, 308.923), color (HSL): (0, 0, 0)
 Vertex: CS 422, location: (1703.45, 1709.83), color (HSL): (130, 1, 0.5)
 Vertex: ECE 459, location: (946.264, 2117.72), color (HSL): (133, 1, 0.5)
 Vertex: ECE 342, location: (1099.81, 117.563), color (HSL): (133, 1, 0.5)
@@ -217,29 +247,36 @@ Vertex: ECE 198, location: (568.112, 136.124), color (HSL): (133, 1, 0.5)
 Vertex: CS 445, location: (689.996, 227.971), color (HSL): (130, 1, 0.5)
 Vertex: ECE 590, location: (2017.88, 793.182), color (HSL): (133, 1, 0.5)
 Vertex: ECE 435, location: (888.809, 103.181), color (HSL): (133, 1, 0.5)
-Vertex: ECE 537, location: (1592.83, 1726.99), color (HSL): (133, 1, 0.5)
+Vertex: ECE 537
+, location: (1592.83, 1726.99), color (HSL): (133, 1, 0.5)
 Vertex: ECE 380, location: (1020.16, 2056.37), color (HSL): (133, 1, 0.5)
 Vertex: CS 425, location: (773.336, 848.306), color (HSL): (130, 1, 0.5)
-Vertex: MATH 500, location: (1230.22, 1269.14), color (HSL): (316, 1, 0.5)
+Vertex: MATH 500
+, location: (1230.22, 1269.14), color (HSL): (316, 1, 0.5)
 Vertex: ECE 120, location: (1351.91, 2074.32), color (HSL): (133, 1, 0.5)
 Vertex: MATH 541, location: (1774.48, 419.422), color (HSL): (316, 1, 0.5)
-Vertex: CS 475, location: (591.938, 634.31), color (HSL): (130, 1, 0.5)
+Vertex: CS 475
+, location: (591.938, 634.31), color (HSL): (130, 1, 0.5)
 Vertex: ECE 562, location: (732.798, 96.9281), color (HSL): (133, 1, 0.5)
 Vertex: CS 125, location: (600.938, 617.362), color (HSL): (130, 1, 0.5)
-Vertex: CS 465, location: (562.648, 576.027), color (HSL): (130, 1, 0.5)
+Vertex: CS 465
+, location: (562.648, 576.027), color (HSL): (130, 1, 0.5)
 Vertex: CS 544, location: (481.489, 1898.05), color (HSL): (130, 1, 0.5)
 Vertex: ECE 487, location: (1254.79, 1394.49), color (HSL): (133, 1, 0.5)
 Vertex: CS 447, location: (1148.4, 102.34), color (HSL): (130, 1, 0.5)
-Vertex: CS 473, location: (329.044, 371.602), color (HSL): (130, 1, 0.5)
+Vertex: CS 473
+, location: (329.044, 371.602), color (HSL): (130, 1, 0.5)
 Vertex: ECE 385, location: (664.248, 693.809), color (HSL): (133, 1, 0.5)
 Vertex: ECE 416, location: (1026.22, 104.346), color (HSL): (133, 1, 0.5)
-Vertex: CS 426, location: (1357.3, 1434.27), color (HSL): (130, 1, 0.5)
+Vertex: CS 426
+, location: (1357.3, 1434.27), color (HSL): (130, 1, 0.5)
 Vertex: ECE 391, location: (856.719, 894.517), color (HSL): (133, 1, 0.5)
 Vertex: CS 420, location: (764.055, 1826.85), color (HSL): (130, 1, 0.5)
 Vertex: ECE 395, location: (1640.76, 248.477), color (HSL): (133, 1, 0.5)
 Vertex: CS 421, location: (968.197, 220.723), color (HSL): (130, 1, 0.5)
 Vertex: MATH 410, location: (734.786, 744.265), color (HSL): (316, 1, 0.5)
-Vertex: MATH 448, location: (1164.75, 1167.89), color (HSL): (316, 1, 0.5)
+Vertex: MATH 448
+, location: (1164.75, 1167.89), color (HSL): (316, 1, 0.5)
 Vertex: ECE 476, location: (1639.51, 1703.32), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 404, location: (887.249, 2009.16), color (HSL): (78, 1, 0.5)
 Vertex: ECE 397, location: (275.79, 400.445), color (HSL): (133, 1, 0.5)
@@ -256,9 +293,11 @@ Vertex: ECE 408, location: (344.608, 418.516), color (HSL): (133, 1, 0.5)
 Vertex: ECE 512, location: (1206.64, 2094.27), color (HSL): (133, 1, 0.5)
 Vertex: ECE 412, location: (875.564, 98.2761), color (HSL): (133, 1, 0.5)
 Vertex: ECE 417, location: (1050.73, 2107.41), color (HSL): (133, 1, 0.5)
-Vertex: PHYS 435, location: (363.36, 369.823), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 435
+, location: (363.36, 369.823), color (HSL): (78, 1, 0.5)
 Vertex: CS 547, location: (494.22, 1930.32), color (HSL): (130, 1, 0.5)
-Vertex: CS 463, location: (1178.04, 1225.71), color (HSL): (130, 1, 0.5)
+Vertex: CS 463
+, location: (1178.04, 1225.71), color (HSL): (130, 1, 0.5)
 Vertex: ECE 419, location: (1285.88, 113.087), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 504, location: (922.341, 916.49), color (HSL): (78, 1, 0.5)
 Vertex: ECE 451, location: (842.937, 47.4209), color (HSL): (133, 1, 0.5)
@@ -269,7 +308,8 @@ Vertex: CS 563, location: (1137.77, 2087.01), color (HSL): (130, 1, 0.5)
 Vertex: MATH 533, location: (275.237, 1719.19), color (HSL): (316, 1, 0.5)
 Vertex: ECE 422, location: (840.624, 2069.61), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 199, location: (207.748, 1664.88), color (HSL): (78, 1, 0.5)
-Vertex: MATH 112, location: (478.083, 502.593), color (HSL): (316, 1, 0.5)
+Vertex: MATH 112
+, location: (478.083, 502.593), color (HSL): (316, 1, 0.5)
 Vertex: ECE 425, location: (759.482, 609.529), color (HSL): (133, 1, 0.5)
 Vertex: ECE 428, location: (643.533, 585.341), color (HSL): (133, 1, 0.5)
 Vertex: ECE 455, location: (1244.98, 1300.1), color (HSL): (133, 1, 0.5)
@@ -286,15 +326,18 @@ Vertex: CS 397, location: (1993.68, 1423.06), color (HSL): (130, 1, 0.5)
 Vertex: ECE 447, location: (1317.28, 2070.69), color (HSL): (133, 1, 0.5)
 Vertex: ECE 579, location: (666.485, 1784.19), color (HSL): (133, 1, 0.5)
 Vertex: MATH 448, location: (1067.5, 1033.85), color (HSL): (316, 1, 0.5)
-Vertex: ECE 483, location: (1707.17, 1662.1), color (HSL): (133, 1, 0.5)
+Vertex: ECE 483
+, location: (1707.17, 1662.1), color (HSL): (133, 1, 0.5)
 Vertex: ECE 452, location: (965.276, 1134.81), color (HSL): (133, 1, 0.5)
 Vertex: ECE 586, location: (1986.81, 1505.3), color (HSL): (133, 1, 0.5)
-Vertex: CS 446, location: (415.396, 477.831), color (HSL): (130, 1, 0.5)
+Vertex: CS 446
+, location: (415.396, 477.831), color (HSL): (130, 1, 0.5)
 Vertex: ECE 454, location: (700.876, 146.463), color (HSL): (133, 1, 0.5)
 Vertex: CS 225, location: (663.82, 764.571), color (HSL): (130, 1, 0.5)
 Vertex: ECE 297, location: (1741.07, 1820.3), color (HSL): (133, 1, 0.5)
 Vertex: ECE 211, location: (907.894, 2111.65), color (HSL): (133, 1, 0.5)
-Vertex: MATH 526, location: (323.948, 357.348), color (HSL): (316, 1, 0.5)
+Vertex: MATH 526
+, location: (323.948, 357.348), color (HSL): (316, 1, 0.5)
 Vertex: MATH 512, location: (1218.19, 90.9897), color (HSL): (316, 1, 0.5)
 Vertex: ECE 457, location: (845.096, 1998.74), color (HSL): (133, 1, 0.5)
 Vertex: MATH 114, location: (180.22, 543.611), color (HSL): (316, 1, 0.5)
@@ -315,7 +358,8 @@ Vertex: CS 296, location: (412.626, 221.738), color (HSL): (130, 1, 0.5)
 Vertex: ECE 468, location: (1078.7, 2044.68), color (HSL): (133, 1, 0.5)
 Vertex: CS 523, location: (818.343, 2088.85), color (HSL): (130, 1, 0.5)
 Vertex: ECE 531, location: (908.432, 2052.77), color (HSL): (133, 1, 0.5)
-Vertex: STAT 410, location: (424.719, 448.217), color (HSL): (0, 0, 0)
+Vertex: STAT 410
+, location: (424.719, 448.217), color (HSL): (0, 0, 0)
 Vertex: ECE 469, location: (1702.66, 330.983), color (HSL): (133, 1, 0.5)
 Vertex: ECE 470, location: (826.383, 1937.46), color (HSL): (133, 1, 0.5)
 Vertex: ECE 472, location: (940.522, 2117.19), color (HSL): (133, 1, 0.5)
@@ -332,15 +376,18 @@ Vertex: ECE 482, location: (1663.16, 228.53), color (HSL): (133, 1, 0.5)
 Vertex: MATH 446, location: (1206.96, 1237.88), color (HSL): (316, 1, 0.5)
 Vertex: ECE 483, location: (1650.94, 209.258), color (HSL): (133, 1, 0.5)
 Vertex: MATH 357, location: (645.734, 1942.42), color (HSL): (316, 1, 0.5)
-Vertex: ECE 431, location: (372.68, 319.311), color (HSL): (133, 1, 0.5)
-Vertex: PHYS 508, location: (1597.23, 1578.89), color (HSL): (78, 1, 0.5)
+Vertex: ECE 431
+, location: (372.68, 319.311), color (HSL): (133, 1, 0.5)
+Vertex: PHYS 508
+, location: (1597.23, 1578.89), color (HSL): (78, 1, 0.5)
 Vertex: MATH 473, location: (721.74, 2026.51), color (HSL): (316, 1, 0.5)
 Vertex: MATH 119, location: (1439.23, 2013.51), color (HSL): (316, 1, 0.5)
 Vertex: MATH 412, location: (911.634, 51.0305), color (HSL): (316, 1, 0.5)
 Vertex: ECE 486, location: (1173.93, 2061.56), color (HSL): (133, 1, 0.5)
 Vertex: ECE 488, location: (846.466, 2095.25), color (HSL): (133, 1, 0.5)
 Vertex: ECE 432, location: (376.995, 1872.29), color (HSL): (133, 1, 0.5)
-Vertex: PHYS 582, location: (260.142, 391.499), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 582
+, location: (260.142, 391.499), color (HSL): (78, 1, 0.5)
 Vertex: ECE 498, location: (22.3688, 1112.72), color (HSL): (133, 1, 0.5)
 Vertex: ECE 396, location: (1419.96, 92.9295), color (HSL): (133, 1, 0.5)
 Vertex: ECE 491, location: (705.081, 1978.55), color (HSL): (133, 1, 0.5)
@@ -355,7 +402,8 @@ Vertex: PHYS 510, location: (1765.45, 381.217), color (HSL): (78, 1, 0.5)
 Vertex: ECE 508, location: (369.421, 1842.6), color (HSL): (133, 1, 0.5)
 Vertex: ECE 510, location: (576.841, 1953.7), color (HSL): (133, 1, 0.5)
 Vertex: ECE 424, location: (1271.42, 52.7873), color (HSL): (133, 1, 0.5)
-Vertex: CS 233, location: (845.209, 847.637), color (HSL): (130, 1, 0.5)
+Vertex: CS 233
+, location: (845.209, 847.637), color (HSL): (130, 1, 0.5)
 Vertex: ECE 511, location: (998.506, 1180.95), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 580, location: (875.112, 983.539), color (HSL): (78, 1, 0.5)
 Vertex: ECE 515, location: (485.704, 511.325), color (HSL): (133, 1, 0.5)
@@ -364,7 +412,8 @@ Vertex: ECE 307, location: (931.641, 155.515), color (HSL): (133, 1, 0.5)
 Vertex: ECE 524, location: (1148.64, 65.4301), color (HSL): (133, 1, 0.5)
 Vertex: CS 423, location: (692.346, 718.692), color (HSL): (130, 1, 0.5)
 Vertex: ECE 526, location: (656.789, 2014.3), color (HSL): (133, 1, 0.5)
-Vertex: ECE 313, location: (956.885, 1010.2), color (HSL): (133, 1, 0.5)
+Vertex: ECE 313
+, location: (956.885, 1010.2), color (HSL): (133, 1, 0.5)
 Vertex: ECE 527, location: (1165.41, 91.1078), color (HSL): (133, 1, 0.5)
 Vertex: ECE 532, location: (928.068, 80.7993), color (HSL): (133, 1, 0.5)
 Vertex: ECE 536, location: (1186.43, 30.7799), color (HSL): (133, 1, 0.5)
@@ -382,19 +431,23 @@ Vertex: ECE 545, location: (1420.47, 2034.55), color (HSL): (133, 1, 0.5)
 Vertex: ECE 313, location: (833.551, 898.451), color (HSL): (133, 1, 0.5)
 Vertex: MATH 425, location: (720.433, 2043.7), color (HSL): (316, 1, 0.5)
 Vertex: MATH 284, location: (772.773, 749.74), color (HSL): (316, 1, 0.5)
-Vertex: ECE 330, location: (1662.3, 1661.55), color (HSL): (133, 1, 0.5)
+Vertex: ECE 330
+, location: (1662.3, 1661.55), color (HSL): (133, 1, 0.5)
 Vertex: ECE 548, location: (529.436, 1905.06), color (HSL): (133, 1, 0.5)
 Vertex: ECE 415, location: (406.116, 1900.42), color (HSL): (133, 1, 0.5)
 Vertex: ECE 552, location: (989.509, 2037.91), color (HSL): (133, 1, 0.5)
-Vertex: PHYS 496, location: (1749.2, 1796.52), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 496
+, location: (1749.2, 1796.52), color (HSL): (78, 1, 0.5)
 Vertex: ECE 558, location: (1042.22, 2072.97), color (HSL): (133, 1, 0.5)
 Vertex: ECE 597, location: (1634.32, 191.5), color (HSL): (133, 1, 0.5)
 Vertex: MATH 414, location: (767.242, 132.876), color (HSL): (316, 1, 0.5)
-Vertex: ECE 441, location: (1763.28, 1762.61), color (HSL): (133, 1, 0.5)
+Vertex: ECE 441
+, location: (1763.28, 1762.61), color (HSL): (133, 1, 0.5)
 Vertex: ECE 559, location: (37.7712, 789.943), color (HSL): (133, 1, 0.5)
 Vertex: ECE 554, location: (1057.52, 2114.44), color (HSL): (133, 1, 0.5)
 Vertex: ECE 561, location: (868.271, 67.1893), color (HSL): (133, 1, 0.5)
-Vertex: CS 476, location: (1791.68, 1784.15), color (HSL): (130, 1, 0.5)
+Vertex: CS 476
+, location: (1791.68, 1784.15), color (HSL): (130, 1, 0.5)
 Vertex: ECE 563, location: (540.338, 241.001), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 401, location: (746.505, 157.027), color (HSL): (78, 1, 0.5)
 Vertex: ECE 564, location: (603.212, 1574.8), color (HSL): (133, 1, 0.5)
@@ -404,8 +457,10 @@ Vertex: MATH 597, location: (2064.43, 1265.27), color (HSL): (316, 1, 0.5)
 Vertex: ECE 567, location: (527.178, 1911.05), color (HSL): (133, 1, 0.5)
 Vertex: ECE 569, location: (350.8, 304.692), color (HSL): (133, 1, 0.5)
 Vertex: ECE 446, location: (938.756, 1980.95), color (HSL): (133, 1, 0.5)
-Vertex: STAT 361, location: (399.145, 404.756), color (HSL): (0, 0, 0)
-Vertex: MATH 561, location: (1758.12, 1822.83), color (HSL): (316, 1, 0.5)
+Vertex: STAT 361
+, location: (399.145, 404.756), color (HSL): (0, 0, 0)
+Vertex: MATH 561
+, location: (1758.12, 1822.83), color (HSL): (316, 1, 0.5)
 Vertex: ATMS 301, location: (294.923, 428.431), color (HSL): (0, 0, 0)
 Vertex: ECE 570, location: (826.575, 2100.33), color (HSL): (133, 1, 0.5)
 Vertex: MATH 561, location: (987.416, 37.4646), color (HSL): (316, 1, 0.5)
@@ -427,7 +482,8 @@ Vertex: MATH 124, location: (297.842, 1761.26), color (HSL): (316, 1, 0.5)
 Vertex: IE 300, location: (581.038, 659.07), color (HSL): (0, 0, 0)
 Vertex: ECE 588, location: (1006.54, 132.667), color (HSL): (133, 1, 0.5)
 Vertex: ECE 577, location: (824.649, 2062.89), color (HSL): (133, 1, 0.5)
-Vertex: SE 320, location: (1717.18, 1721.26), color (HSL): (0, 0, 0)
+Vertex: SE 320
+, location: (1717.18, 1721.26), color (HSL): (0, 0, 0)
 Vertex: ECE 594, location: (1637.23, 424.986), color (HSL): (133, 1, 0.5)
 Vertex: ECE 596, location: (49.8191, 1404.04), color (HSL): (133, 1, 0.5)
 Vertex: MATH 101, location: (341.457, 266.528), color (HSL): (316, 1, 0.5)
@@ -455,19 +511,23 @@ Vertex: CS 477, location: (605.371, 1993.84), color (HSL): (130, 1, 0.5)
 Vertex: MATH 241, location: (704.855, 757.775), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 280, location: (1008.33, 21.4763), color (HSL): (78, 1, 0.5)
 Vertex: MATH 285, location: (922.2, 948.213), color (HSL): (316, 1, 0.5)
-Vertex: MATH 285, location: (731.831, 788.897), color (HSL): (316, 1, 0.5)
+Vertex: MATH 285
+, location: (731.831, 788.897), color (HSL): (316, 1, 0.5)
 Vertex: MATH 286, location: (875.123, 940.56), color (HSL): (316, 1, 0.5)
 Vertex: ECE 582, location: (730.013, 97.1944), color (HSL): (133, 1, 0.5)
 Vertex: MATH 199, location: (421.049, 1927.45), color (HSL): (316, 1, 0.5)
-Vertex: ECE 342, location: (1729.57, 1757.51), color (HSL): (133, 1, 0.5)
+Vertex: ECE 342
+, location: (1729.57, 1757.51), color (HSL): (133, 1, 0.5)
 Vertex: MATH 348, location: (839.734, 766.821), color (HSL): (316, 1, 0.5)
-Vertex: ECE 534, location: (688.753, 739.567), color (HSL): (133, 1, 0.5)
+Vertex: ECE 534
+, location: (688.753, 739.567), color (HSL): (133, 1, 0.5)
 Vertex: MATH 362, location: (852.075, 72.4416), color (HSL): (316, 1, 0.5)
 Vertex: MATH 405, location: (710.1, 138.88), color (HSL): (316, 1, 0.5)
 Vertex: MATH 413, location: (740.687, 1976.22), color (HSL): (316, 1, 0.5)
 Vertex: MATH 415, location: (798.268, 824.989), color (HSL): (316, 1, 0.5)
 Vertex: MATH 595, location: (1620.16, 1910.92), color (HSL): (316, 1, 0.5)
-Vertex: PHYS 402, location: (664.687, 642.503), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 402
+, location: (664.687, 642.503), color (HSL): (78, 1, 0.5)
 Vertex: MATH 418, location: (1055.27, 2051.3), color (HSL): (316, 1, 0.5)
 Vertex: MATH 423, location: (1334.28, 1364.62), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 420, location: (1538.09, 206.041), color (HSL): (78, 1, 0.5)
@@ -478,21 +538,25 @@ Vertex: MATH 540, location: (1138.67, 51.2602), color (HSL): (316, 1, 0.5)
 Vertex: MATH 428, location: (1342.3, 2077.44), color (HSL): (316, 1, 0.5)
 Vertex: CS 210, location: (822.284, 2063.38), color (HSL): (130, 1, 0.5)
 Vertex: MATH 432, location: (703.826, 163.947), color (HSL): (316, 1, 0.5)
-Vertex: MATH 511, location: (1354.22, 1382.93), color (HSL): (316, 1, 0.5)
+Vertex: MATH 511
+, location: (1354.22, 1382.93), color (HSL): (316, 1, 0.5)
 Vertex: MATH 439, location: (1773.23, 1849.11), color (HSL): (316, 1, 0.5)
 Vertex: MATH 442, location: (762.403, 870.474), color (HSL): (316, 1, 0.5)
 Vertex: MATH 447, location: (851.062, 774.17), color (HSL): (316, 1, 0.5)
 Vertex: ECE 465, location: (840.99, 2083.55), color (HSL): (133, 1, 0.5)
 Vertex: MATH 464, location: (411.441, 473.571), color (HSL): (316, 1, 0.5)
-Vertex: IE 310, location: (768.66, 882.722), color (HSL): (0, 0, 0)
+Vertex: IE 310
+, location: (768.66, 882.722), color (HSL): (0, 0, 0)
 Vertex: MATH 450, location: (701.253, 2035.73), color (HSL): (316, 1, 0.5)
 Vertex: MATH 417, location: (894.219, 902.02), color (HSL): (316, 1, 0.5)
 Vertex: MATH 453, location: (1081.57, 52.8025), color (HSL): (316, 1, 0.5)
-Vertex: PHYS 211, location: (1315.63, 1355.2), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 211
+, location: (1315.63, 1355.2), color (HSL): (78, 1, 0.5)
 Vertex: MATH 463, location: (914.236, 884.726), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 329, location: (1052.07, 2041.15), color (HSL): (78, 1, 0.5)
 Vertex: MATH 482, location: (723.922, 842.259), color (HSL): (316, 1, 0.5)
-Vertex: ECE 205, location: (364.556, 320.627), color (HSL): (133, 1, 0.5)
+Vertex: ECE 205
+, location: (364.556, 320.627), color (HSL): (133, 1, 0.5)
 Vertex: MATH 489, location: (890.74, 92.2157), color (HSL): (316, 1, 0.5)
 Vertex: ECE 519, location: (765.516, 72.0836), color (HSL): (133, 1, 0.5)
 Vertex: MATH 492, location: (81.1274, 1470.3), color (HSL): (316, 1, 0.5)
@@ -500,7 +564,8 @@ Vertex: MATH 495, location: (1468.97, 118.108), color (HSL): (316, 1, 0.5)
 Vertex: CS 450, location: (631.93, 647.143), color (HSL): (130, 1, 0.5)
 Vertex: MATH 570, location: (1119.24, 28.8961), color (HSL): (316, 1, 0.5)
 Vertex: MATH 496, location: (309.751, 286.053), color (HSL): (316, 1, 0.5)
-Vertex: PHYS 325, location: (835.907, 870.455), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 325
+, location: (835.907, 870.455), color (HSL): (78, 1, 0.5)
 Vertex: MATH 499, location: (2006.96, 668.001), color (HSL): (316, 1, 0.5)
 Vertex: NPRE 429, location: (358.316, 390.888), color (HSL): (0, 0, 0)
 Vertex: MATH 506, location: (696.319, 114.455), color (HSL): (316, 1, 0.5)
@@ -508,7 +573,8 @@ Vertex: MATH 511, location: (1262.06, 105.055), color (HSL): (316, 1, 0.5)
 Vertex: MATH 514, location: (1246.51, 64.9848), color (HSL): (316, 1, 0.5)
 Vertex: ECE 557, location: (1308.93, 1967.25), color (HSL): (133, 1, 0.5)
 Vertex: ECE 485, location: (2066.99, 1228.66), color (HSL): (133, 1, 0.5)
-Vertex: CS 418, location: (328.335, 331.498), color (HSL): (130, 1, 0.5)
+Vertex: CS 418
+, location: (328.335, 331.498), color (HSL): (130, 1, 0.5)
 Vertex: MATH 518, location: (1552.41, 308.312), color (HSL): (316, 1, 0.5)
 Vertex: MATH 520, location: (324.711, 1818.96), color (HSL): (316, 1, 0.5)
 Vertex: MATH 526, location: (1138.78, 2107.53), color (HSL): (316, 1, 0.5)
@@ -522,8 +588,10 @@ Vertex: MATH 535, location: (1893.04, 1626.46), color (HSL): (316, 1, 0.5)
 Vertex: MATH 542, location: (1060.45, 2040.99), color (HSL): (316, 1, 0.5)
 Vertex: MATH 546, location: (896.609, 2114.32), color (HSL): (316, 1, 0.5)
 Vertex: MATH 547, location: (899.549, 103.588), color (HSL): (316, 1, 0.5)
-Vertex: PHYS 212, location: (911.492, 931.034), color (HSL): (78, 1, 0.5)
-Vertex: MATH 220, location: (1800.78, 1759.13), color (HSL): (316, 1, 0.5)
+Vertex: PHYS 212
+, location: (911.492, 931.034), color (HSL): (78, 1, 0.5)
+Vertex: MATH 220
+, location: (1800.78, 1759.13), color (HSL): (316, 1, 0.5)
 Vertex: MATH 550, location: (492.467, 240.27), color (HSL): (316, 1, 0.5)
 Vertex: MATH 553, location: (180.015, 1659.25), color (HSL): (316, 1, 0.5)
 Vertex: MATH 558, location: (578.091, 1965.29), color (HSL): (316, 1, 0.5)
@@ -534,7 +602,8 @@ Vertex: MATH 574, location: (1602.51, 197.324), color (HSL): (316, 1, 0.5)
 Vertex: MATH 580, location: (98.6362, 1522.54), color (HSL): (316, 1, 0.5)
 Vertex: MATH 581, location: (1721.23, 308.286), color (HSL): (316, 1, 0.5)
 Vertex: MATH 582, location: (1527.45, 1925), color (HSL): (316, 1, 0.5)
-Vertex: CS 492, location: (1431.61, 1491.91), color (HSL): (130, 1, 0.5)
+Vertex: CS 492
+, location: (1431.61, 1491.91), color (HSL): (130, 1, 0.5)
 Vertex: MATH 583, location: (1688.46, 1914.7), color (HSL): (316, 1, 0.5)
 Vertex: MATH 585, location: (1651.77, 285.118), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 460, location: (935.312, 2091.47), color (HSL): (78, 1, 0.5)
@@ -545,12 +614,15 @@ Vertex: MATH 599, location: (1809.83, 1759.53), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 100, location: (842.779, 822.887), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 101, location: (1659.25, 1698.75), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 102, location: (1550.26, 1608), color (HSL): (78, 1, 0.5)
-Vertex: PHYS 581, location: (969.243, 995.439), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 581
+, location: (969.243, 995.439), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 140, location: (1942.35, 663.301), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 150, location: (52.4934, 785.478), color (HSL): (78, 1, 0.5)
-Vertex: ECE 425, location: (1229.06, 1384.84), color (HSL): (133, 1, 0.5)
+Vertex: ECE 425
+, location: (1229.06, 1384.84), color (HSL): (133, 1, 0.5)
 Vertex: PHYS 192, location: (2042.43, 1339.83), color (HSL): (78, 1, 0.5)
-Vertex: PHYS 326, location: (1703.71, 1819.55), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 326
+, location: (1703.71, 1819.55), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 193, location: (1043.69, 23.2701), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 194, location: (1927.22, 1651.03), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 211, location: (792.184, 732.98), color (HSL): (78, 1, 0.5)
@@ -573,13 +645,16 @@ Vertex: PHYS 485, location: (903.439, 955.064), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 487, location: (948.775, 95.2862), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 497, location: (1703.54, 1876.2), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 498, location: (1686.53, 1911.67), color (HSL): (78, 1, 0.5)
-Vertex: PHYS 505, location: (1725.49, 1798.98), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 505
+, location: (1725.49, 1798.98), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 499, location: (1698.45, 249.505), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 509, location: (1327.33, 2061.52), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 576, location: (1733.38, 357.591), color (HSL): (78, 1, 0.5)
-Vertex: MATH 416, location: (608.727, 661.408), color (HSL): (316, 1, 0.5)
+Vertex: MATH 416
+, location: (608.727, 661.408), color (HSL): (316, 1, 0.5)
 Vertex: PHYS 513, location: (908.842, 2034.42), color (HSL): (78, 1, 0.5)
-Vertex: MSE 401, location: (473.355, 503.57), color (HSL): (0, 0, 0)
+Vertex: MSE 401
+, location: (473.355, 503.57), color (HSL): (0, 0, 0)
 Vertex: PHYS 514, location: (717.621, 90.3666), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 516, location: (637.761, 1952.57), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 541, location: (1409.78, 2051), color (HSL): (78, 1, 0.5)
@@ -593,86 +668,155 @@ Vertex: PHYS 581, location: (906.15, 2084.97), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 596, location: (1904.87, 1659.95), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 597, location: (989.944, 66.7249), color (HSL): (78, 1, 0.5)
 Vertex: PHYS 598, location: (316.563, 1847.68), color (HSL): (78, 1, 0.5)
-Vertex: MATH 221, location: (746.096, 771.651), color (HSL): (316, 1, 0.5)
-Vertex: CS 125, location: (1666.01, 1756.52), color (HSL): (130, 1, 0.5)
-Vertex: MATH 213, location: (466.792, 511.619), color (HSL): (316, 1, 0.5)
+Vertex: MATH 221
+, location: (746.096, 771.651), color (HSL): (316, 1, 0.5)
+Vertex: CS 125
+, location: (1666.01, 1756.52), color (HSL): (130, 1, 0.5)
+Vertex: MATH 213
+, location: (466.792, 511.619), color (HSL): (316, 1, 0.5)
 Vertex: CS 205, location: (822.373, 838.899), color (HSL): (130, 1, 0.5)
-Vertex: CS 110, location: (758.364, 821.926), color (HSL): (130, 1, 0.5)
-Vertex: ASRM 406, location: (517.461, 544.215), color (HSL): (0, 0, 0)
-Vertex: MATH 348, location: (738.48, 738.238), color (HSL): (316, 1, 0.5)
-Vertex: ECE 391, location: (752.049, 779.967), color (HSL): (133, 1, 0.5)
-Vertex: CS 374, location: (1098.17, 1146.78), color (HSL): (130, 1, 0.5)
-Vertex: CS 421, location: (1734.24, 1747.84), color (HSL): (130, 1, 0.5)
-Vertex: PHYS 504, location: (341.245, 379.209), color (HSL): (78, 1, 0.5)
-Vertex: CS 373, location: (374.51, 405.775), color (HSL): (130, 1, 0.5)
-Vertex: MATH 231, location: (760.233, 763.878), color (HSL): (316, 1, 0.5)
-Vertex: CS 440, location: (412.552, 528.911), color (HSL): (130, 1, 0.5)
-Vertex: STAT 400, location: (651.044, 663.964), color (HSL): (0, 0, 0)
-Vertex: MATH 414, location: (570.507, 565.58), color (HSL): (316, 1, 0.5)
-Vertex: CS 420, location: (321.237, 347.308), color (HSL): (130, 1, 0.5)
-Vertex: LING 406, location: (671.506, 723.052), color (HSL): (0, 0, 0)
-Vertex: CS 411, location: (352.815, 296.206), color (HSL): (130, 1, 0.5)
-Vertex: CS 433, location: (904.126, 924.922), color (HSL): (130, 1, 0.5)
-Vertex: CS 429, location: (348.858, 370.036), color (HSL): (130, 1, 0.5)
-Vertex: PHYS 487, location: (784.476, 841.479), color (HSL): (78, 1, 0.5)
-Vertex: ECE 411, location: (340.765, 381.677), color (HSL): (133, 1, 0.5)
-Vertex: ECE 438, location: (519.925, 555.22), color (HSL): (133, 1, 0.5)
-Vertex: CS 555, location: (599.636, 670.901), color (HSL): (130, 1, 0.5)
-Vertex: CS 457, location: (332.058, 399.324), color (HSL): (130, 1, 0.5)
-Vertex: MATH 580, location: (1689.02, 1721.7), color (HSL): (316, 1, 0.5)
-Vertex: CS 477, location: (666.159, 667.48), color (HSL): (130, 1, 0.5)
+Vertex: CS 110
+, location: (758.364, 821.926), color (HSL): (130, 1, 0.5)
+Vertex: ASRM 406
+, location: (517.461, 544.215), color (HSL): (0, 0, 0)
+Vertex: MATH 348
+, location: (738.48, 738.238), color (HSL): (316, 1, 0.5)
+Vertex: ECE 391
+, location: (752.049, 779.967), color (HSL): (133, 1, 0.5)
+Vertex: CS 374
+, location: (1098.17, 1146.78), color (HSL): (130, 1, 0.5)
+Vertex: CS 421
+, location: (1734.24, 1747.84), color (HSL): (130, 1, 0.5)
+Vertex: PHYS 504
+, location: (341.245, 379.209), color (HSL): (78, 1, 0.5)
+Vertex: CS 373
+, location: (374.51, 405.775), color (HSL): (130, 1, 0.5)
+Vertex: MATH 231
+, location: (760.233, 763.878), color (HSL): (316, 1, 0.5)
+Vertex: CS 440
+, location: (412.552, 528.911), color (HSL): (130, 1, 0.5)
+Vertex: STAT 400
+, location: (651.044, 663.964), color (HSL): (0, 0, 0)
+Vertex: MATH 414
+, location: (570.507, 565.58), color (HSL): (316, 1, 0.5)
+Vertex: CS 420
+, location: (321.237, 347.308), color (HSL): (130, 1, 0.5)
+Vertex: LING 406
+, location: (671.506, 723.052), color (HSL): (0, 0, 0)
+Vertex: CS 411
+, location: (352.815, 296.206), color (HSL): (130, 1, 0.5)
+Vertex: CS 433
+, location: (904.126, 924.922), color (HSL): (130, 1, 0.5)
+Vertex: CS 429
+, location: (348.858, 370.036), color (HSL): (130, 1, 0.5)
+Vertex: PHYS 487
+, location: (784.476, 841.479), color (HSL): (78, 1, 0.5)
+Vertex: ECE 411
+, location: (340.765, 381.677), color (HSL): (133, 1, 0.5)
+Vertex: ECE 438
+, location: (519.925, 555.22), color (HSL): (133, 1, 0.5)
+Vertex: CS 555
+, location: (599.636, 670.901), color (HSL): (130, 1, 0.5)
+Vertex: CS 457
+, location: (332.058, 399.324), color (HSL): (130, 1, 0.5)
+Vertex: MATH 580
+, location: (1689.02, 1721.7), color (HSL): (316, 1, 0.5)
+Vertex: CS 477
+, location: (666.159, 667.48), color (HSL): (130, 1, 0.5)
 Vertex: IE 411, location: (1614.73, 1571.24), color (HSL): (0, 0, 0)
-Vertex: MATH 286, location: (990.085, 971.66), color (HSL): (316, 1, 0.5)
-Vertex: ECE 120, location: (413.492, 480.98), color (HSL): (133, 1, 0.5)
-Vertex: ECE 210, location: (1202.96, 1146.63), color (HSL): (133, 1, 0.5)
-Vertex: ECE 310, location: (581.852, 620.433), color (HSL): (133, 1, 0.5)
-Vertex: MATH 415, location: (796.206, 798.177), color (HSL): (316, 1, 0.5)
-Vertex: MATH 234, location: (761.747, 843.849), color (HSL): (316, 1, 0.5)
-Vertex: ECE 329, location: (1001.97, 1020.26), color (HSL): (133, 1, 0.5)
-Vertex: ECE 515, location: (1230.15, 1224.41), color (HSL): (133, 1, 0.5)
-Vertex: ECE 385, location: (1718.96, 1750.92), color (HSL): (133, 1, 0.5)
+Vertex: MATH 286
+, location: (990.085, 971.66), color (HSL): (316, 1, 0.5)
+Vertex: ECE 120
+, location: (413.492, 480.98), color (HSL): (133, 1, 0.5)
+Vertex: ECE 210
+, location: (1202.96, 1146.63), color (HSL): (133, 1, 0.5)
+Vertex: ECE 310
+, location: (581.852, 620.433), color (HSL): (133, 1, 0.5)
+Vertex: MATH 415
+, location: (796.206, 798.177), color (HSL): (316, 1, 0.5)
+Vertex: MATH 234
+, location: (761.747, 843.849), color (HSL): (316, 1, 0.5)
+Vertex: ECE 329
+, location: (1001.97, 1020.26), color (HSL): (133, 1, 0.5)
+Vertex: ECE 515
+, location: (1230.15, 1224.41), color (HSL): (133, 1, 0.5)
+Vertex: ECE 385
+, location: (1718.96, 1750.92), color (HSL): (133, 1, 0.5)
 Vertex: BIOE 205, location: (1447.72, 1455.53), color (HSL): (0, 0, 0)
-Vertex: BIOE 414, location: (343.125, 361.91), color (HSL): (0, 0, 0)
+Vertex: BIOE 414
+, location: (343.125, 361.91), color (HSL): (0, 0, 0)
 Vertex: STAT 400, location: (462.054, 538.18), color (HSL): (0, 0, 0)
-Vertex: PHYS 436, location: (1512.65, 1498.9), color (HSL): (78, 1, 0.5)
-Vertex: AE 353, location: (1710.25, 1782.56), color (HSL): (0, 0, 0)
+Vertex: PHYS 436
+, location: (1512.65, 1498.9), color (HSL): (78, 1, 0.5)
+Vertex: AE 353
+, location: (1710.25, 1782.56), color (HSL): (0, 0, 0)
 Vertex: ECE 361, location: (334.426, 334.616), color (HSL): (133, 1, 0.5)
-Vertex: ECE 459, location: (471.362, 504.43), color (HSL): (133, 1, 0.5)
-Vertex: MATH 418, location: (884.916, 1004.91), color (HSL): (316, 1, 0.5)
+Vertex: ECE 459
+, location: (471.362, 504.43), color (HSL): (133, 1, 0.5)
+Vertex: MATH 418
+, location: (884.916, 1004.91), color (HSL): (316, 1, 0.5)
 Vertex: CHBE 457, location: (1669.38, 1643.02), color (HSL): (0, 0, 0)
 Vertex: MSE 401, location: (1618.26, 1714.46), color (HSL): (0, 0, 0)
-Vertex: PHYS 460, location: (1620.34, 1742.43), color (HSL): (78, 1, 0.5)
-Vertex: PHYS 485, location: (1302.63, 1380.89), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 460
+, location: (1620.34, 1742.43), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 485
+, location: (1302.63, 1380.89), color (HSL): (78, 1, 0.5)
 Vertex: MSE 462, location: (346.371, 379.789), color (HSL): (0, 0, 0)
-Vertex: ECE 486, location: (289.247, 347.764), color (HSL): (133, 1, 0.5)
-Vertex: ECE 481, location: (381.838, 449.787), color (HSL): (133, 1, 0.5)
-Vertex: ECE 476, location: (1312.49, 1322.81), color (HSL): (133, 1, 0.5)
-Vertex: MATH 481, location: (1761.01, 1742.28), color (HSL): (316, 1, 0.5)
-Vertex: ECE 520, location: (828.319, 835.591), color (HSL): (133, 1, 0.5)
-Vertex: PHYS 486, location: (1010.96, 997.835), color (HSL): (78, 1, 0.5)
-Vertex: ECE 535, location: (1706.31, 1764.42), color (HSL): (133, 1, 0.5)
-Vertex: TAM 518, location: (1683.62, 1709.99), color (HSL): (0, 0, 0)
-Vertex: ECE 470, location: (1766.57, 1750.65), color (HSL): (133, 1, 0.5)
-Vertex: MATH 417, location: (1099.79, 1118.38), color (HSL): (316, 1, 0.5)
-Vertex: MATH 564, location: (408.576, 448.325), color (HSL): (316, 1, 0.5)
+Vertex: ECE 486
+, location: (289.247, 347.764), color (HSL): (133, 1, 0.5)
+Vertex: ECE 481
+, location: (381.838, 449.787), color (HSL): (133, 1, 0.5)
+Vertex: ECE 476
+, location: (1312.49, 1322.81), color (HSL): (133, 1, 0.5)
+Vertex: MATH 481
+, location: (1761.01, 1742.28), color (HSL): (316, 1, 0.5)
+Vertex: ECE 520
+, location: (828.319, 835.591), color (HSL): (133, 1, 0.5)
+Vertex: PHYS 486
+, location: (1010.96, 997.835), color (HSL): (78, 1, 0.5)
+Vertex: ECE 535
+, location: (1706.31, 1764.42), color (HSL): (133, 1, 0.5)
+Vertex: TAM 518
+, location: (1683.62, 1709.99), color (HSL): (0, 0, 0)
+Vertex: ECE 470
+, location: (1766.57, 1750.65), color (HSL): (133, 1, 0.5)
+Vertex: MATH 417
+, location: (1099.79, 1118.38), color (HSL): (316, 1, 0.5)
+Vertex: MATH 564
+, location: (408.576, 448.325), color (HSL): (316, 1, 0.5)
 Vertex: MSE 405, location: (386.224, 425.246), color (HSL): (0, 0, 0)
-Vertex: ECE 460, location: (285.999, 378.492), color (HSL): (133, 1, 0.5)
-Vertex: MATH 012, location: (331.564, 358.056), color (HSL): (316, 1, 0.5)
-Vertex: ECE 530, location: (1716.44, 1769), color (HSL): (133, 1, 0.5)
-Vertex: ECE 482, location: (512.639, 531.89), color (HSL): (133, 1, 0.5)
-Vertex: MATH 542, location: (1002.43, 988.738), color (HSL): (316, 1, 0.5)
-Vertex: MATH 347, location: (490.068, 539.614), color (HSL): (316, 1, 0.5)
+Vertex: ECE 460
+, location: (285.999, 378.492), color (HSL): (133, 1, 0.5)
+Vertex: MATH 012
+, location: (331.564, 358.056), color (HSL): (316, 1, 0.5)
+Vertex: ECE 530
+, location: (1716.44, 1769), color (HSL): (133, 1, 0.5)
+Vertex: ECE 482
+, location: (512.639, 531.89), color (HSL): (133, 1, 0.5)
+Vertex: MATH 542
+, location: (1002.43, 988.738), color (HSL): (316, 1, 0.5)
+Vertex: MATH 347
+, location: (490.068, 539.614), color (HSL): (316, 1, 0.5)
 Vertex: STAT 100, location: (306.672, 355.464), color (HSL): (0, 0, 0)
-Vertex: MATH 501, location: (569.822, 607.39), color (HSL): (316, 1, 0.5)
-Vertex: MATH 531, location: (1680.19, 1722.19), color (HSL): (316, 1, 0.5)
-Vertex: MATH 540, location: (1762.98, 1740.35), color (HSL): (316, 1, 0.5)
-Vertex: MATH 541, location: (958.971, 950.682), color (HSL): (316, 1, 0.5)
-Vertex: MATH 553, location: (1587.69, 1594.55), color (HSL): (316, 1, 0.5)
+Vertex: MATH 501
+, location: (569.822, 607.39), color (HSL): (316, 1, 0.5)
+Vertex: MATH 531
+, location: (1680.19, 1722.19), color (HSL): (316, 1, 0.5)
+Vertex: MATH 540
+, location: (1762.98, 1740.35), color (HSL): (316, 1, 0.5)
+Vertex: MATH 541
+, location: (958.971, 950.682), color (HSL): (316, 1, 0.5)
+Vertex: MATH 553
+, location: (1587.69, 1594.55), color (HSL): (316, 1, 0.5)
 Vertex: MATH 408, location: (278.567, 398.006), color (HSL): (316, 1, 0.5)
-Vertex: PHYS 101, location: (1710.71, 1752.17), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 101
+, location: (1710.71, 1752.17), color (HSL): (78, 1, 0.5)
 Vertex: PHIL 101, location: (1659.66, 1680.65), color (HSL): (0, 0, 0)
-Vertex: PHYS 580, location: (884.107, 903.59), color (HSL): (78, 1, 0.5)
-Vertex: PHYS 515, location: (488.845, 552.915), color (HSL): (78, 1, 0.5)
-Vertex: PHYS 570, location: (1568.78, 1663.68), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 580
+, location: (884.107, 903.59), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 515
+, location: (488.845, 552.915), color (HSL): (78, 1, 0.5)
+Vertex: PHYS 570
+, location: (1568.78, 1663.68), color (HSL): (78, 1, 0.5)
 width: 2105 (size : 4498385)
 vertex amount: 676, edge amount: 757

@@ -11,10 +11,10 @@ To see the performance differences between the parallel and serial versions of t
 
 ## Sample Output
 <p align="center">
-  <img width="750" src="src/fdgOutput.png">
+  <img width="750" src="src/imgs/fdgOutput.png">
 </p>
 
 ## Serial vs Parallel
 <p align="center">
-  <img src="src/compare.png">
+  <img src="src/imgs/compare.png">
 </p>
