@@ -11,7 +11,7 @@ To see the performance differences between the parallel and serial versions of t
 
 ## Sample Output
 <p align="center">
-  <img width="750" src="src/testOutput.png">
+  <img width="750" src="src/fdgOutput.png">
 </p>
 
 ## Serial vs Parallel

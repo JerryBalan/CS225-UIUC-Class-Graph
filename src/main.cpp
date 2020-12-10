@@ -5,40 +5,31 @@
 #include "classes.h"
 #include "structures/PNG.h"
 
-int main(int argc, char * argv[]) {
-//   std::vector<std::vector<std::string>> csvVect = csvToVector("Data/uiuc-prerequisites.csv");
-//   printVect(csvVect);
-
-  // if (argc < 2) {
-  //   std::cout << "Please input an argument" << std::endl;
-  //   return -1;
-  // }
-  // Classes test;
-
-  // Graph g = test.getGraph();
-  // if(argv[1][0] == '0') {
-  //   std::cout << "Using serial method..." << std::endl;
-
-  //   //fdgOutput newOut(g, 10, 10, 100);
-  //   fdgOutput newOut(0, g, 1000, test.getFrequencies()); // Serial
-  //   cs225::PNG img = newOut.createOutputImage(test.getFrequencies());
-  //   img.writeToFile("testOutput"+ string(".png"));
-  //   newOut.printLocations();
-  // } else {
-  //   std::cout << "Using parallel method..." << std::endl;
-
-  //   //fdgOutput newOut(g, 10, 10, 100);
-  //   fdgOutput newOut(1, g, 1000, test.getFrequencies()); // Parallel
-  //   cs225::PNG img = newOut.createOutputImage(test.getFrequencies());
-  //   img.writeToFile("testOutput"+ string(".png"));
-  //   newOut.printLocations();
-  // }
-  
-
-    if (argc > 1) {
-    std::cout << "Please respond to the following questions rather than providing arguments.\n" << std::endl;
-    //return -1;
+void createOutputImg(Graph g, Classes courses, int argVal) {
+  if(argVal == 0) { // serial
+    std::cout << "Using serial method..." << std::endl;
+    fdgOutput newOut(0, g, 1000, 20, courses.getFrequencies()); // Serial
+    cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
+    img.writeToFile("fdgOutput"+ string(".png"));
+    newOut.printLocations();
+  } else if(argVal == 1) { // parallel
+    std::cout << "Using parallel method..." << std::endl;
+    fdgOutput newOut(1, g, 1000, 20, courses.getFrequencies()); // Parallel
+    cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
+    img.writeToFile("fdgOutput"+ string(".png"));
+    newOut.printLocations();
   }
+}
+
+int main(int argc, char * argv[]) {
+  if (argc > 1) {
+    std::cout << "This mode  is meant for graph.py. If you want to use the main program, please run again without any arguments." << std::endl;
+    Classes courses("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
+    Graph g = courses.getGraph();
+    createOutputImg(g, courses, argv[1][0] - '0');
+    return 0;
+  }
+
   std::cout << "Please input the location/name of the input CSV file (leave blank for default): ";
   std::string fileName;
   getline(std::cin, fileName);
@@ -103,24 +94,8 @@ int main(int argc, char * argv[]) {
       std::cout << "Incorrect input. Terminating program." << std::endl;
       return -1;
     }
-    if(methodInput == 1) { // serial
-      std::cout << "Using serial method..." << std::endl;
 
-      //fdgOutput newOut(g, 10, 10, 100);
-      fdgOutput newOut(0, g, 1000, 20, courses.getFrequencies()); // Serial
-      cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
-      img.writeToFile("testOutput"+ string(".png"));
-      newOut.printLocations();
-    }
-    if(methodInput == 2) { // parallel
-      std::cout << "Using parallel method..." << std::endl;
-
-      //fdgOutput newOut(g, 10, 10, 100);
-      fdgOutput newOut(1, g, 1000, 20, courses.getFrequencies()); // Parallel
-      cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
-      img.writeToFile("testOutput"+ string(".png"));
-      newOut.printLocations();
-    }
+    createOutputImg(g, courses, methodInput - 1);
   }
   
   return 0;
