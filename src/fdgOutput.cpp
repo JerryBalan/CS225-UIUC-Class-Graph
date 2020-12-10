@@ -8,6 +8,13 @@
 
 #include "structures/PNG.h"
 
+#define SIGN(x) ((signbit(x) ? -1 : 1))
+#define SET_FDG_ALGORITHM_HYPERPARAMETERS                   \
+  int springRestLength = 400, repulsiveForceConstant = 100, \
+      attractionConstant = 8000, springConstant = 20,       \
+      maxDisplacementSquared = 100;                         \
+  double deltaT = 0.0003, centerConstant = 7.5;
+
 std::mutex mtx;
 
 fdgOutput::fdgOutput(
@@ -110,15 +117,15 @@ void fdgOutput::recenterPts(int sideSpace) {
 void fdgOutput::defineLocationsSerial(
     Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
     unsigned iterations, int sideSpace) {
-  int springRestLength = 400, repulsiveForceConstant = 1000,
-      attractionConstant = 8000, springConstant = 50,
-      maxDisplacementSquared = 400;
-  double deltaT = 0.0003, centerConstant = 5;
+  // set the hyperparams as a cpmpiler macro
+  SET_FDG_ALGORITHM_HYPERPARAMETERS
+
+  // init vertices, edges, initial positions
 
   setVariables(graph, 10, subjectFrequencies, true);
 
   for (unsigned i = 0; i < iterations; i++) {
-    if (i % 25 == 0) std::cout << "iteration: " << i << std::endl;
+    if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
 
     // Repulsion force
     for (unsigned j = 0; j < v.size(); j++) {
@@ -211,15 +218,14 @@ void fdgOutput::defineLocationsSerial(
 void fdgOutput::defineLocationsParallel(
     Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
     unsigned iterations, int sideSpace) {
-  int springRestLength = 400, repulsiveForceConstant = 1000,
-      attractionConstant = 8000, springConstant = 50,
-      maxDisplacementSquared = 400;
-  double deltaT = 0.0003, centerConstant = 5;
+  // set the hyperparams as a cpmpiler macro
+  SET_FDG_ALGORITHM_HYPERPARAMETERS
 
+  // init vertices, edges, initial positions
   setVariables(graph, 10, subjectFrequencies, true);
 
   for (unsigned i = 0; i < iterations; i++) {
-    if (i % 25 == 0) std::cout << "iteration: " << i << std::endl;
+    if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
 
     std::thread th1(&fdgOutput::repulsionFunc, this, repulsiveForceConstant);
     std::thread th2(&fdgOutput::springFunc, this, graph, springConstant,
@@ -345,39 +351,61 @@ cs225::PNG fdgOutput::createOutputImage(
     std::unordered_map<std::string, double> subjectFrequencies) {
   cs225::PNG out(width + 2, height + 2);
 
+  std::unordered_map<std::string, cs225::HSLAPixel> cols;
+  for (auto it : subjectFrequencies) cols.insert({it.first, getRandColor()});
+
+  // Draw edges
+  for (unsigned i = 0; i < e.size(); i++) {
+    // Find location of each source and edge in the vertices array
+    auto temp1 = find(v.begin(), v.end(), e[i].source);
+    auto temp2 = find(v.begin(), v.end(), e[i].dest);
+    // Check to see if the vertices actually exist
+    if (temp1 == v.end() || temp2 == v.end()) continue;
+    std::pair<float, float> pt1 = pos[temp1 - v.begin()];
+    std::pair<float, float> pt2 = pos[temp2 - v.begin()];
+
+    // Calculate slope, y-int of the line connecting two vertices
+    float slope = (pt1.second - pt2.second) / (pt1.first - pt2.first);
+    float yIntercept = pt1.second - (slope * pt1.first);
+
+    // Find department of course in the map
+    cs225::HSLAPixel pixelColor(0, 0, .5);
+
+    // calculate the x-value of the end of the line
+    int end = std::max(pt1.first, pt2.first);
+
+    for (int x = std::min(pt1.first, pt2.first); x < end; x++) {
+      int y = (slope * x) + yIntercept;
+      // Check to see if x or y is out of bounds
+      if (x < 0 || x > width + 1 || y < 0 || y > height + 1) continue;
+      // out.getPixel(j, y).l = 0.6;
+
+      // Set pixel value at point (dotted lines)
+      // out.getPixel(x,y) = pixelColor;
+      // For steep slopes, draw a point at every (x, y + k) where k is the slope
+      for (int k = 0; k < (int)abs(slope); k += 2) {
+        int incr = k * SIGN(slope);
+        // check for overshooting or undershooting
+        if (y + incr < pt1.second || y + incr > pt2.second) break;
+        out.getPixel(x, y + incr) = pixelColor;
+      }
+    }
+  }
   // Draw verticies
   for (unsigned i = 0; i < v.size(); i++) {
-    // Square of size 3x3 instead of single pixel
-    // cs225::HSLAPixel curr = getRandColor();
-    // colors.push_back({curr.h, curr.s, curr.l});
-    // for (int j = -1; j < 2; j++) {
-    //   for (int k = -1; k < 2; k++) {
-    //     int x = std::max(0, (int)pos[i].first + j);
-    //     int y = std::max(0, (int)pos[i].second + k);
-    //     out.getPixel(x, y) = curr;
-    //   }
-    // }
+    cs225::HSLAPixel curr;
+    if (cols.find(getCourseSubject(v[i])) == cols.end()) {
+      curr = cs225::HSLAPixel(0, 0, 0);
+      // Print vertices that were not found
+      std::cout << v[i] << std::endl;
 
-    cs225::HSLAPixel curr(0, 0, 0);  //= getRandColor();
-    // out.getPixel(x, y) = curr;
-    // out.getPixel(x+1,y)= curr;
-    // out.getPixel(x+2,y)= curr;
-    // out.getPixel(x+3,y)= curr;
-    // out.getPixel(x-1,y)= curr;
-    // out.getPixel(x-2,y)= curr;
-    // out.getPixel(x,y+1)= curr;
-    // out.getPixel(x,y+2)= curr;
-    // out.getPixel(x,y+3)= curr;
-    // out.getPixel(x,y-1)= curr;
-    // out.getPixel(x,y-2)= curr;
-    double rad = g_.getAdjacent(v[i]).size();
-    // for (int x = pos[i].first - rad; x < pos[i].first + rad; i++) {
-    //   for (int y = pos[i].first - rad; y < pos[i].first + rad; y++) {
-    //     if (sqrt( (x - pos[i].first) * (x - pos[i].first) + (y -
-    //     pos[i].second) * (y - pos[i].second)) < rad) {
-    //       out.getPixel(x,y) = curr;
-    //     }
-    //   }
+    } else {
+      curr =
+          cols.at(getCourseSubject(v[i]));  //= getRandColor();
+    }
+
+    double rad = g_.getAdjacent(v[i]).size() + 2;
+
     for (int x = -1 * rad; x < rad; x++) {
       for (int y = -1 * rad; y < rad; y++) {
         if (calculateWithinRadius(x, y, i, rad)) {
@@ -389,34 +417,6 @@ cs225::PNG fdgOutput::createOutputImage(
   }
 
   // out->getPixel(pos[i].first, pos[i].second).l = 0;
-
-  std::unordered_map<std::string, cs225::HSLAPixel> cols;
-  for (auto it : subjectFrequencies) cols.insert({it.first, getRandColor()});
-  // cols["CS"] = cs225::HSLAPixel(0, 1, .5); // red
-  // cols["ECE"] = cs225::HSLAPixel(72, 1, .5); // yellow
-  // cols["PHYS"] = cs225::HSLAPixel(144, 1, .5); // green
-  // cols["MATH"] = cs225::HSLAPixel(216, 1, .5); // blue
-
-  // Draw edges
-  for (unsigned i = 0; i < e.size(); i++) {
-    auto temp1 = find(v.begin(), v.end(), e[i].source);
-    auto temp2 = find(v.begin(), v.end(), e[i].dest);
-    if (temp1 == v.end() || temp2 == v.end()) continue;
-    std::pair<float, float> pt1 = pos[temp1 - v.begin()];
-    std::pair<float, float> pt2 = pos[temp2 - v.begin()];
-
-    float slope = (pt1.second - pt2.second) / (pt1.first - pt2.first);
-    float yIntercept = pt1.second - (slope * pt1.first);
-
-    int end = std::max(pt1.first, pt2.first);
-    for (int j = std::min(pt1.first, pt2.first); j < end; j++) {
-      int y = (slope * j) + yIntercept;
-      if (j < 0 || j > width + 2 || y < 0 || y > width + 2) continue;
-      // out.getPixel(j, y).l = 0.6;
-      out.getPixel(j, y) = cols.at(
-          v[temp1 - v.begin()].substr(0, v[temp1 - v.begin()].find(' ')));
-    }
-  }
 
   return out;
 }

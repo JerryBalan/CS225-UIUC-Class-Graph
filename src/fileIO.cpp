@@ -33,12 +33,18 @@ std::vector<std::vector<std::string>> csvToVector(std::string fileName) {
     return fileContent;
   }
 
+  int lineCounter = -1;
   while(std::getline(csvFile, currLine)) {
+    lineCounter++;
+    if (!lineCounter) {
+      continue;
+    }
     std::vector<std::string> tempVec;
 
     std::stringstream ss(currLine);
     int curr = 0;
     while(ss.good()) {
+
       std::string tempStr;
       std::getline(ss, tempStr, ',');
 

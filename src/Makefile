@@ -7,10 +7,8 @@ EXE_OBJ = main.o
 OBJS = main.o fileIO.o fdgOutput.o classes.o structures/graph.o
 
 # Generated files
-# CLEAN_RM = testOutput.png testsquaremaze \
-# 						*.o *.d tests/*.o tests/*.d cs225/*.d cs225/*.o \
-# 						cs225/lodepng/*.o cs225/lodepng/*.d \
-# 						cs225/catch/*.o cs225/catch/*.d
+CLEAN_RM = fdgOutput.png compare.png outputImgInfo.txt
+
 
 # Use the cs225 makefile template:
 include structures/cs225.mk
