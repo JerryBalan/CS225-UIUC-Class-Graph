@@ -3,7 +3,11 @@ Final Project
 
 
 ## Build/Run
-Move into the `src` folder, run `make`, then run `./main [argument]` where argument is `0` for the serial version of the force directed graph and `1` is the parellel version.
+Move into the `src` folder, run `make`, then run `./main` for the main program. Follow the instructions given to produce the output image or run the BFS or Floyd–Warshall algorithm.
+
+To test, move into the `src` folder and run `make test`. Afterwards, run `./test`. 
+
+To see the performance differences between the parallel and serial versions of the force directed graph output, first build the program by running `make` in `src`, then run the `graph.py` file by running `python3 graph.py`. An output image graphing the runtimes of 10 iterations of each version will then be outputted as `compare.png`.
 
 ## Sample Output
 <p align="center">

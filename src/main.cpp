@@ -35,14 +35,19 @@ int main(int argc, char * argv[]) {
   // }
   
 
-  Classes courses; // auto init with csv
-
-  Graph g = courses.getGraph();
-
-  if (argc > 1) {
+    if (argc > 1) {
     std::cout << "Please respond to the following questions rather than providing arguments.\n" << std::endl;
     //return -1;
   }
+  std::cout << "Please input the location/name of the input CSV file (leave blank for default): ";
+  std::string fileName;
+  getline(std::cin, fileName);
+  if(fileName.empty())
+    fileName = "Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv";
+
+  Classes courses(fileName);
+  Graph g = courses.getGraph();
+    
   std::cout << "Please select one of the following options ('1', '2', etc.) to display in a graph:" << std::endl;
   std::cout << "1) A class and all of it's prerequisites." << std::endl;
   std::cout << "2) The (shortest) path to reach a desired class from your current class." << std::endl;

@@ -359,12 +359,12 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
   }
 
   std::unordered_map<std::string, cs225::HSLAPixel> cols;
-//   for(auto it : subjectFrequencies)
-//       cols.insert({it.first, getRandColor()});
-  cols["CS"] = cs225::HSLAPixel(0, 1, .5); // red
-  cols["ECE"] = cs225::HSLAPixel(72, 1, .5); // yellow
-  cols["PHYS"] = cs225::HSLAPixel(144, 1, .5); // green
-  cols["MATH"] = cs225::HSLAPixel(216, 1, .5); // blue
+  for(auto it : subjectFrequencies)
+      cols.insert({it.first, getRandColor()});
+  // cols["CS"] = cs225::HSLAPixel(0, 1, .5); // red
+  // cols["ECE"] = cs225::HSLAPixel(72, 1, .5); // yellow
+  // cols["PHYS"] = cs225::HSLAPixel(144, 1, .5); // green
+  // cols["MATH"] = cs225::HSLAPixel(216, 1, .5); // blue
 
   // Draw edges
   for (unsigned i = 0; i < e.size(); i++) {
