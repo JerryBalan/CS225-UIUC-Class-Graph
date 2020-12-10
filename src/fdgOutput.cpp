@@ -10,19 +10,11 @@
 
 std::mutex mtx;
 
-fdgOutput::fdgOutput(int version, Graph graph, unsigned iterations, std::unordered_map<std::string, double> subjectFrequencies) {
+fdgOutput::fdgOutput(int version, Graph graph, unsigned iterations, int sideSpace, std::unordered_map<std::string, double> subjectFrequencies) {
   if (version == 0)
-    defineLocationsSerial(graph, subjectFrequencies, 5, iterations, graph.getVertices().size());
+    defineLocationsSerial(graph, subjectFrequencies, iterations, sideSpace);
   else
-    defineLocationsParallel(graph, subjectFrequencies, 5, iterations, graph.getVertices().size());
-}
-
-fdgOutput::fdgOutput(int version, Graph graph, int scale, unsigned iterations,
-                     int classAmnt, std::unordered_map<std::string, double> subjectFrequencies) {
-  if (version == 0)
-    defineLocationsSerial(graph, subjectFrequencies, scale, iterations, classAmnt);
-  else
-    defineLocationsParallel(graph, subjectFrequencies, scale, iterations, classAmnt);
+    defineLocationsParallel(graph, subjectFrequencies, iterations, sideSpace);
 }
 
 fdgOutput::~fdgOutput() {}
@@ -73,7 +65,7 @@ void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::str
 }
 
 // Center all points and resize image to reduce wasted space
-void fdgOutput::recenterPts() {
+void fdgOutput::recenterPts(int sideSpace) {
   double xLoc = 0, yLoc = 0;
   std::pair<double, double> xMax, xMin, yMax, yMin;
   for(unsigned i = 0; i < pos.size(); i++) {
@@ -104,6 +96,11 @@ void fdgOutput::recenterPts() {
     }
   }
 
+  xMin.first -= sideSpace;
+  xMax.first += sideSpace;
+  yMin.second -= sideSpace;
+  yMax.second += sideSpace;
+
   double xDiff = 0 - xMin.first, yDiff = 0 - yMin.second;
 
   for(unsigned i = 0; i < pos.size(); i++) {
@@ -118,7 +115,7 @@ void fdgOutput::recenterPts() {
 
 // Serial version of finding locations to place verticies
 // Iterations - recommend 1000
-void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt) {
+void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace) {
   int springRestLength = 400, repulsiveForceConstant = 1000, attractionConstant = 8000, springConstant = 50, maxDisplacementSquared = 400;
   double deltaT = 0.0003, centerConstant = 5;
 
@@ -207,14 +204,13 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
     }
   }
 
-  recenterPts();
+  recenterPts(sideSpace);
 
   return;
 }
 
 // Parallel version of finding locations to place verticies
-void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
-                                int scale, unsigned iterations, int classAmnt) {
+void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace) {
   int springRestLength = 400, repulsiveForceConstant = 1000, attractionConstant = 8000, springConstant = 50, maxDisplacementSquared = 400;
   double deltaT = 0.0003, centerConstant = 5;
 
@@ -246,7 +242,7 @@ void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::str
     }
   }
 
-  recenterPts();
+  recenterPts(sideSpace);
 
   return;
 }

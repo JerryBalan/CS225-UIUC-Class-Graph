@@ -10,12 +10,11 @@
 
 class fdgOutput {
   public:
-    fdgOutput(int version, Graph graph, unsigned iterations, std::unordered_map<std::string, double> subjectFrequencies);
-    fdgOutput(int version, Graph graph, int scale, unsigned iterations, int classAmnt, std::unordered_map<std::string, double> subjectFrequencies);
+    fdgOutput(int version, Graph graph, unsigned iterations, int sideSpace, std::unordered_map<std::string, double> subjectFrequencies);
     ~fdgOutput();
 
-    void defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt);
-    void defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt);
+    void defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace);
+    void defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace);
     void printLocations();
 
     cs225::PNG createOutputImage(std::unordered_map<std::string, double> subjectFrequencies);
@@ -33,7 +32,7 @@ class fdgOutput {
     double fRand(double fMin, double fMax);
 
     void setVariables(Graph graph, int scale, std::unordered_map<std::string, double> &subjectFrequencies, bool setCompletlyRandom);
-    void recenterPts();
+    void recenterPts(int sideSpace);
     void springFunc(Graph graph, int springConstant, int springRestLength);
     void repulsionFunc(int repulsiveForceConstant);
     void centerFunc(double centerConstant);

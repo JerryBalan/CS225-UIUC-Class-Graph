@@ -107,7 +107,7 @@ int main(int argc, char * argv[]) {
       std::cout << "Using serial method..." << std::endl;
 
       //fdgOutput newOut(g, 10, 10, 100);
-      fdgOutput newOut(0, g, 1000, courses.getFrequencies()); // Serial
+      fdgOutput newOut(0, g, 1000, 20, courses.getFrequencies()); // Serial
       cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
       img.writeToFile("testOutput"+ string(".png"));
       newOut.printLocations();
@@ -116,7 +116,7 @@ int main(int argc, char * argv[]) {
       std::cout << "Using parallel method..." << std::endl;
 
       //fdgOutput newOut(g, 10, 10, 100);
-      fdgOutput newOut(1, g, 1000, courses.getFrequencies()); // Parallel
+      fdgOutput newOut(1, g, 1000, 20, courses.getFrequencies()); // Parallel
       cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
       img.writeToFile("testOutput"+ string(".png"));
       newOut.printLocations();
