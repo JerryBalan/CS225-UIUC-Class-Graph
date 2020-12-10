@@ -64,10 +64,9 @@ void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::str
   return;
 }
 
-// Center all points and resize image to reduce wasted space
+// Center all points and resize bounds to reduce wasted space in output image
 void fdgOutput::recenterPts(int sideSpace) {
-  double xLoc = 0, yLoc = 0;
-  std::pair<double, double> xMax, xMin, yMax, yMin;
+  double xLoc = 0, yLoc = 0, xMax = INT_MIN, xMin = INT_MAX, yMax = INT_MIN, yMin = INT_MAX;
   for(unsigned i = 0; i < pos.size(); i++) {
     pos[i].first /= 10;
     pos[i].second /= 10;
@@ -75,41 +74,30 @@ void fdgOutput::recenterPts(int sideSpace) {
     xLoc += pos[i].first;
     yLoc += pos[i].second;
 
-    if(pos[i].first > xMax.first) {
-      xMax.first = pos[i].first;
-      xMax.second = pos[i].second;
-    }
-
-    if(pos[i].first < xMin.first) {
-      xMin.first = pos[i].first;
-      xMin.second = pos[i].second;
-    }
-
-    if(pos[i].second > yMax.second) {
-      yMax.first = pos[i].first;
-      yMax.second = pos[i].second;
-    }
-
-    if(pos[i].second < yMin.second) {
-      yMin.first = pos[i].first;
-      yMin.second = pos[i].second;
-    }
+    if(pos[i].first > xMax)
+      xMax = pos[i].first;
+    if(pos[i].first < xMin)
+      xMin = pos[i].first;
+    if(pos[i].second > yMax)
+      yMax = pos[i].second;
+    if(pos[i].second < yMin)
+      yMin = pos[i].second;
   }
 
-  xMin.first -= sideSpace;
-  xMax.first += sideSpace;
-  yMin.second -= sideSpace;
-  yMax.second += sideSpace;
+  xMin -= sideSpace;
+  xMax += sideSpace;
+  yMin -= sideSpace;
+  yMax += sideSpace;
 
-  double xDiff = 0 - xMin.first, yDiff = 0 - yMin.second;
+  double xDiff = 0 - xMin, yDiff = 0 - yMin;
 
   for(unsigned i = 0; i < pos.size(); i++) {
     pos[i].first += xDiff;
     pos[i].second += yDiff;
   }
 
-  width = xMax.first - xMin.first;
-  height = yMax.second - yMin.second;
+  width = xMax - xMin;
+  height = yMax - yMin;
   area = width * height;
 }
 
