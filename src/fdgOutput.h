@@ -22,8 +22,9 @@ class fdgOutput {
 
   private:
     int area, width;
-    std::vector<std::pair<float, float>> disp;
-    std::vector<std::pair<float, float>> pos;
+    //std::vector<std::pair<float, float>> disp;
+    std::vector<std::pair<double, double>> pos;
+    std::vector<std::pair<double, double>> forces;
     std::vector<std::tuple<double, double, double>> colors;
     std::vector<Vertex> v;
     std::vector<Edge> e;
@@ -31,8 +32,9 @@ class fdgOutput {
     std::string getCourseSubject(std::string course);
     double fRand(double fMin, double fMax);
 
-    void setVariables(Graph graph, int classAmnt, int scale, std::unordered_map<std::string, double> &subjectFrequencies);
-    void attractiveFunc(int i);
-    void repulsionFunc(int i);
+    void setVariables(Graph graph, int scale, std::unordered_map<std::string, double> &subjectFrequencies, bool setCompletlyRandom);
+    void springFunc(Graph graph, int springConstant, int springRestLength);
+    void repulsionFunc(int repulsiveForceConstant);
+    void centerFunc(double centerConstant);
     cs225::HSLAPixel getRandColor();
 };

@@ -28,126 +28,160 @@ fdgOutput::fdgOutput(int version, Graph graph, int scale, unsigned iterations,
 fdgOutput::~fdgOutput() {}
 
 // Helper function to set variables since multiple methods use it
-void fdgOutput::setVariables(Graph graph, int classAmnt, int scale, std::unordered_map<std::string, double> &subjectFrequencies) {
+void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::string, double> &subjectFrequencies, bool setCompletlyRandom) {
   v = graph.getVertices();
   e = graph.getEdges();
-  v.resize(classAmnt);
-
-  disp.clear();
-  pos.clear();
-  disp.resize(v.size(), {0, 0});
-  pos.resize(v.size(), {0, 0});
 
   width = v.size() * scale;
   area = width * width;
 
-  double radius = width / 2;
-  std::pair<double, double> center = {width / 2, width / 2};
+  if(setCompletlyRandom) {
+    pos.resize(v.size(), {0, 0});
+    forces.resize(v.size(), {0, 0});
+    
+    for(unsigned i = 0; i < v.size(); i++)
+      pos[i] = {(std::rand() % (width / 6) ) + (5 * width / 12), (std::rand() % (width / 6) ) + (5 * width / 12)};
+  } else {
+    double radius = width / 2;
+    std::pair<double, double> center = {width / 2, width / 2};
 
-  std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
-  double currAngle = 0;
-  for (auto& subject : subjectFrequencies) {
-    double nextAngle = currAngle + 2 * M_PI * subject.second;
-    subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
-  }
-  srand(time(NULL));
-  int i = 0;
-  for (Vertex& course : v) {
-    std::string subjectName = getCourseSubject(course);
-    std::pair<double, double> angleBounds = subjectAngles[subjectName];
-    double angle = fRand(angleBounds.first, angleBounds.second);
-    double rad = fRand(0, radius);
+    std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
+    double currAngle = 0;
 
-    pos[i].first = rad * cos(angle) + center.first;
-    pos[i].second = rad * sin(angle) + center.second;
-    i++;
+    for (auto& subject : subjectFrequencies) {
+      double nextAngle = currAngle + 2 * M_PI * subject.second;
+      subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
+    }
+
+    srand(time(NULL));
+    int i = 0;
+
+    for (Vertex& course : v) {
+      std::string subjectName = getCourseSubject(course);
+      std::pair<double, double> angleBounds = subjectAngles[subjectName];
+      double angle = fRand(angleBounds.first, angleBounds.second);
+      double rad = fRand(0, radius);
+
+      pos[i].first = rad * cos(angle) + center.first;
+      pos[i].second = rad * sin(angle) + center.second;
+      i++;
+    }
   }
+
+
 
   return;
 }
 
 // Serial version of finding locations to place verticies
-void fdgOutput::defineLocationsSerial(
-    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
-    int scale, unsigned iterations, int classAmnt) {
-  setVariables(graph, classAmnt, scale, subjectFrequencies);
-  float t = area, K = std::sqrt(area / v.size());
+// Iterations - recommend 1000
+void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int scale, unsigned iterations, int classAmnt) {
+  int springRestLength = 400, repulsiveForceConstant = 1000, attractionConstant = 8000, springConstant = 50, maxDisplacementSquared = 400;
+  double deltaT = 0.0003, centerConstant = 5;
 
-  if (iterations < 0 || iterations > v.size()) iterations = v.size();
+  setVariables(graph, 10, subjectFrequencies, true);
 
-//   double radius = width / 2;
-//   std::pair<double, double> center = {width / 2, width / 2};
+  for(unsigned i = 0; i < iterations; i++) {
+    if(i % 25 == 0)
+      std::cout << "iteration: " << i << std::endl;
+    
+    // Repulsion force
+    for(unsigned j = 0; j < v.size(); j++) {
+      for(unsigned k = j + 1; k < v.size(); k++) {
+        double deltaX = pos[j].first - pos[k].first, deltaY = pos[j].second - pos[k].second;
+        double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+        std::pair<double, double> f = {0, 0};
 
-//   std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
-//   double currAngle = 0;
-//   for (auto& subject : subjectFrequencies) {
-//     double nextAngle = currAngle + 2 * M_PI * subject.second;
-//     subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
-//   }
-//   srand(time(NULL));
-//   int i = 0;
-//   for (Vertex& course : v) {
-//     std::string subjectName = getCourseSubject(course);
-//     std::pair<double, double> angleBounds = subjectAngles[subjectName];
-//     double angle = fRand(angleBounds.first, angleBounds.second);
-//     double rad = fRand(0, radius);
+        if(dist == 0) {
+          f = {std::rand() % 2500, std::rand() % 2500};
+        } else {
+          double tempF = repulsiveForceConstant / (dist * dist);
+          f.first = tempF * deltaX / dist;
+          f.second = tempF * deltaY / dist;
+        }
 
-//     pos[i].first = rad * cos(angle) + center.first;
-//     pos[i].second = rad * sin(angle) + center.second;
-//     i++;
-//   }
-
-  for (unsigned i = 0; i < iterations; i++) {
-    // Repulsion forces
-    for (unsigned j = 0; j < v.size(); j++) {
-      disp[j] = {0, 0};
-
-      for (unsigned k = 0; k < v.size(); k++) {
-        float d = pos[j].first - pos[k].first;
-        float d2 = pos[j].second - pos[k].second;
-        float dist = std::max((float)0.001, std::sqrt(d * d + d2 * d2));
-        float aForce = K * K / dist / v.size() / 100.0;
-        disp[j].first += d / dist * aForce;
-        disp[j].second += d2 / dist * aForce;
+        forces[j].first -= f.first;
+        forces[j].second -= f.second;
+        forces[k].first += f.first;
+        forces[k].second += f.second;
       }
     }
 
-    // Attractive forces
-    for (unsigned j = 0; j < e.size(); j++) {
-      auto temp1 = find(v.begin(), v.end(), e[j].source);
-      auto temp2 = find(v.begin(), v.end(), e[j].dest);
-      if (temp1 == v.end() || temp2 == v.end()) continue;
-      float loc1 = temp1 - v.begin();
-      float loc2 = temp2 - v.begin();
+    // Spring force
+    for(unsigned j = 0; j < v.size(); j++) {
+      std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
 
-      float x = pos[i].first - pos[loc1].first;
-      float y = pos[i].second - pos[loc2].second;
+      for(unsigned k = 0; k < neighbors.size(); k++) {
+        int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
+        if(loc1 < 0 || loc1 > (int)v.size())
+          continue;
+        double deltaX = pos[loc1].first - pos[j].first, deltaY = pos[loc1].second - pos[j].first;
 
-      float dist = std::max((float)0.001, std::sqrt(x * x + y * y));
-      float aForce = dist * dist / K / v.size();
+        double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-      disp[i].first -= x / dist * aForce;
-      disp[i].second += y / dist * aForce;
-    }
+        if(dist != 0) {
+          std::pair<double, double> f = {0, 0};
+          double tempF = springConstant * (dist - springRestLength);
+          f.first = tempF * deltaX / dist;
+          f.second = tempF * deltaY / dist;
 
-    // Change position values based on displacement
-    for (unsigned j = 0; j < v.size(); j++) {
-      float d = std::sqrt(disp[j].first * disp[j].first +
-                          disp[j].second * disp[j].second);
-      pos[j].first += d > t ? disp[j].first / d * t : disp[j].first;
-      pos[j].second += d > t ? disp[j].second / d * t : disp[j].second;
-
-      pos[j].first = std::min((float)width, std::max((float)0, pos[j].first));
-      pos[j].second = std::min((float)width, std::max((float)0, pos[j].second));
-
-      if ((pos[j].first == 0 || pos[j].second == 0) ||
-          (pos[j].first == width || pos[j].second == width)) {
-        pos[i].first = std::rand() % width;
-        pos[i].second = std::rand() % width;
+          forces[j].first += f.first;
+          forces[j].second += f.second;
+          forces[loc1].first -= f.first;
+          forces[loc1].second -= f.second;
+        }
       }
     }
 
-    t *= 0.99;
+    // Center force
+    for(unsigned j = 0; j < v.size(); j++) {
+      double deltaX = pos[j].first - (width / 2), deltaY = pos[j].second - (width / 2);
+      double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      if(dist != 0) {
+        std::pair<double, double> f = {0, 0};
+        double tempF = dist * centerConstant;
+        f.first = tempF * deltaX / dist;
+        f.second = tempF * deltaY / dist;
+
+        forces[j].first += f.first;
+        forces[j].second += f.second;
+      }
+    }
+
+    // Update positions
+    for(unsigned j = 0; j < v.size(); j++) {
+      double deltaX = deltaT * forces[j].first, deltaY = deltaT * forces[j].second;
+      double dispSq = deltaX * deltaX + deltaY * deltaY;
+
+      if(dispSq > maxDisplacementSquared) {
+        deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
+        deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
+      }
+
+      pos[j].first += deltaX;
+      pos[j].second += deltaY;
+    }
+  }
+
+  // Center all points
+  float xLoc = 0, yLoc = 0;
+  for(unsigned i = 0; i < pos.size(); i++) {
+    pos[i].first /= 10;
+    pos[i].second /= 10;
+
+    xLoc += pos[i].first;
+    yLoc += pos[i].second;
+  }
+
+  xLoc /= pos.size();
+  yLoc /= pos.size();
+  xLoc = (width / 2) - xLoc;
+  yLoc = (width / 2) - yLoc;
+
+  for(unsigned i = 0; i < pos.size(); i++) {
+    pos[i].first += xLoc;
+    pos[i].second += yLoc;
   }
 
   return;
@@ -156,82 +190,135 @@ void fdgOutput::defineLocationsSerial(
 // Parallel version of finding locations to place verticies
 void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
                                 int scale, unsigned iterations, int classAmnt) {
-  setVariables(graph, classAmnt, scale, subjectFrequencies);
-  float t = area, K = std::sqrt(area / v.size());
+  int springRestLength = 400, repulsiveForceConstant = 1000, attractionConstant = 8000, springConstant = 50, maxDisplacementSquared = 400;
+  double deltaT = 0.0003, centerConstant = 5;
 
-  if (iterations < 0 || iterations > v.size()) iterations = v.size();
+  setVariables(graph, 10, subjectFrequencies, true);
 
-  for (unsigned i = 0; i < iterations; i++) {
-    // Run threads on attractive and repulsion functions
-    std::thread th1(&fdgOutput::attractiveFunc, this, i);
-    std::thread th2(&fdgOutput::repulsionFunc, this, i);
+  for(unsigned i = 0; i < iterations; i++) {
+    if(i % 25 == 0)
+      std::cout << "iteration: " << i << std::endl;
+
+    std::thread th1(&fdgOutput::repulsionFunc, this, repulsiveForceConstant);
+    std::thread th2(&fdgOutput::springFunc, this, graph, springConstant, springRestLength);
+    std::thread th3(&fdgOutput::centerFunc, this, centerConstant);
     th1.join();
     th2.join();
+    th3.join();
 
-    // Change position values based on displacement
-    for (unsigned j = 0; j < v.size(); j++) {
-      float d = std::sqrt(disp[j].first * disp[j].first +
-                          disp[j].second * disp[j].second);
-      pos[j].first += d > t ? disp[j].first / d * t : disp[j].first;
-      pos[j].second += d > t ? disp[j].second / d * t : disp[j].second;
+    // Update positions
+    for(unsigned j = 0; j < v.size(); j++) {
+      double deltaX = deltaT * forces[j].first, deltaY = deltaT * forces[j].second;
+      double dispSq = deltaX * deltaX + deltaY * deltaY;
 
-      pos[j].first = std::min((float)width, std::max((float)0, pos[j].first));
-      pos[j].second = std::min((float)width, std::max((float)0, pos[j].second));
-
-      if ((pos[j].first == 0 || pos[j].second == 0) ||
-          (pos[j].first == width || pos[j].second == width)) {
-        pos[i].first = std::rand() % width;
-        pos[i].second = std::rand() % width;
+      if(dispSq > maxDisplacementSquared) {
+        deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
+        deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
       }
-    }
 
-    t *= 0.99;
+      pos[j].first += deltaX;
+      pos[j].second += deltaY;
+    }
+  }
+
+  // Center all points
+  float xLoc = 0, yLoc = 0;
+  for(unsigned i = 0; i < pos.size(); i++) {
+    pos[i].first /= 10;
+    pos[i].second /= 10;
+
+    xLoc += pos[i].first;
+    yLoc += pos[i].second;
+  }
+
+  xLoc /= pos.size();
+  yLoc /= pos.size();
+  xLoc = (width / 2) - xLoc;
+  yLoc = (width / 2) - yLoc;
+
+  for(unsigned i = 0; i < pos.size(); i++) {
+    pos[i].first += xLoc;
+    pos[i].second += yLoc;
   }
 
   return;
 }
 
-// Helper function to find attractive forces for parallel version
-void fdgOutput::attractiveFunc(int i) {
-  // Attractive forces
-  float K = std::sqrt(area / v.size());
-  for (unsigned j = 0; j < e.size(); j++) {
-    auto temp1 = find(v.begin(), v.end(), e[j].source);
-    auto temp2 = find(v.begin(), v.end(), e[j].dest);
-    if (temp1 == v.end() || temp2 == v.end()) continue;
-    float loc1 = temp1 - v.begin();
-    float loc2 = temp2 - v.begin();
+void fdgOutput::centerFunc(double centerConstant) {
+    for(unsigned j = 0; j < v.size(); j++) {
+    double deltaX = pos[j].first - (width / 2), deltaY = pos[j].second - (width / 2);
+    double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-    float x = pos[i].first - pos[loc1].first;
-    float y = pos[i].second - pos[loc2].second;
+    if(dist != 0) {
+      std::pair<double, double> f = {0, 0};
+      double tempF = dist * centerConstant;
+      f.first = tempF * deltaX / dist;
+      f.second = tempF * deltaY / dist;
 
-    float dist = std::max((float)0.001, std::sqrt(x * x + y * y));
-    float aForce = dist * dist / K / v.size();
-    mtx.lock();
-    disp[i].first -= x / dist * aForce;
-    disp[i].second += y / dist * aForce;
-    mtx.unlock();
+      forces[j].first += f.first;
+      forces[j].second += f.second;
+    }
   }
 }
 
-// Helper function to find repulsion forces for parallel version
-void fdgOutput::repulsionFunc(int i) {
-  // Repulsion forces
-  float K = std::sqrt(area / v.size());
-  for (unsigned j = 0; j < v.size(); j++) {
-    disp[j] = {0, 0};
+// Helper function to find spring forces for parallel version
+void fdgOutput::springFunc(Graph graph, int springConstant, int springRestLength) {
+  for(unsigned j = 0; j < v.size(); j++) {
+    std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
 
-    for (unsigned k = 0; k < v.size(); k++) {
-      float d = pos[j].first - pos[k].first;
-      float d2 = pos[j].second - pos[k].second;
-      float dist = std::max((float)0.001, std::sqrt(d * d + d2 * d2));
-      float aForce = K * K / dist / v.size() / 100.0;
+    for(unsigned k = 0; k < neighbors.size(); k++) {
+      int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
+      if(loc1 < 0 || loc1 > (int)v.size())
+        continue;
+      double deltaX = pos[loc1].first - pos[j].first, deltaY = pos[loc1].second - pos[j].first;
+
+      double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      if(dist != 0) {
+        std::pair<double, double> f = {0, 0};
+        double tempF = springConstant * (dist - springRestLength);
+        f.first = tempF * deltaX / dist;
+        f.second = tempF * deltaY / dist;
+
+        mtx.lock();
+        forces[j].first += f.first;
+        forces[j].second += f.second;
+        forces[loc1].first -= f.first;
+        forces[loc1].second -= f.second;
+        mtx.unlock();
+      }
+    }
+  }
+
+  return;
+}
+
+// Helper function to find repulsion forces for parallel version
+void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
+  for(unsigned j = 0; j < v.size(); j++) {
+    for(unsigned k = j + 1; k < v.size(); k++) {
+      double deltaX = pos[j].first - pos[k].first, deltaY = pos[j].second - pos[k].second;
+      double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+      std::pair<double, double> f = {0, 0};
+
+      if(dist == 0) {
+        f = {std::rand() % 2500, std::rand() % 2500};
+      } else {
+        double tempF = repulsiveForceConstant / (dist * dist);
+        f.first = tempF * deltaX / dist;
+        f.second = tempF * deltaY / dist;
+      }
+
       mtx.lock();
-      disp[j].first += d / dist * aForce;
-      disp[j].second += d2 / dist * aForce;
+      forces[j].first -= f.first;
+      forces[j].second -= f.second;
+      forces[k].first += f.first;
+      forces[k].second += f.second;
       mtx.unlock();
     }
   }
+
+  return;
 }
 
 // Uses new locations to create output PNG using cs225's PNG class
@@ -241,15 +328,30 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
   // Draw verticies
   for (unsigned i = 0; i < v.size(); i++) {
     // Square of size 3x3 instead of single pixel
-    cs225::HSLAPixel curr = getRandColor();
+    // cs225::HSLAPixel curr = getRandColor();
+    // colors.push_back({curr.h, curr.s, curr.l});
+    // for (int j = -1; j < 2; j++) {
+    //   for (int k = -1; k < 2; k++) {
+    //     int x = std::max(0, (int)pos[i].first + j);
+    //     int y = std::max(0, (int)pos[i].second + k);
+    //     out.getPixel(x, y) = curr;
+    //   }
+    // }
+
+    cs225::HSLAPixel curr(0, 0, 0); //= getRandColor();
+    int x= pos[i].first, y = pos[i].second;
+    out.getPixel(x, y) = curr;
+    out.getPixel(x+1,y)= curr;
+    out.getPixel(x+2,y)= curr;
+    out.getPixel(x+3,y)= curr;
+    out.getPixel(x-1,y)= curr;
+    out.getPixel(x-2,y)= curr;
+    out.getPixel(x,y+1)= curr;
+    out.getPixel(x,y+2)= curr;
+    out.getPixel(x,y+3)= curr;
+    out.getPixel(x,y-1)= curr;
+    out.getPixel(x,y-2)= curr;
     colors.push_back({curr.h, curr.s, curr.l});
-    for (int j = -1; j < 2; j++) {
-      for (int k = -1; k < 2; k++) {
-        int x = std::max(0, (int)pos[i].first + j);
-        int y = std::max(0, (int)pos[i].second + k);
-        out.getPixel(x, y) = curr;
-      }
-    }
 
     // out->getPixel(pos[i].first, pos[i].second).l = 0;
   }
