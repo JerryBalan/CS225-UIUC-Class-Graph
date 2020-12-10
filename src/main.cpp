@@ -36,13 +36,14 @@ int main(int argc, char * argv[]) {
   if(fileName.empty())
     fileName = "Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv";
 
+  std::cout << fileName << std::endl;
   Classes courses(fileName);
   Graph g = courses.getGraph();
     
   std::cout << "Please select one of the following options ('1', '2', etc.) to display in a graph:" << std::endl;
-  std::cout << "1) A class and all of it's prerequisites." << std::endl;
-  std::cout << "2) The (shortest) path to reach a desired class from your current class." << std::endl;
-  std::cout << "3) A performance analysis of serial vs parallel force direct graphing." << std::endl;
+  std::cout << "1) A class and all of its prerequisites (BFS)" << std::endl;
+  std::cout << "2) The (shortest) path to reach a desired class from your current class (A*)" << std::endl;
+  std::cout << "3) A performance analysis of serial vs parallel force direct graphing (Fruchterman-Reingold algorithm)" << std::endl;
   //std::cout << "" << std::endl;
 
   int displayInput = 0;

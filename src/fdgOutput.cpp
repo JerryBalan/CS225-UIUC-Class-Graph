@@ -10,7 +10,9 @@
 
 std::mutex mtx;
 
-fdgOutput::fdgOutput(int version, Graph graph, unsigned iterations, int sideSpace, std::unordered_map<std::string, double> subjectFrequencies) {
+fdgOutput::fdgOutput(
+    int version, Graph graph, unsigned iterations, int sideSpace,
+    std::unordered_map<std::string, double> subjectFrequencies) {
   if (version == 0)
     defineLocationsSerial(graph, subjectFrequencies, iterations, sideSpace);
   else
@@ -20,20 +22,25 @@ fdgOutput::fdgOutput(int version, Graph graph, unsigned iterations, int sideSpac
 fdgOutput::~fdgOutput() {}
 
 // Helper function to set variables since multiple methods use it
-void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::string, double> &subjectFrequencies, bool setCompletlyRandom) {
+void fdgOutput::setVariables(
+    Graph graph, int scale,
+    std::unordered_map<std::string, double> &subjectFrequencies,
+    bool setCompletlyRandom) {
   v = graph.getVertices();
   e = graph.getEdges();
 
   width = v.size() * scale;
   height = width;
   area = width * height;
+  g_ = graph;
 
-  if(setCompletlyRandom) {
+  if (setCompletlyRandom) {
     pos.resize(v.size(), {0, 0});
     forces.resize(v.size(), {0, 0});
-    
-    for(unsigned i = 0; i < v.size(); i++)
-      pos[i] = {(std::rand() % (width / 6) ) + (5 * width / 12), (std::rand() % (width / 6) ) + (5 * width / 12)};
+
+    for (unsigned i = 0; i < v.size(); i++)
+      pos[i] = {(std::rand() % (width / 6)) + (5 * width / 12),
+                (std::rand() % (width / 6)) + (5 * width / 12)};
   } else {
     double radius = width / 2;
     std::pair<double, double> center = {width / 2, width / 2};
@@ -41,7 +48,7 @@ void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::str
     std::unordered_map<std::string, std::pair<double, double>> subjectAngles;
     double currAngle = 0;
 
-    for (auto& subject : subjectFrequencies) {
+    for (auto &subject : subjectFrequencies) {
       double nextAngle = currAngle + 2 * M_PI * subject.second;
       subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
     }
@@ -49,7 +56,7 @@ void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::str
     srand(time(NULL));
     int i = 0;
 
-    for (Vertex& course : v) {
+    for (Vertex &course : v) {
       std::string subjectName = getCourseSubject(course);
       std::pair<double, double> angleBounds = subjectAngles[subjectName];
       double angle = fRand(angleBounds.first, angleBounds.second);
@@ -66,22 +73,19 @@ void fdgOutput::setVariables(Graph graph, int scale, std::unordered_map<std::str
 
 // Center all points and resize bounds to reduce wasted space in output image
 void fdgOutput::recenterPts(int sideSpace) {
-  double xLoc = 0, yLoc = 0, xMax = INT_MIN, xMin = INT_MAX, yMax = INT_MIN, yMin = INT_MAX;
-  for(unsigned i = 0; i < pos.size(); i++) {
+  double xLoc = 0, yLoc = 0, xMax = INT_MIN, xMin = INT_MAX, yMax = INT_MIN,
+         yMin = INT_MAX;
+  for (unsigned i = 0; i < pos.size(); i++) {
     pos[i].first /= 10;
     pos[i].second /= 10;
 
     xLoc += pos[i].first;
     yLoc += pos[i].second;
 
-    if(pos[i].first > xMax)
-      xMax = pos[i].first;
-    if(pos[i].first < xMin)
-      xMin = pos[i].first;
-    if(pos[i].second > yMax)
-      yMax = pos[i].second;
-    if(pos[i].second < yMin)
-      yMin = pos[i].second;
+    if (pos[i].first > xMax) xMax = pos[i].first;
+    if (pos[i].first < xMin) xMin = pos[i].first;
+    if (pos[i].second > yMax) yMax = pos[i].second;
+    if (pos[i].second < yMin) yMin = pos[i].second;
   }
 
   xMin -= sideSpace;
@@ -91,7 +95,7 @@ void fdgOutput::recenterPts(int sideSpace) {
 
   double xDiff = 0 - xMin, yDiff = 0 - yMin;
 
-  for(unsigned i = 0; i < pos.size(); i++) {
+  for (unsigned i = 0; i < pos.size(); i++) {
     pos[i].first += xDiff;
     pos[i].second += yDiff;
   }
@@ -103,24 +107,28 @@ void fdgOutput::recenterPts(int sideSpace) {
 
 // Serial version of finding locations to place verticies
 // Iterations - recommend 1000
-void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace) {
-  int springRestLength = 400, repulsiveForceConstant = 1000, attractionConstant = 8000, springConstant = 50, maxDisplacementSquared = 400;
+void fdgOutput::defineLocationsSerial(
+    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
+    unsigned iterations, int sideSpace) {
+  int springRestLength = 400, repulsiveForceConstant = 1000,
+      attractionConstant = 8000, springConstant = 50,
+      maxDisplacementSquared = 400;
   double deltaT = 0.0003, centerConstant = 5;
 
   setVariables(graph, 10, subjectFrequencies, true);
 
-  for(unsigned i = 0; i < iterations; i++) {
-    if(i % 25 == 0)
-      std::cout << "iteration: " << i << std::endl;
-    
+  for (unsigned i = 0; i < iterations; i++) {
+    if (i % 25 == 0) std::cout << "iteration: " << i << std::endl;
+
     // Repulsion force
-    for(unsigned j = 0; j < v.size(); j++) {
-      for(unsigned k = j + 1; k < v.size(); k++) {
-        double deltaX = pos[j].first - pos[k].first, deltaY = pos[j].second - pos[k].second;
+    for (unsigned j = 0; j < v.size(); j++) {
+      for (unsigned k = j + 1; k < v.size(); k++) {
+        double deltaX = pos[j].first - pos[k].first,
+               deltaY = pos[j].second - pos[k].second;
         double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
         std::pair<double, double> f = {0, 0};
 
-        if(dist == 0) {
+        if (dist == 0) {
           f = {std::rand() % 2500, std::rand() % 2500};
         } else {
           double tempF = repulsiveForceConstant / (dist * dist);
@@ -136,18 +144,18 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
     }
 
     // Spring force
-    for(unsigned j = 0; j < v.size(); j++) {
+    for (unsigned j = 0; j < v.size(); j++) {
       std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
 
-      for(unsigned k = 0; k < neighbors.size(); k++) {
+      for (unsigned k = 0; k < neighbors.size(); k++) {
         int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
-        if(loc1 < 0 || loc1 > (int)v.size())
-          continue;
-        double deltaX = pos[loc1].first - pos[j].first, deltaY = pos[loc1].second - pos[j].first;
+        if (loc1 < 0 || loc1 > (int)v.size()) continue;
+        double deltaX = pos[loc1].first - pos[j].first,
+               deltaY = pos[loc1].second - pos[j].first;
 
         double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if(dist != 0) {
+        if (dist != 0) {
           std::pair<double, double> f = {0, 0};
           double tempF = springConstant * (dist - springRestLength);
           f.first = tempF * deltaX / dist;
@@ -162,11 +170,12 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
     }
 
     // Center force
-    for(unsigned j = 0; j < v.size(); j++) {
-      double deltaX = pos[j].first - (width / 2), deltaY = pos[j].second - (width / 2);
+    for (unsigned j = 0; j < v.size(); j++) {
+      double deltaX = pos[j].first - (width / 2),
+             deltaY = pos[j].second - (width / 2);
       double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-      if(dist != 0) {
+      if (dist != 0) {
         std::pair<double, double> f = {0, 0};
         double tempF = dist * centerConstant;
         f.first = tempF * deltaX / dist;
@@ -178,11 +187,12 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
     }
 
     // Update positions
-    for(unsigned j = 0; j < v.size(); j++) {
-      double deltaX = deltaT * forces[j].first, deltaY = deltaT * forces[j].second;
+    for (unsigned j = 0; j < v.size(); j++) {
+      double deltaX = deltaT * forces[j].first,
+             deltaY = deltaT * forces[j].second;
       double dispSq = deltaX * deltaX + deltaY * deltaY;
 
-      if(dispSq > maxDisplacementSquared) {
+      if (dispSq > maxDisplacementSquared) {
         deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
         deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
       }
@@ -198,29 +208,34 @@ void fdgOutput::defineLocationsSerial(Graph graph, std::unordered_map<std::strin
 }
 
 // Parallel version of finding locations to place verticies
-void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace) {
-  int springRestLength = 400, repulsiveForceConstant = 1000, attractionConstant = 8000, springConstant = 50, maxDisplacementSquared = 400;
+void fdgOutput::defineLocationsParallel(
+    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
+    unsigned iterations, int sideSpace) {
+  int springRestLength = 400, repulsiveForceConstant = 1000,
+      attractionConstant = 8000, springConstant = 50,
+      maxDisplacementSquared = 400;
   double deltaT = 0.0003, centerConstant = 5;
 
   setVariables(graph, 10, subjectFrequencies, true);
 
-  for(unsigned i = 0; i < iterations; i++) {
-    if(i % 25 == 0)
-      std::cout << "iteration: " << i << std::endl;
+  for (unsigned i = 0; i < iterations; i++) {
+    if (i % 25 == 0) std::cout << "iteration: " << i << std::endl;
 
     std::thread th1(&fdgOutput::repulsionFunc, this, repulsiveForceConstant);
-    std::thread th2(&fdgOutput::springFunc, this, graph, springConstant, springRestLength);
+    std::thread th2(&fdgOutput::springFunc, this, graph, springConstant,
+                    springRestLength);
     std::thread th3(&fdgOutput::centerFunc, this, centerConstant);
     th1.join();
     th2.join();
     th3.join();
 
     // Update positions
-    for(unsigned j = 0; j < v.size(); j++) {
-      double deltaX = deltaT * forces[j].first, deltaY = deltaT * forces[j].second;
+    for (unsigned j = 0; j < v.size(); j++) {
+      double deltaX = deltaT * forces[j].first,
+             deltaY = deltaT * forces[j].second;
       double dispSq = deltaX * deltaX + deltaY * deltaY;
 
-      if(dispSq > maxDisplacementSquared) {
+      if (dispSq > maxDisplacementSquared) {
         deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
         deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
       }
@@ -236,11 +251,12 @@ void fdgOutput::defineLocationsParallel(Graph graph, std::unordered_map<std::str
 }
 
 void fdgOutput::centerFunc(double centerConstant) {
-    for(unsigned j = 0; j < v.size(); j++) {
-    double deltaX = pos[j].first - (width / 2), deltaY = pos[j].second - (width / 2);
+  for (unsigned j = 0; j < v.size(); j++) {
+    double deltaX = pos[j].first - (width / 2),
+           deltaY = pos[j].second - (width / 2);
     double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-    if(dist != 0) {
+    if (dist != 0) {
       std::pair<double, double> f = {0, 0};
       double tempF = dist * centerConstant;
       f.first = tempF * deltaX / dist;
@@ -255,19 +271,20 @@ void fdgOutput::centerFunc(double centerConstant) {
 }
 
 // Helper function to find spring forces for parallel version
-void fdgOutput::springFunc(Graph graph, int springConstant, int springRestLength) {
-  for(unsigned j = 0; j < v.size(); j++) {
+void fdgOutput::springFunc(Graph graph, int springConstant,
+                           int springRestLength) {
+  for (unsigned j = 0; j < v.size(); j++) {
     std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
 
-    for(unsigned k = 0; k < neighbors.size(); k++) {
+    for (unsigned k = 0; k < neighbors.size(); k++) {
       int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
-      if(loc1 < 0 || loc1 > (int)v.size())
-        continue;
-      double deltaX = pos[loc1].first - pos[j].first, deltaY = pos[loc1].second - pos[j].first;
+      if (loc1 < 0 || loc1 > (int)v.size()) continue;
+      double deltaX = pos[loc1].first - pos[j].first,
+             deltaY = pos[loc1].second - pos[j].first;
 
       double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-      if(dist != 0) {
+      if (dist != 0) {
         std::pair<double, double> f = {0, 0};
         double tempF = springConstant * (dist - springRestLength);
         f.first = tempF * deltaX / dist;
@@ -288,13 +305,14 @@ void fdgOutput::springFunc(Graph graph, int springConstant, int springRestLength
 
 // Helper function to find repulsion forces for parallel version
 void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
-  for(unsigned j = 0; j < v.size(); j++) {
-    for(unsigned k = j + 1; k < v.size(); k++) {
-      double deltaX = pos[j].first - pos[k].first, deltaY = pos[j].second - pos[k].second;
+  for (unsigned j = 0; j < v.size(); j++) {
+    for (unsigned k = j + 1; k < v.size(); k++) {
+      double deltaX = pos[j].first - pos[k].first,
+             deltaY = pos[j].second - pos[k].second;
       double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
       std::pair<double, double> f = {0, 0};
 
-      if(dist == 0) {
+      if (dist == 0) {
         f = {std::rand() % 2500, std::rand() % 2500};
       } else {
         double tempF = repulsiveForceConstant / (dist * dist);
@@ -313,9 +331,18 @@ void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
 
   return;
 }
+bool fdgOutput::calculateWithinRadius(int x, int y, int ctr_idx, int rad) {
+  double x_pos = pos[ctr_idx].first + x;
+  double y_pos = pos[ctr_idx].second + y;
 
+  double x_ctr = pos[ctr_idx].first;
+  double y_ctr = pos[ctr_idx].second;
+
+  return pow(x_pos - x_ctr, 2) + pow(y_pos - y_ctr, 2) <= pow(rad, 2);
+}
 // Uses new locations to create output PNG using cs225's PNG class
-cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> subjectFrequencies) {
+cs225::PNG fdgOutput::createOutputImage(
+    std::unordered_map<std::string, double> subjectFrequencies) {
   cs225::PNG out(width + 2, height + 2);
 
   // Draw verticies
@@ -331,27 +358,40 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
     //   }
     // }
 
-    cs225::HSLAPixel curr(0, 0, 0); //= getRandColor();
-    int x= pos[i].first, y = pos[i].second;
-    out.getPixel(x, y) = curr;
-    out.getPixel(x+1,y)= curr;
-    out.getPixel(x+2,y)= curr;
-    out.getPixel(x+3,y)= curr;
-    out.getPixel(x-1,y)= curr;
-    out.getPixel(x-2,y)= curr;
-    out.getPixel(x,y+1)= curr;
-    out.getPixel(x,y+2)= curr;
-    out.getPixel(x,y+3)= curr;
-    out.getPixel(x,y-1)= curr;
-    out.getPixel(x,y-2)= curr;
+    cs225::HSLAPixel curr(0, 0, 0);  //= getRandColor();
+    // out.getPixel(x, y) = curr;
+    // out.getPixel(x+1,y)= curr;
+    // out.getPixel(x+2,y)= curr;
+    // out.getPixel(x+3,y)= curr;
+    // out.getPixel(x-1,y)= curr;
+    // out.getPixel(x-2,y)= curr;
+    // out.getPixel(x,y+1)= curr;
+    // out.getPixel(x,y+2)= curr;
+    // out.getPixel(x,y+3)= curr;
+    // out.getPixel(x,y-1)= curr;
+    // out.getPixel(x,y-2)= curr;
+    double rad = g_.getAdjacent(v[i]).size();
+    // for (int x = pos[i].first - rad; x < pos[i].first + rad; i++) {
+    //   for (int y = pos[i].first - rad; y < pos[i].first + rad; y++) {
+    //     if (sqrt( (x - pos[i].first) * (x - pos[i].first) + (y -
+    //     pos[i].second) * (y - pos[i].second)) < rad) {
+    //       out.getPixel(x,y) = curr;
+    //     }
+    //   }
+    for (int x = -1 * rad; x < rad; x++) {
+      for (int y = -1 * rad; y < rad; y++) {
+        if (calculateWithinRadius(x, y, i, rad)) {
+          out.getPixel((int)pos[i].first + x, (int)pos[i].second + y) = curr;
+        }
+      }
+    }
     colors.push_back({curr.h, curr.s, curr.l});
-
-    // out->getPixel(pos[i].first, pos[i].second).l = 0;
   }
 
+  // out->getPixel(pos[i].first, pos[i].second).l = 0;
+
   std::unordered_map<std::string, cs225::HSLAPixel> cols;
-  for(auto it : subjectFrequencies)
-      cols.insert({it.first, getRandColor()});
+  for (auto it : subjectFrequencies) cols.insert({it.first, getRandColor()});
   // cols["CS"] = cs225::HSLAPixel(0, 1, .5); // red
   // cols["ECE"] = cs225::HSLAPixel(72, 1, .5); // yellow
   // cols["PHYS"] = cs225::HSLAPixel(144, 1, .5); // green
@@ -372,8 +412,9 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
     for (int j = std::min(pt1.first, pt2.first); j < end; j++) {
       int y = (slope * j) + yIntercept;
       if (j < 0 || j > width + 2 || y < 0 || y > width + 2) continue;
-      //out.getPixel(j, y).l = 0.6;
-      out.getPixel(j, y) = cols.at(v[temp1 - v.begin()].substr(0, v[temp1 - v.begin()].find(' ')));
+      // out.getPixel(j, y).l = 0.6;
+      out.getPixel(j, y) = cols.at(
+          v[temp1 - v.begin()].substr(0, v[temp1 - v.begin()].find(' ')));
     }
   }
 
@@ -382,10 +423,10 @@ cs225::PNG fdgOutput::createOutputImage(std::unordered_map<std::string, double> 
 
 // Helper function to get HSLAPixel with random color
 cs225::HSLAPixel fdgOutput::getRandColor() {
-  double f = (double)rand() / RAND_MAX;
+  int hue = rand() % 360;
   double f2 = (double)rand() / RAND_MAX;
   double f3 = (double)rand() / RAND_MAX;
-  cs225::HSLAPixel out(f, f2, f3);
+  cs225::HSLAPixel out(hue, 1, 0.5);
 
   return out;
 }

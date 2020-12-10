@@ -165,7 +165,7 @@ Vertex: ECE 547, location: (1998.04, 112.003), color (HSL): (0, 0, 0)
 Vertex: CS 585, location: (3113.54, 310.247), color (HSL): (0, 0, 0)
 Vertex: CS 583, location: (3433.22, 644.884), color (HSL): (0, 0, 0)
 Vertex: MATH 390, location: (3585.62, 716.684), color (HSL): (0, 0, 0)
-Vertex: MATH 241, location: (1994.66, 2032.38), color (HSL): (0, 0, 0)
+Vertex: MATH 241, location: (1994.65, 2032.37), color (HSL): (0, 0, 0)
 Vertex: ECE 490, location: (1993.73, 1931.62), color (HSL): (0, 0, 0)
 Vertex: ECE 572, location: (2049.97, 1975.25), color (HSL): (0, 0, 0)
 Vertex: MATH 181, location: (3860.25, 1346.43), color (HSL): (0, 0, 0)
@@ -254,7 +254,7 @@ Vertex: MATH 448, location: (1789.14, 1778.7), color (HSL): (0, 0, 0)
 Vertex: ECE 476, location: (3329.25, 3299.49), color (HSL): (0, 0, 0)
 Vertex: PHYS 404, location: (2009.39, 3991.31), color (HSL): (0, 0, 0)
 Vertex: ECE 397, location: (3446.32, 578.542), color (HSL): (0, 0, 0)
-Vertex: ECE 461, location: (2139.64, 2217.82), color (HSL): (0, 0, 0)
+Vertex: ECE 461, location: (2139.64, 2217.83), color (HSL): (0, 0, 0)
 Vertex: ECE 441, location: (1446.12, 3469.85), color (HSL): (0, 0, 0)
 Vertex: ECE 399, location: (1266.31, 3886.12), color (HSL): (0, 0, 0)
 Vertex: CS 431, location: (2285.87, 154.898), color (HSL): (0, 0, 0)
@@ -634,7 +634,7 @@ Vertex: MATH 580, location: (2748.81, 2739.6), color (HSL): (0, 0, 0)
 Vertex: CS 477, location: (2172.95, 2241.61), color (HSL): (0, 0, 0)
 Vertex: IE 411, location: (1880.47, 1945.05), color (HSL): (0, 0, 0)
 Vertex: MATH 286, location: (2061.5, 1988.92), color (HSL): (0, 0, 0)
-Vertex: ECE 120, location: (2076.1, 2150.09), color (HSL): (0, 0, 0)
+Vertex: ECE 120, location: (2076.09, 2150.09), color (HSL): (0, 0, 0)
 Vertex: ECE 210, location: (1840.21, 1850.29), color (HSL): (0, 0, 0)
 Vertex: ECE 310, location: (1904.06, 1885.37), color (HSL): (0, 0, 0)
 Vertex: MATH 415, location: (2039.08, 2053.64), color (HSL): (0, 0, 0)

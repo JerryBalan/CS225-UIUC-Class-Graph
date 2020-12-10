@@ -37,4 +37,8 @@ class fdgOutput {
     void repulsionFunc(int repulsiveForceConstant);
     void centerFunc(double centerConstant);
     cs225::HSLAPixel getRandColor();
+    Graph g_;
+    bool calculateWithinRadius(int x, int y, int ctr_idx, int rad);
+  
+
 };
