@@ -246,13 +246,13 @@ Graph Classes::getGraph() {
 void Classes::createOutputImg(int argVal, std::string fileName) {
   if(argVal == 0) { // serial
     std::cout << "Using serial method..." << std::endl;
-    fdgOutput newOut(0, g_, 20, subjectFrequencies); // Serial
+    fdgOutput newOut(0, g_, 20, subjectFrequencies, false); // Serial
     cs225::PNG img = newOut.createOutputImage(subjectFrequencies);
     img.writeToFile(fileName);
     newOut.printLocations();
   } else if(argVal == 1) { // parallel
     std::cout << "Using parallel method..." << std::endl;
-    fdgOutput newOut(1, g_, 20, subjectFrequencies); // Parallel
+    fdgOutput newOut(1, g_, 20, subjectFrequencies, false); // Parallel
     cs225::PNG img = newOut.createOutputImage(subjectFrequencies);
     img.writeToFile(fileName);
     newOut.printLocations();

@@ -21,13 +21,13 @@ std::mutex mtx;
 
 fdgOutput::fdgOutput(
     int version, Graph graph, int sideSpace,
-    std::unordered_map<std::string, double> subjectFrequencies) {
+    std::unordered_map<std::string, double> subjectFrequencies, bool gifOutput) {
   // Run either the parallel or serial version depending on passed value
   initColorMap(subjectFrequencies);
   if (version == 0)
     defineLocationsSerial(graph, subjectFrequencies,sideSpace);
   else
-    defineLocationsParallel(graph, subjectFrequencies, sideSpace);
+    defineLocationsParallel(graph, subjectFrequencies, sideSpace, gifOutput);
 }
 
 // Nothing is allocated on the heap
@@ -161,7 +161,7 @@ void fdgOutput::defineLocationsSerial(
 
 // Parallel version of finding locations to place verticies
 void fdgOutput::defineLocationsParallel(
-    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int sideSpace) {
+    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int sideSpace, bool gifOutput) {
   // set the hyperparams as a cpmpiler macro
   SET_FDG_ALGORITHM_HYPERPARAMETERS
 
@@ -169,6 +169,7 @@ void fdgOutput::defineLocationsParallel(
   setVariables(graph, 10, subjectFrequencies, true);
   // Follows algorithm described on page 387 of 
   // http://cs.brown.edu/people/rtamassi/gdhandbook/chapters/force-directed.pdf
+  int counter = 0;
   for (unsigned i = 0; i < iterations; i++) {
     if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
 
@@ -185,8 +186,7 @@ void fdgOutput::defineLocationsParallel(
 
     // update point positions
     updatePositions(deltaT, maxDisplacementSquared);
-    int counter = 0;
-    if(i % 10 == 0) {
+    if(gifOutput && i % 10 == 0) {
       cs225::PNG newImg = createOutputImage(subjectFrequencies);
       newImg.writeToFile("testOutputs/imgOut" + to_string(counter) + ".png");
       counter++;
