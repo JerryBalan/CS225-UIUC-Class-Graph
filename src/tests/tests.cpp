@@ -69,18 +69,23 @@ TEST_CASE("BFS-ECE420", "[weight=10][part1]") {
 }
 
 TEST_CASE("Floyd-Warshall-1", "[weight=10][part1]") {
-  Classes test("Data/uiuc-prerequisites-cs.csv");
+  //Classes test("Data/uiuc-prerequisites-cs.csv");
+  Classes test();
   std::string source = "ECE 120";
   std::string dest = "ECE 391";
   std::vector<std::string> output = test.warshall(source, dest);
   std::vector<std::string> actual = {"ECE 120", "ECE 220", "ECE 391"};
+  for(size_t i = 0; i < output.size(); i++) {
+      std::cout << output[i] << std::endl;
+    }
+    std::cout << output.size() << std::endl;
   REQUIRE(output.size() == 3);
   REQUIRE(output == actual);
 }
 
 TEST_CASE("Floyd-Warshall-2", "[weight=10][part1]") {
-  // 
-  Classes test("Data/uiuc-prerequisites-cs.csv");
+  //Classes test("Data/uiuc-prerequisites-cs.csv");
+  Classes test();
   std::string source = "MATH 112";
   std::string dest = "CS 586";
   std::vector<std::string> output = test.warshall(source, dest);
@@ -90,17 +95,19 @@ TEST_CASE("Floyd-Warshall-2", "[weight=10][part1]") {
 }
 
 TEST_CASE("Floyd-Warshall-No-Path", "[weight=10][part1]") {\
-
+  //Classes test("Data/uiuc-prerequisites-ece.csv");
+  Classes test();
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
-  Classes test("Data/uiuc-prerequisites-ece.csv");
+  
 
   std::vector<std::string> output = test.warshall(source, dest);
   REQUIRE(output.size() == 0);
 }
 
 TEST_CASE("Shortest-path-1", "[weight=10][part1]") {
-  Classes test("Data/uiuc-prerequisites-cs.csv");
+  //Classes test("Data/uiuc-prerequisites-cs.csv");
+  Classes test();
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
   std::vector<std::string> output = test.shortestPath(source, dest);
@@ -109,7 +116,8 @@ TEST_CASE("Shortest-path-1", "[weight=10][part1]") {
 }
 
 TEST_CASE("Shortest-path-2", "[weight=10][part1]") {
-  Classes test("Data/uiuc-prerequisites-cs.csv");
+  //Classes test("Data/uiuc-prerequisites-cs.csv");
+  Classes test();
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
   REQUIRE(1 == 2);

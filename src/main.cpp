@@ -148,15 +148,15 @@ int main(int argc, char * argv[]) {
       std::cout << "Invalid class input. Terminating program." << std::endl;
       return -1;
     }
-
-    vector<Vertex> pathShort = courses.warshall(ogClass, destClass);
+    vector<Vertex> pathShort = courses.shortestPath(ogClass, destClass);
+    //vector<Vertex> pathShort = courses.warshall(ogClass, destClass);
     std::cout << "Done!" << std::endl;
     // test read
     
     for(size_t i = 0; i < pathShort.size(); i++) {
       std::cout << pathShort[i] << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << pathShort.size() << std::endl;
   }
   
   if(displayInput == 3) { // run fdg

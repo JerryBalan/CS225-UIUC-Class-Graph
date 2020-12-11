@@ -4,6 +4,8 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
+#include <map>
+#include <set>
 
 using std::string;
 using std::vector;
@@ -111,40 +113,47 @@ vector<string> Classes::bfs(string origin) {
 
 vector<string> Classes::shortestPath(string origin, string dest) {
   vector<string> path;
-    //std::unordered_map<string, int> path;
-  //vector<int> dists;
-  std::unordered_map<string, int> dists;
-  int inf = INT_MAX;
-  for(Vertex v : g_.getVertices()) {
-    path.push_back(nullptr);
-    //path[v] = nullptr;
-    dists[v] = inf;
+  int inf = 10000;
+  std::set<Vertex> vSet;
+  vector<Vertex> allVtx = g_.getVertices();
+  unordered_map<Vertex, int> dist;
+  unordered_map<Vertex, Vertex> prev;
+
+  for(Vertex v : allVtx) {
+    dist[v] = inf;
+    prev[v] = "";
+    vSet.insert(v);
   }
-  dists[origin] = 0;
+  dist[origin] = 0;
 
-  std::priority_queue<std::pair<int, string>, vector<std::pair<int, string>>, std::greater<std::pair<int, string>>> q; // pq of verticies, minheap syntax
-  //build pq
-  q.push(make_pair(0, origin));
+  while(!vSet.empty()) {
+    Vertex minVtx;
+    int min_dist = inf + 1;
+    for(Vertex v : vSet) {
+      if(dist[v] < min_dist) {
+        minVtx = v;
+        min_dist = dist[v];
+      }
+    }
 
-  while(!q.empty()) {
-    string vtxClass = q.top().second;
-    path.push_back(vtxClass);
-    q.pop();
-    vector<string> adjVtxs = g_.getAdjacent(vtxClass);
+    vSet.erase(minVtx);
+
+    vector<Vertex> adjVtxs = g_.getAdjacent(minVtx);
     for(Vertex v : adjVtxs) {
-      if(dists[v] == inf) {
-        q.push(make_pair(dists[v], v));
-        dists[v] = dists[vtxClass] + 1;
+      int newDist = dist[v] + 1;
+      if(newDist < dist[v]) {
+        dist[v] = newDist;
+        prev[v] = minVtx;
       }
-      /*
-      if(std::find(path.begin(), path.end(), v) == path.end()) { // v is not in path
-        if(dists[vtxClass] + 1 < dists[v]) { // 1 represents each edge weight, classes equivalent so 1
-          q.push(make_pair());
-          dists[v] = dists[vtxClass] + 1;
-          path[v] // fix
-        }
-      }
-      */
+    }
+    
+  }
+  // done with main algo, traverse
+  Vertex vtx = dest;
+  if(prev[vtx] != "" || origin == dest) {
+    while(vtx != "") {
+      path.push_back(vtx);
+      vtx = prev[vtx];
     }
   }
 
