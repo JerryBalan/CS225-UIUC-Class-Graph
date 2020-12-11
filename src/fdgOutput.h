@@ -40,6 +40,11 @@ class fdgOutput {
     cs225::HSLAPixel getRandColor();
     Graph g_;
     bool calculateWithinRadius(int x, int y, int ctr_idx, int rad);
+
+    std::unordered_map<std::string, cs225::HSLAPixel> cols;
+
+    void initColorMap(std::unordered_map<std::string, double> &subjectFrequencies);
+
   
 
 };

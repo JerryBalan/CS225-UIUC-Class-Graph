@@ -23,6 +23,7 @@ fdgOutput::fdgOutput(
     int version, Graph graph, int sideSpace,
     std::unordered_map<std::string, double> subjectFrequencies) {
   // Run either the parallel or serial version depending on passed value
+  initColorMap(subjectFrequencies);
   if (version == 0)
     defineLocationsSerial(graph, subjectFrequencies,sideSpace);
   else
@@ -184,6 +185,12 @@ void fdgOutput::defineLocationsParallel(
 
     // update point positions
     updatePositions(deltaT, maxDisplacementSquared);
+    int counter = 0;
+    if(i % 10 == 0) {
+      cs225::PNG newImg = createOutputImage(subjectFrequencies);
+      newImg.writeToFile("testOutputs/imgOut" + to_string(counter) + ".png");
+      counter++;
+    }
   }
 
   recenterPts(sideSpace);
@@ -309,8 +316,6 @@ cs225::PNG fdgOutput::createOutputImage(
     std::unordered_map<std::string, double> subjectFrequencies) {
   cs225::PNG out(width + 2, height + 2);
 
-  std::unordered_map<std::string, cs225::HSLAPixel> cols;
-  for (auto it : subjectFrequencies) cols.insert({it.first, getRandColor()});
 
   // Draw edges
   for (unsigned i = 0; i < e.size(); i++) {
@@ -430,4 +435,8 @@ std::string fdgOutput::getCourseSubject(std::string course) {
 double fdgOutput::fRand(double fMin, double fMax) {
   double f = (double)rand() / RAND_MAX;
   return fMin + f * (fMax - fMin);
+}
+
+void fdgOutput::initColorMap(std::unordered_map<std::string, double> &subjectFrequencies) {
+  for (auto &it : subjectFrequencies) cols.insert({it.first, getRandColor()});
 }
