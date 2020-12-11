@@ -73,7 +73,8 @@ int main(int argc, char * argv[]) {
     for(unsigned i = 1; i < path.size(); i++)
       std::cout << ", " << path[i];
     std::cout << std::endl;
-
+    
+    path.push_back(inputClass);
     // build a graph with just those
     Classes subsetCourses(fileName, path);
     // Graph gSubset = subsetCourses.getGraph();

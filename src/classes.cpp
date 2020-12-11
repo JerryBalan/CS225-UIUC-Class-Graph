@@ -83,14 +83,16 @@ void Classes::buildClassesGraphSubset(string filePath, vector<string> subsetOfCl
   for (auto& v : subsetClassesPrereq) {
     for (unsigned i = 1; i < v.size(); i++) {
       // v[i] is a prereq to v[0]
-      if (!g_.vertexExists(v[i])) {
+      if (g_.vertexExists(v[i])) {
         // insert vertex
         // set prereq connection classes[i] to classes[0]
-        g_.insertVertex(v[i]);
+        //g_.insertVertex(v[i]);
+        g_.insertEdge(v[0], v[i]);
+        g_.setEdgeLabel(v[0], v[i], "prereq");
       }
       // connect v[0] to v[i]
-      g_.insertEdge(v[0], v[i]);
-      g_.setEdgeLabel(v[0], v[i], "prereq");
+      
+      
     }
   }
 }
