@@ -103,7 +103,7 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
   //vector<vector<string>> pathMatrix;
   std::unordered_map<string, std::unordered_map<string, int>> distMatrix; // last int is the distance
   std::unordered_map<string, std::unordered_map<string, Vertex>> pathMatrix; //last str is the class (vtx)
-  int inf = INT_MAX;
+  int inf = 10000; // max int
 
   vector<Vertex> allClasses = g_.getVertices();
   vector<Edge> allEdges = g_.getEdges();
@@ -115,19 +115,28 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
       pathMatrix[outerClass][innerClass] = "";
     }
   }
-
+  std::cout << "finished initial" << std::endl;
+  
+  for(Edge e : allEdges) {
+    // source = high level class
+    // dest = low level
+    //distMatrix[e.source][e.dest] = 1; //all edges have weight 1
+    //pathMatrix[e.source][e.dest] = e.dest;
+    distMatrix[e.dest][e.source] = 1; //all edges have weight 1
+    pathMatrix[e.dest][e.source] = e.source;
+  }
   for(Vertex singleClass : allClasses) {
     distMatrix[singleClass][singleClass] = 0;
     pathMatrix[singleClass][singleClass] = singleClass;
   }
-  for(Edge e : allEdges) {
-    distMatrix[e.source][e.dest] = 1; //all edges have weight 1
-    pathMatrix[e.source][e.dest] = e.dest;
-  }
 
+  std::cout << "finished initial2" << std::endl;
   for(Vertex w : allClasses) {
     for(Vertex u : allClasses) {
       for(Vertex v : allClasses) {
+        if(distMatrix[u][w] == inf || distMatrix[w][v] == inf) {
+          continue;
+        }
         if(distMatrix[u][v] > distMatrix[u][w] + distMatrix[w][v]) {
           distMatrix[u][v] = distMatrix[u][w] + distMatrix[w][v];
           pathMatrix[u][v] = pathMatrix[u][w];
@@ -135,11 +144,12 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
       }
     }
   }
-
-  // convert adj matrix to path
+  std::cout << "finished initial3" << std::endl;
+  
   vector<Vertex> path;
   Vertex temp = origin;
   if(pathMatrix[origin][dest] == "") {
+    
     return path;
   }
   path.push_back(origin);
@@ -147,6 +157,9 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
     temp = pathMatrix[temp][dest];
     path.push_back(temp);
   }
+
+ 
+
   return path;
 }
 std::unordered_map<std::string, double> Classes::getFrequencies() {

@@ -112,7 +112,46 @@ int main(int argc, char * argv[]) {
   }
   
   if(displayInput == 2) { // djik/floyd-warshall
+    std::cout << "Please select a DESTINATION class to graph. Limited to CS/ECE and their prerequisites." << std::endl;
+    std::cout << "Use the following format (with the space): 'ECE 391' or 'CS 225'" << std::endl;
+
+    string classTypeDest;
+    string classNumDest;
+    std::cin >> classTypeDest >> classNumDest;
+    string destClass = classTypeDest + " " + classNumDest;
+    std::cout << "\n";
     
+    std::cout << "[" << destClass << "]" << std::endl;
+
+    if(!g.vertexExists(destClass)) { // invalid input
+      std::cout << "Invalid class input. Terminating program." << std::endl;
+      return -1;
+    }
+
+    std::cout << "Please select an ORIGIN class to graph. Limited to CS/ECE and their prerequisites." << std::endl;
+    std::cout << "Use the following format (with the space): 'ECE 391' or 'CS 225'" << std::endl;
+
+    string classTypeOG;
+    string classNumOG;
+    std::cin >> classTypeOG >> classNumOG;
+    string ogClass = classTypeOG + " " + classNumOG;
+    std::cout << "\n";
+    
+    std::cout << "[" << ogClass << "]" << std::endl;
+
+    if(!g.vertexExists(ogClass)) { // invalid input
+      std::cout << "Invalid class input. Terminating program." << std::endl;
+      return -1;
+    }
+
+    vector<Vertex> pathShort = courses.warshall(ogClass, destClass);
+    std::cout << "Done!" << std::endl;
+    // test read
+    
+    for(size_t i = 0; i < pathShort.size(); i++) {
+      std::cout << pathShort[i] << std::endl;
+    }
+    std::cout << std::endl;
   }
   
   if(displayInput == 3) { // run fdg
