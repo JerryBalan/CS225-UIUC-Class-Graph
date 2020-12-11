@@ -43,9 +43,63 @@ void Classes::buildClassesGraph(string filePath) {
     }
   }
 }
+
+void Classes::buildClassesGraphSubset(string filePath, vector<string> subsetOfClasses) {
+  g_ = Graph();
+  vector<vector<string>> allClasses = csvToVector(filePath);
+  vector<vector<string>> subsetClassesPrereq;
+  int total = 0;
+  // parse for subset
+  for(string str : subsetOfClasses) {
+    for(vector<string> classAndPrereqs : allClasses) {
+      if(classAndPrereqs[0] == str) {
+        subsetClassesPrereq.push_back(classAndPrereqs);
+        continue;
+      }
+    }
+  }
+
+
+
+  for (auto& v : subsetClassesPrereq) {
+    // Update class frequencies
+    total++;
+    std::string dept = v[0].substr(0, v[0].find(' '));
+    if(subjectFrequencies.find(dept) == subjectFrequencies.end())
+      subjectFrequencies.insert({dept, 1});
+    else
+      subjectFrequencies[dept]++;
+
+    g_.insertVertex(v[0]);
+  }
+
+  // Convert number of classes to percentage amount
+  for(auto &it : subjectFrequencies)
+    it.second /= total;
+
+  for (auto& v : subsetClassesPrereq) {
+    for (unsigned i = 1; i < v.size(); i++) {
+      // v[i] is a prereq to v[0]
+      if (!g_.vertexExists(v[i])) {
+        // insert vertex
+        // set prereq connection classes[i] to classes[0]
+        g_.insertVertex(v[i]);
+      }
+      // connect v[0] to v[i]
+      g_.insertEdge(v[0], v[i]);
+      g_.setEdgeLabel(v[0], v[i], "prereq");
+    }
+  }
+}
+
 Classes::Classes() { buildClassesGraph("Data/uiuc-prerequisites.csv"); }
 
 Classes::Classes(string filePath) { buildClassesGraph(filePath); }
+
+Classes::Classes(string filePath, vector<string> subsetOfClasses) {
+  buildClassesGraphSubset(filePath, subsetOfClasses);
+}
+
 
 Classes::~Classes() {}
 

@@ -10,6 +10,7 @@ class Classes {
   public:
     Classes();
     Classes(std::string filePath);
+    Classes(std::string filePath, vector<std::string> subsetOfClasses); // for subset only
     ~Classes();
 
     void print();
@@ -33,5 +34,6 @@ class Classes {
   private:
     Graph g_;
     void buildClassesGraph(std::string filePath);
+    void buildClassesGraphSubset(std::string filePath, vector<std::string> subsetOfClasses);
     std::unordered_map<std::string, double> subjectFrequencies;
 };

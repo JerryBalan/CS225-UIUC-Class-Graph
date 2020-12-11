@@ -66,7 +66,7 @@ int main(int argc, char * argv[]) {
     getline(std::cin, inputClass);
     std::cout << "\n";
     
-    std::cout << "Results for [" << inputClass << "]" << std::endl;;
+    //std::cout << "Results for [" << inputClass << "]" << std::endl;;
 
     if(!g.vertexExists(inputClass)) { // invalid input
       std::cout << "Invalid class input. Terminating program." << std::endl;
@@ -109,6 +109,11 @@ int main(int argc, char * argv[]) {
     for(unsigned i = 0; i < path.size(); i++)
       std::cout << path[i] << ", ";
     std::cout << std::endl;
+
+    // build a graph with just those
+    //Classes subsetCourses(fileName, path);
+    //Graph gSubset = subsetCourses.getGraph();
+    //createOutputImg(gSubset, subsetCourses, 1);
   }
   
   if(displayInput == 2) { // djik/floyd-warshall
@@ -121,7 +126,7 @@ int main(int argc, char * argv[]) {
     string destClass = classTypeDest + " " + classNumDest;
     std::cout << "\n";
     
-    std::cout << "[" << destClass << "]" << std::endl;
+    //std::cout << "[" << destClass << "]" << std::endl;
 
     if(!g.vertexExists(destClass)) { // invalid input
       std::cout << "Invalid class input. Terminating program." << std::endl;
@@ -137,7 +142,7 @@ int main(int argc, char * argv[]) {
     string ogClass = classTypeOG + " " + classNumOG;
     std::cout << "\n";
     
-    std::cout << "[" << ogClass << "]" << std::endl;
+    //std::cout << "[" << ogClass << "]" << std::endl;
 
     if(!g.vertexExists(ogClass)) { // invalid input
       std::cout << "Invalid class input. Terminating program." << std::endl;
