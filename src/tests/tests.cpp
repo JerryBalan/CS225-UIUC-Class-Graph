@@ -138,7 +138,8 @@ TEST_CASE("Force-directed test image exists (parallel)", "[weight=10][part4]") {
     Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
     test.createOutputImg(1, "tests/testImageParallel.png");
     cs225::PNG img;
-    REQUIRE (img.readFromFile("testImageParallel.png"));
+    REQUIRE (img.readFromFile("tests/testImageParallel.png"));
+
 }
 
 TEST_CASE("Force-directed test image exists (serial)", "[weight=10][part4]") {
@@ -146,5 +147,5 @@ TEST_CASE("Force-directed test image exists (serial)", "[weight=10][part4]") {
     test.createOutputImg(0, "tests/testImageSerial.png");
     cs225::PNG img;
     
-    REQUIRE (img.readFromFile("testImageSerial.png"));
+    REQUIRE (img.readFromFile("tests/testImageSerial.png"));
 }
