@@ -124,7 +124,7 @@ vector<string> Classes::shortestPath(string origin, string dest) {
     prev[v] = "";
     vSet.insert(v);
   }
-  dist[origin] = 0;
+  dist[dest] = 0;
 
   while(!vSet.empty()) {
     Vertex minVtx;
@@ -141,7 +141,7 @@ vector<string> Classes::shortestPath(string origin, string dest) {
     vector<Vertex> adjVtxs = g_.getAdjacent(minVtx);
     for(Vertex v : adjVtxs) {
       if(vSet.count(v) > 0) {
-        int newDist = dist[v] + 1;
+        int newDist = dist[minVtx] + 1;
         if(newDist < dist[v]) {
           dist[v] = newDist;
           prev[v] = minVtx;
@@ -153,8 +153,8 @@ vector<string> Classes::shortestPath(string origin, string dest) {
   }
   // done with main algo, traverse
   
-  Vertex vtx = dest;
-  std::cout << prev[vtx] << std::endl;
+  Vertex vtx = origin;
+  //std::cout << vtx << "," << prev[vtx] << std::endl;
   if(prev[vtx] != "" || origin == dest) {
     while(vtx != "") {
       path.push_back(vtx);
