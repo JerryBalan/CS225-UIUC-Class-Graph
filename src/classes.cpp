@@ -140,16 +140,21 @@ vector<string> Classes::shortestPath(string origin, string dest) {
 
     vector<Vertex> adjVtxs = g_.getAdjacent(minVtx);
     for(Vertex v : adjVtxs) {
-      int newDist = dist[v] + 1;
-      if(newDist < dist[v]) {
-        dist[v] = newDist;
-        prev[v] = minVtx;
+      if(vSet.count(v) > 0) {
+        int newDist = dist[v] + 1;
+        if(newDist < dist[v]) {
+          dist[v] = newDist;
+          prev[v] = minVtx;
+        }
       }
+      //std::cout << newDist << std::endl;
     }
     
   }
   // done with main algo, traverse
+  
   Vertex vtx = dest;
+  std::cout << prev[vtx] << std::endl;
   if(prev[vtx] != "" || origin == dest) {
     while(vtx != "") {
       path.push_back(vtx);
