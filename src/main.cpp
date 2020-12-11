@@ -30,7 +30,7 @@ int main(int argc, char * argv[]) {
   // prompt for imput
   std::cout << "Please select one of the following options ('1', '2', etc.) to display in a graph:" << std::endl;
   std::cout << "1) A class and all of its prerequisites (BFS)" << std::endl;
-  std::cout << "2) The (shortest) path to reach a desired class from your current class (A*)" << std::endl;
+  std::cout << "2) The (shortest) path to reach a desired class from your current class" << std::endl;
   std::cout << "3) A performance analysis of serial vs parallel force direct graphing (Fruchterman-Reingold algorithm)" << std::endl;
   //std::cout << "" << std::endl;
 
@@ -60,32 +60,6 @@ int main(int argc, char * argv[]) {
       return -1;
     }
 
-
-    // code used for testing specific classes
-    // std::vector<Vertex> adj = g.getAdjacent("ECE 391");
-    // std::cout << "adj: ";
-    // for(unsigned i = 0; i < adj.size(); i++)
-    //   std::cout << adj[i] << std::endl;
-    // std::cout << "end adj";
-
-    // std::cout << std::endl;
-
-
-    // for(unsigned i = 0; i < adj.size(); i++) {
-    //   std::cout << "adj for " << adj[i] << std::endl;
-    //   std::vector<Vertex> newAdj = g.getAdjacent(adj[i]);
-
-    //   for(unsigned j = 0; j < newAdj.size(); j++)
-    //     std::cout << newAdj[j] << std::endl;
-    //   std::cout << "end adj";
-    // }
-
-    // g.initSnapshot("1");
-    // g.snapshot();
-    //g.print();
-
-
-
     //vector<Vertex> path = courses.bfs(inputClass);
 
     //calling BFS on inputted classes after making sure it exists
@@ -95,8 +69,9 @@ int main(int argc, char * argv[]) {
     std::cout << "size: " << path.size() << std::endl; //how many prerequesites there are (+ class itself)
 
     // test read
-    for(unsigned i = 0; i < path.size(); i++)
-      std::cout << path[i] << ", ";
+    std::cout << "Prerequisites: " << path[0];
+    for(unsigned i = 1; i < path.size(); i++)
+      std::cout << ", " << path[i];
     std::cout << std::endl;
 
     // build a graph with just those
@@ -139,17 +114,44 @@ int main(int argc, char * argv[]) {
       return -1;
     }
 
+    std::cout << "Please select one of the following options ('1', '2', etc.):" << std::endl;
+    std::cout << "1) Djikstra" << std::endl;
+    std::cout << "2) Floyd-Warshall (this will be time consuming, ~5 min on default filtered dataset)" << std::endl;
+
+    //std::string mInStr;
+    //getline(std::cin, mInStr);
+    //int methodInput = std::stoi(mInStr);
+    int methodInput;
+    std::cin >> methodInput;
+    std::cout << "\n";
+
+
+
     // run algo
-    vector<Vertex> pathShort = courses.shortestPath(ogClass, destClass);
-    //vector<Vertex> pathShort = courses.warshall(ogClass, destClass);
+    vector<Vertex> pathShort;
+    if(methodInput == 1) { //djik
+      pathShort = courses.shortestPath(ogClass, destClass);
+    } else if(methodInput == 2) { //warsh
+      pathShort = courses.warshall(ogClass, destClass);
+    } else {
+      std::cout << "Incorrect input. Terminating program." << std::endl;
+      return -1;
+    }
+
     std::cout << "Done!" << std::endl;
     // test read
     
     // print classes
-    for(size_t i = 0; i < pathShort.size(); i++) {
-      std::cout << pathShort[i] << std::endl;
-    }
-    std::cout << pathShort.size() << std::endl;
+    std::cout << "size: " << pathShort.size() << std::endl; //how many prerequesites there are (+ class itself)
+    std::cout << "Path: " << pathShort[0];
+    for(unsigned i = 1; i < pathShort.size(); i++)
+      std::cout << ", " << pathShort[i];
+    std::cout << std::endl;
+
+
+    Classes subsetCourses(fileName, pathShort);
+    // Graph gSubset = subsetCourses.getGraph();
+    subsetCourses.createOutputImg(1, "subsetGraph.png");
   }
   
   if(displayInput == 3) { // run fdg
