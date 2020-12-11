@@ -89,7 +89,7 @@ TEST_CASE("Floyd-Warshall-2", "[weight=10][part2]") {
 
 TEST_CASE(
     "Floyd-Warshall-No-Path",
-    "[weight=10][part1]") {  // Classes test("Data/uiuc-prerequisites-ece.csv");
+    "[weight=10][part2]") {  // Classes test("Data/uiuc-prerequisites-ece.csv");
   Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
@@ -98,7 +98,7 @@ TEST_CASE(
   REQUIRE(output.size() == 0);
 }
 
-TEST_CASE("Shortest-path-1", "[weight=10][part2]") {
+TEST_CASE("Shortest-path-1", "[weight=10][part3]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
   Classes test("Data/uiuc-prerequisites-cs-ece.csv");
   std::string source = "ECE 120";
@@ -113,7 +113,7 @@ TEST_CASE("Shortest-path-1", "[weight=10][part2]") {
   REQUIRE(output == actual);
 }
 
-TEST_CASE("Shortest-path-2", "[weight=10][part2]") {
+TEST_CASE("Shortest-path-2", "[weight=10][part3]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
   Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "MATH 112";
@@ -125,7 +125,7 @@ TEST_CASE("Shortest-path-2", "[weight=10][part2]") {
   REQUIRE(output == actual);
 }
 
-TEST_CASE("Shortest-path: does not exist", "[weight=10][part2]") {
+TEST_CASE("Shortest-path: does not exist", "[weight=10][part3]") {
     Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
@@ -134,16 +134,17 @@ TEST_CASE("Shortest-path: does not exist", "[weight=10][part2]") {
   REQUIRE(output.size() == 0);
 }
 
-TEST_CASE("Force-directed test image exists (parallel)", "[weight=10][part3]") {
+TEST_CASE("Force-directed test image exists (parallel)", "[weight=10][part4]") {
     Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
     test.createOutputImg(1, "tests/testImageParallel.png");
-    ifstream ifile("testImageParallel.png");
-    REQUIRE (ifile.good());
+    cs225::PNG img;
+    REQUIRE (img.readFromFile("testImageParallel.png"));
 }
 
-TEST_CASE("Force-directed test image exists (serial)", "[weight=10][part3]") {
+TEST_CASE("Force-directed test image exists (serial)", "[weight=10][part4]") {
     Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
     test.createOutputImg(0, "tests/testImageSerial.png");
-    ifstream ifile("testImageSerial.png");
-    REQUIRE (ifile.good());
+    cs225::PNG img;
+    
+    REQUIRE (img.readFromFile("testImageSerial.png"));
 }
