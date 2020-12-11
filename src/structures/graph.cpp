@@ -325,7 +325,7 @@ void Graph::clear()
     adjacency_list.clear();
 }
 
-void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
+void Graph::BFS(Vertex startVertex, vector <Vertex> &output) { //output is our vector containing the BFS traversal
     output.clear();
     std::map<Vertex, bool> visited;
     std::queue<Vertex> queue;
@@ -335,21 +335,16 @@ void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
     std::vector<Vertex> adjacents;
     Vertex currVertex;
 
-    while (!queue.empty()) {
+    while (!queue.empty()) { //loop while all prerequesites haven't been visited as currVertex
         currVertex = queue.front();
         queue.pop();
         output.push_back(currVertex);
-        adjacents = getAdjacent(currVertex);
-
-        // std::cout << "vert: " << currVertex << " size: " << currVertex.length() << std::endl;
-        // for(unsigned i = 0; i < adjacents.size(); i++)
-        //     std::cout << adjacents[i] << std::endl;
-        // std::cout << std::endl;
+        adjacents = getAdjacent(currVertex); //find vertices that are prerequistes of the currVertex class
 
         for (auto i : adjacents) {
-            if (visited.find(i) == visited.end()) {
-                visited.insert({i, true});
-                queue.push(i); 
+            if (visited.find(i) == visited.end()) { //if the adjacent class isn't in the map yet (not been visited as currVertex)
+                visited.insert({i, true}); //put into map
+                queue.push(i); //add to queue
             }
         }
     }
