@@ -365,6 +365,8 @@ cs225::PNG fdgOutput::createOutputImage(
       // set pixel to black if not found
       curr = cs225::HSLAPixel(0, 0, 0);
       // Print vertices that were not found (error handling for color)
+      // These are vertices that are not in the main dataset but are still
+      // prerequisites for classes in the dataset
       std::cout << v[i] << std::endl;
     } else {
       curr = cols.at(getCourseSubject(v[i]));

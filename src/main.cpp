@@ -5,29 +5,12 @@
 #include "classes.h"
 #include "structures/PNG.h"
 
-void createOutputImg(Graph g, Classes courses, int argVal) {
-  if(argVal == 0) { // serial
-    std::cout << "Using serial method..." << std::endl;
-    fdgOutput newOut(0, g, 20, courses.getFrequencies()); // Serial
-    cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
-    img.writeToFile("fdgOutput"+ string(".png"));
-    newOut.printLocations();
-  } else if(argVal == 1) { // parallel
-    std::cout << "Using parallel method..." << std::endl;
-    fdgOutput newOut(1, g, 20, courses.getFrequencies()); // Parallel
-    cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
-    img.writeToFile("fdgOutput"+ string(".png"));
-    newOut.printLocations();
-  }
-}
-
 int main(int argc, char * argv[]) {
   // run for graph.py
   if (argc > 1) {
     std::cout << "This mode  is meant for graph.py. If you want to use the main program, please run again without any arguments." << std::endl;
     Classes courses("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
-    Graph g = courses.getGraph();
-    createOutputImg(g, courses, argv[1][0] - '0');
+    courses.createOutputImg(argv[1][0] - '0', "fdgOutput.png");
     return 0;
   }
 
@@ -118,8 +101,8 @@ int main(int argc, char * argv[]) {
 
     // build a graph with just those
     Classes subsetCourses(fileName, path);
-    Graph gSubset = subsetCourses.getGraph();
-    createOutputImg(gSubset, subsetCourses, 1);
+    // Graph gSubset = subsetCourses.getGraph();
+    subsetCourses.createOutputImg(1, "subsetGraph.png");
   }
   
   if(displayInput == 2) { // djik/floyd-warshall
@@ -183,7 +166,7 @@ int main(int argc, char * argv[]) {
       return -1;
     }
 
-    createOutputImg(g, courses, methodInput - 1);
+    courses.createOutputImg(methodInput - 1, "fdgOutput.png");
   }
   
   return 0;

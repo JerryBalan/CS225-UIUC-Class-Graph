@@ -29,6 +29,7 @@ class Classes {
     std::vector<std::string> bfs(std::string originClass);
     std::vector<std::string> warshall(std::string, std::string);
     void displayClass(std::string classStr, unsigned depth);
+    void createOutputImg(int argVal, std::string imgName);
     
 
   private:
@@ -36,4 +37,6 @@ class Classes {
     void buildClassesGraph(std::string filePath);
     void buildClassesGraphSubset(std::string filePath, vector<std::string> subsetOfClasses);
     std::unordered_map<std::string, double> subjectFrequencies;
+
+    std::string filePath;
 };
