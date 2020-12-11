@@ -285,6 +285,7 @@ void Graph::BFS(Vertex startVertex, vector <Vertex> &output) { //output is our v
             }
         }
     }
+    output.erase(output.begin());
 }
 
 //imported from CS225 class

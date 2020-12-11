@@ -100,10 +100,12 @@ int main(int argc, char * argv[]) {
 
 
     //vector<Vertex> path = courses.bfs(inputClass);
+
+    //calling BFS on inputted classes after making sure it exists
     std::vector<Vertex> path;
     g.BFS(inputClass, path);
     std::sort(path.begin(), path.end());
-    std::cout << "size: " << path.size() << std::endl;
+    std::cout << "size: " << path.size() << std::endl; //how many prerequesites there are (+ class itself)
 
     // test read
     for(unsigned i = 0; i < path.size(); i++)
