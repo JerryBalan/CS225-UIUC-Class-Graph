@@ -62,35 +62,35 @@ TEST_CASE("BFS-ECE420", "[weight=10][part1]") {
 
 TEST_CASE("Floyd-Warshall-1", "[weight=10][part2]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
-  Classes test;
+  Classes test("Data/uiuc-prerequisites-cs-ece.csv");
   std::string source = "ECE 120";
   std::string dest = "ECE 391";
   std::vector<std::string> output = test.warshall(source, dest);
   std::vector<std::string> actual = {"ECE 120", "ECE 220", "ECE 391"};
-  for (size_t i = 0; i < output.size(); i++) {
-    std::cout << output[i] << std::endl;
-  }
-  std::cout << output.size() << std::endl;
+  // for (size_t i = 0; i < output.size(); i++) {
+  //   std::cout << output[i] << std::endl;
+  // }
+  // std::cout << output.size() << std::endl;
   REQUIRE(output.size() == 3);
   REQUIRE(output == actual);
 }
 
 TEST_CASE("Floyd-Warshall-2", "[weight=10][part2]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
-  Classes test;
+  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "MATH 112";
   std::string dest = "CS 586";
   std::vector<std::string> output = test.warshall(source, dest);
   std::vector<std::string> actual = {"MATH 112", "CS 125", "CS 225", "CS 374",
                                      "CS 586"};
-  REQUIRE(output.size() == 5);
+  REQUIRE(output.size() == actual.size());
   REQUIRE(output == actual);
 }
 
 TEST_CASE(
     "Floyd-Warshall-No-Path",
-    "[weight=10][part1]") {  // Classes test("Data/uiuc-prerequisites-ece.csv");
-  Classes test;
+    "[weight=10][part2]") {  // Classes test("Data/uiuc-prerequisites-ece.csv");
+  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
 
@@ -98,34 +98,53 @@ TEST_CASE(
   REQUIRE(output.size() == 0);
 }
 
-TEST_CASE("Shortest-path-1", "[weight=10][part2]") {
+TEST_CASE("Shortest-path-1", "[weight=10][part3]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
-  Classes test;
-  std::string source = "ECE 391";
-  std::string dest = "ECE 120";
+  Classes test("Data/uiuc-prerequisites-cs-ece.csv");
+  std::string source = "ECE 120";
+  std::string dest = "ECE 391";
   std::vector<std::string> output = test.shortestPath(source, dest);
-
-  REQUIRE(1 == 2);
+  std::vector<std::string> actual = {"ECE 120", "ECE 220", "ECE 391"};
+  // for (size_t i = 0; i < output.size(); i++) {
+  //   std::cout << output[i] << std::endl;
+  // }
+  // std::cout << output.size() << std::endl;
+  REQUIRE(output.size() == 3);
+  REQUIRE(output == actual);
 }
 
-TEST_CASE("Shortest-path-2", "[weight=10][part2]") {
+TEST_CASE("Shortest-path-2", "[weight=10][part3]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
-  Classes test;
+  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
+  std::string source = "MATH 112";
+  std::string dest = "CS 586";
+  std::vector<std::string> output = test.shortestPath(source, dest);
+  std::vector<std::string> actual = {"MATH 112", "CS 125", "CS 225", "CS 374",
+                                     "CS 586"};
+  REQUIRE(output.size() == actual.size());
+  REQUIRE(output == actual);
+}
+
+TEST_CASE("Shortest-path: does not exist", "[weight=10][part3]") {
+    Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
-  REQUIRE(1 == 2);
+
+  std::vector<std::string> output = test.shortestPath(source, dest);
+  REQUIRE(output.size() == 0);
 }
 
-TEST_CASE("Force-directed test image exists (parallel)", "[weight=10][part3]") {
+TEST_CASE("Force-directed test image exists (parallel)", "[weight=10][part4]") {
     Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
-    test.createOutputImg(2, "testImageParallel.png");
-    ifstream ifile("../fdgOutput.png");
-    REQUIRE (ifile);
+    test.createOutputImg(1, "tests/testImageParallel.png");
+    cs225::PNG img;
+    REQUIRE (img.readFromFile("testImageParallel.png"));
 }
 
-TEST_CASE("Force-directed test image exists (serial)", "[weight=10][part3]") {
+TEST_CASE("Force-directed test image exists (serial)", "[weight=10][part4]") {
     Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
-    test.createOutputImg(1, "testImageSerial.png");
-    ifstream ifile("../testImageSerial.png");
-    REQUIRE (ifile);
+    test.createOutputImg(0, "tests/testImageSerial.png");
+    cs225::PNG img;
+    
+    REQUIRE (img.readFromFile("testImageSerial.png"));
 }
