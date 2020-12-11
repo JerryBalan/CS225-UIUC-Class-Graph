@@ -38,7 +38,9 @@ void Classes::buildClassesGraph(string filePath) {
         g_.insertVertex(v[i]);
       }
       // connect v[0] to v[i]
-      g_.insertEdge(v[0], v[i]);
+
+
+      bool success = g_.insertEdge(v[0], v[i]);
       g_.setEdgeLabel(v[0], v[i], "prereq");
     }
   }

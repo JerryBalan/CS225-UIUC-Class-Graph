@@ -85,6 +85,7 @@
     "ios": "cpp",
     "locale": "cpp",
     "regex": "cpp",
-    "shared_mutex": "cpp"
+    "shared_mutex": "cpp",
+    "filesystem": "cpp"
   }
 }

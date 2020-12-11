@@ -326,19 +326,27 @@ void Graph::clear()
 }
 
 void Graph::BFS(Vertex startVertex, vector <Vertex> &output) {
+    output.clear();
     std::map<Vertex, bool> visited;
     std::queue<Vertex> queue;
 
     visited.insert({startVertex, true});
     queue.push(startVertex);
+    std::vector<Vertex> adjacents;
+    Vertex currVertex;
 
     while (!queue.empty()) {
-        Vertex currVertex = queue.front();
+        currVertex = queue.front();
         queue.pop();
         output.push_back(currVertex);
-        std::vector<Vertex> adjacents = getAdjacent(currVertex);
+        adjacents = getAdjacent(currVertex);
 
-        for (auto &i : adjacents) {
+        // std::cout << "vert: " << currVertex << " size: " << currVertex.length() << std::endl;
+        // for(unsigned i = 0; i < adjacents.size(); i++)
+        //     std::cout << adjacents[i] << std::endl;
+        // std::cout << std::endl;
+
+        for (auto i : adjacents) {
             if (visited.find(i) == visited.end()) {
                 visited.insert({i, true});
                 queue.push(i); 

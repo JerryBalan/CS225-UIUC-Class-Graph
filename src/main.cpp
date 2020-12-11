@@ -30,6 +30,8 @@ int main(int argc, char * argv[]) {
     return 0;
   }
 
+  //printVect(csvToVector("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv"));
+
   std::cout << "Please input the location/name of the input CSV file (leave blank for default): ";
   std::string fileName;
   getline(std::cin, fileName);
@@ -71,12 +73,41 @@ int main(int argc, char * argv[]) {
       return -1;
     }
 
-    vector<Vertex> path = courses.bfs(inputClass);
+
+
+    // std::vector<Vertex> adj = g.getAdjacent("ECE 391");
+    // std::cout << "adj: ";
+    // for(unsigned i = 0; i < adj.size(); i++)
+    //   std::cout << adj[i] << std::endl;
+    // std::cout << "end adj";
+
+    // std::cout << std::endl;
+
+
+    // for(unsigned i = 0; i < adj.size(); i++) {
+    //   std::cout << "adj for " << adj[i] << std::endl;
+    //   std::vector<Vertex> newAdj = g.getAdjacent(adj[i]);
+
+    //   for(unsigned j = 0; j < newAdj.size(); j++)
+    //     std::cout << newAdj[j] << std::endl;
+    //   std::cout << "end adj";
+    // }
+
+    // g.initSnapshot("1");
+    // g.snapshot();
+    //g.print();
+
+
+
+    //vector<Vertex> path = courses.bfs(inputClass);
+    std::vector<Vertex> path;
+    g.BFS(inputClass, path);
+    std::sort(path.begin(), path.end());
     std::cout << "size: " << path.size() << std::endl;
 
     // test read
     for(unsigned i = 0; i < path.size(); i++)
-      std::cout << path[i] << std::endl;
+      std::cout << path[i] << ", ";
     std::cout << std::endl;
   }
   
