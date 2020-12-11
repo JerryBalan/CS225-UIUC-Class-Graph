@@ -367,7 +367,7 @@ cs225::PNG fdgOutput::createOutputImage(
       // Print vertices that were not found (error handling for color)
       // These are vertices that are not in the main dataset but are still
       // prerequisites for classes in the dataset
-      std::cout << v[i] << std::endl;
+      // std::cout << v[i] << std::endl;
     } else {
       curr = cols.at(getCourseSubject(v[i]));
     }

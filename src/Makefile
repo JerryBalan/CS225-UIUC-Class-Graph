@@ -7,7 +7,7 @@ EXE_OBJ = main.o
 OBJS = main.o fileIO.o fdgOutput.o classes.o structures/graph.o
 
 # Generated files
-CLEAN_RM = fdgOutput.png compare.png outputImgInfo.txt
+CLEAN_RM = *.png compare.png outputImgInfo.txt tests/*.png
 
 
 # Use the cs225 makefile template:
