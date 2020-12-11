@@ -1,0 +1,6 @@
+Vertex: ECE 120, location: (20, 100.311), color (HSL): (249, 1, 0.5)
+Vertex: ECE 220, location: (107.833, 453.083), color (HSL): (249, 1, 0.5)
+Vertex: ECE 391, location: (319.199, 20), color (HSL): (249, 1, 0.5)
+Vertex: CS 233, location: (496.564, 333.561), color (HSL): (0, 0, 0)
+width: 516 (size : 244068)
+vertex amount: 4, edge amount: 3
