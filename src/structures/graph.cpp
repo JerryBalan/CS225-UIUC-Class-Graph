@@ -13,64 +13,8 @@ Graph::Graph() : directed(true)
 {
 }
 
-
-// leaving here for reference
-// delete later
-/*
-Graph::Graph(bool weighted, int numVertices, unsigned long seed)
-    :weighted(weighted),
-      directed(false),
-     random(Random(seed)) 
-{
-    if (numVertices < 2)
-    {
-     error("numVertices too low");
-     exit(1);
-    }
-
-    vector<Vertex> vertices;
-    for (int i = 0; i < numVertices; i++)
-    {
-        insertVertex(to_string(i));
-        vertices.push_back(to_string(i));
-    }
-
-    // make sure all vertices are connected
-    random.shuffle(vertices);
-    Vertex cur = vertices[0];
-    for (size_t i = 0; i < vertices.size() - 1; ++i)
-    {
-        Vertex next = vertices[i + 1];
-        insertEdge(cur, next);
-        if (weighted) 
-        {
-            int weight = random.nextInt();
-            setEdgeWeight(cur, next, weight);
-        }
-        cur = next;
-    }
-NVIDIA RTX APIs allow the user to test for intersections of raysand arbitrary geometric primitives. This technique is often used togenerate raster images. Here, Bounding volume hierarchies (BVHs)help reduce the complexity of this test, which is otherwise propor-tional to the number of rays times the number of primitives. The usersupplies abounds programso that RTX can generate axis-alignedbounding boxes (AABBs) for the user geometry andbuilda BVH.Now, aray generation programcan be executed on the GPU’s pro-grammable shader cores that willtracerays through the BVH usingan API call. In theintersection program, called when rays hit theAABBs, the user can test for and potentially report an intersectionwith the geometry. A reported intersection will then be available inpotentialclosest-hitorany-hit. RTX GPUs perform BVH traversalin hardware.  When RTX calls an intersection program, hardwaretraversal is interrupted and a contextrtices[idx + 1])) 
-        {
-            ++numFailures;
-        } 
-        else 
-        {
-            // if insertEdge() succeeded...
-            if (weighted)
-                setEdgeWeight(vertices[idx], vertices[idx + 1],
-                              random.nextInt());
-            ++idx;
-            if (idx >= numVertices - 2) 
-            {
-                idx = 0;
-                random.shuffle(vertices);
-            }
-        }
-    }
-}
-*/
-
-vector<Vertex> Graph::getAdjacent(Vertex source) const 
+//imported from CS225 class
+vector<Vertex> Graph::getAdjacent(Vertex source) const //function to help find direct prerequesites of a class
 {
     auto lookup = adjacency_list.find(source);
 
@@ -89,32 +33,13 @@ vector<Vertex> Graph::getAdjacent(Vertex source) const
     }
 }
 
-vector<Vertex> Graph::getAdjacentFrom(Vertex dest) const {
-    vector<Vertex> output;
-
-    for(auto it = adjacency_list.begin(); it != adjacency_list.end(); ++it) {
-        Vertex source = it->first;
-        if (source == dest) {
-            continue;
-        }
-        unordered_map <Vertex, Edge> & map = adjacency_list[source];
-        for(auto itt = map.begin(); itt != map.end(); ++itt) {
-            Vertex pos_dest = itt->first;
-            if (pos_dest == dest) {
-                output.push_back(pos_dest);
-            }
-        }
-    }
-
-    return output;
-}
-
-
-Vertex Graph::getStartingVertex() const
+//imported from CS225 class
+Vertex Graph::getStartingVertex() const 
 {
     return adjacency_list.begin()->first;
 }
 
+//imported from CS225 class
 vector<Vertex> Graph::getVertices() const
 {
     vector<Vertex> ret;
@@ -127,6 +52,7 @@ vector<Vertex> Graph::getVertices() const
     return ret;
 }
 
+//imported from CS225 class
 Edge Graph::getEdge(Vertex source , Vertex destination) const
 {
     if(assertEdgeExists(source, destination, __func__) == false)
@@ -135,6 +61,7 @@ Edge Graph::getEdge(Vertex source , Vertex destination) const
     return ret;
 }
 
+//imported from CS225 class
 vector<Edge> Graph::getEdges() const
 {
     if (adjacency_list.empty())
@@ -165,16 +92,19 @@ vector<Edge> Graph::getEdges() const
     return ret;
 }
 
+//imported from CS225 class
 bool Graph::vertexExists(Vertex v) const
 {
     return assertVertexExists(v, "");
 }
 
+//imported from CS225 class
 bool Graph::edgeExists(Vertex source, Vertex destination) const
 {
     return assertEdgeExists(source, destination, "");
 }
 
+//imported from CS225 class
 Edge Graph::setEdgeLabel(Vertex source, Vertex destination, string label)
 {
     if (assertEdgeExists(source, destination, __func__) == false)
@@ -191,7 +121,7 @@ Edge Graph::setEdgeLabel(Vertex source, Vertex destination, string label)
     return new_edge;
 }
 
-
+//imported from CS225 class
 string Graph::getEdgeLabel(Vertex source, Vertex destination) const
 {
     if(assertEdgeExists(source, destination, __func__) == false)
@@ -199,6 +129,7 @@ string Graph::getEdgeLabel(Vertex source, Vertex destination) const
     return adjacency_list[source][destination].getLabel();
 }
 
+//imported from CS225 class
 void Graph::insertVertex(Vertex v)
 {
     // will overwrite if old stuff was there
@@ -207,7 +138,7 @@ void Graph::insertVertex(Vertex v)
     adjacency_list[v] = unordered_map<Vertex, Edge>();
 }
 
-
+//imported from CS225 class
 Vertex Graph::removeVertex(Vertex v)
 {
 
@@ -238,6 +169,7 @@ Vertex Graph::removeVertex(Vertex v)
     return InvalidVertex;
 }
 
+//imported from CS225 class
 bool Graph::insertEdge(Vertex source, Vertex destination)
 {
     if(adjacency_list.find(source)!= adjacency_list.end() 
@@ -265,6 +197,7 @@ bool Graph::insertEdge(Vertex source, Vertex destination)
     return true;
 }
 
+//imported from CS225 class
 Edge Graph::removeEdge(Vertex source, Vertex destination)
 {
     if(assertEdgeExists(source, destination, __func__) == false)
@@ -279,6 +212,7 @@ Edge Graph::removeEdge(Vertex source, Vertex destination)
     return e;
 }
 
+//imported from CS225 class
 bool Graph::assertVertexExists(Vertex v, string functionName) const
 {
     if (adjacency_list.find(v) == adjacency_list.end())
@@ -290,6 +224,7 @@ bool Graph::assertVertexExists(Vertex v, string functionName) const
     return true;
 }
 
+//imported from CS225 class
 bool Graph::assertEdgeExists(Vertex source, Vertex destination, string functionName) const
 {
     if(assertVertexExists(source,functionName) == false)
@@ -315,11 +250,13 @@ bool Graph::assertEdgeExists(Vertex source, Vertex destination, string functionN
     return true;
 }
 
+//imported from CS225 class
 bool Graph::isDirected() const
 {
     return directed;
 }
 
+//imported from CS225 class
 void Graph::clear()
 {
     adjacency_list.clear();
@@ -350,6 +287,7 @@ void Graph::BFS(Vertex startVertex, vector <Vertex> &output) { //output is our v
     }
 }
 
+//imported from CS225 class
 /**
  * Prints a graph error and quits the program.
  * The program is exited with a segfault to provide a stack trace.
@@ -360,6 +298,7 @@ void Graph::error(string message) const
     cerr << "\033[1;31m[Graph Error]\033[0m " + message << endl;
 }
 
+//imported from CS225 class
 /**
  * Creates a name for snapshots of the graph.
  * @param title - the name to save the snapshots as
@@ -370,6 +309,7 @@ void Graph::initSnapshot(string title)
     picName = title;
 }
 
+//imported from CS225 class
 /**
  * Saves a snapshot of the graph to file.
  * initSnapshot() must be run first.
@@ -383,6 +323,7 @@ void Graph::snapshot()
     ++picNum;
 }
 
+//imported from CS225 class
 /**
  * Prints the graph to stdout.
  */
@@ -406,6 +347,7 @@ void Graph::print() const
     }
 }
 
+//imported from CS225 class but edited by us to make it a force directed graph
 /**
  * Saves the graph as a PNG image.
  * @param title - the filename of the PNG image
