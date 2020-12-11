@@ -10,7 +10,7 @@
 
 #define SIGN(x) ((signbit(x) ? -1 : 1))
 #define SET_FDG_ALGORITHM_HYPERPARAMETERS                   \
-  int springRestLength = 400, repulsiveForceConstant = 100, \
+  int springRestLength = 100, repulsiveForceConstant = 100, \
       attractionConstant = 8000, springConstant = 20,       \
       maxDisplacementSquared = 100;                         \
   double deltaT = 0.0003, centerConstant = 7.5;
@@ -121,92 +121,15 @@ void fdgOutput::defineLocationsSerial(
   SET_FDG_ALGORITHM_HYPERPARAMETERS
 
   // init vertices, edges, initial positions
-
   setVariables(graph, 10, subjectFrequencies, true);
 
   for (unsigned i = 0; i < iterations; i++) {
     if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
 
-    // Repulsion force
-    for (unsigned j = 0; j < v.size(); j++) {
-      for (unsigned k = j + 1; k < v.size(); k++) {
-        double deltaX = pos[j].first - pos[k].first,
-               deltaY = pos[j].second - pos[k].second;
-        double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
-        std::pair<double, double> f = {0, 0};
-
-        if (dist == 0) {
-          f = {std::rand() % 2500, std::rand() % 2500};
-        } else {
-          double tempF = repulsiveForceConstant / (dist * dist);
-          f.first = tempF * deltaX / dist;
-          f.second = tempF * deltaY / dist;
-        }
-
-        forces[j].first -= f.first;
-        forces[j].second -= f.second;
-        forces[k].first += f.first;
-        forces[k].second += f.second;
-      }
-    }
-
-    // Spring force
-    for (unsigned j = 0; j < v.size(); j++) {
-      std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
-
-      for (unsigned k = 0; k < neighbors.size(); k++) {
-        int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
-        if (loc1 < 0 || loc1 > (int)v.size()) continue;
-        double deltaX = pos[loc1].first - pos[j].first,
-               deltaY = pos[loc1].second - pos[j].first;
-
-        double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
-
-        if (dist != 0) {
-          std::pair<double, double> f = {0, 0};
-          double tempF = springConstant * (dist - springRestLength);
-          f.first = tempF * deltaX / dist;
-          f.second = tempF * deltaY / dist;
-
-          forces[j].first += f.first;
-          forces[j].second += f.second;
-          forces[loc1].first -= f.first;
-          forces[loc1].second -= f.second;
-        }
-      }
-    }
-
-    // Center force
-    for (unsigned j = 0; j < v.size(); j++) {
-      double deltaX = pos[j].first - (width / 2),
-             deltaY = pos[j].second - (width / 2);
-      double dist = std::sqrt(deltaX * deltaX + deltaY * deltaY);
-
-      if (dist != 0) {
-        std::pair<double, double> f = {0, 0};
-        double tempF = dist * centerConstant;
-        f.first = tempF * deltaX / dist;
-        f.second = tempF * deltaY / dist;
-
-        forces[j].first += f.first;
-        forces[j].second += f.second;
-      }
-    }
-
-    // Update positions
-    for (unsigned j = 0; j < v.size(); j++) {
-      double deltaX = deltaT * forces[j].first,
-             deltaY = deltaT * forces[j].second;
-      double dispSq = deltaX * deltaX + deltaY * deltaY;
-
-      if (dispSq > maxDisplacementSquared) {
-        deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
-        deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
-      }
-
-      pos[j].first += deltaX;
-      pos[j].second += deltaY;
-    }
+    repulsionFunc(repulsiveForceConstant);
+    springFunc(springConstant, springRestLength);
+    centerFunc(centerConstant);
+    updatePositions(deltaT, maxDisplacementSquared);
   }
 
   recenterPts(sideSpace);
@@ -228,27 +151,13 @@ void fdgOutput::defineLocationsParallel(
     if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
 
     std::thread th1(&fdgOutput::repulsionFunc, this, repulsiveForceConstant);
-    std::thread th2(&fdgOutput::springFunc, this, graph, springConstant,
-                    springRestLength);
+    std::thread th2(&fdgOutput::springFunc, this, springConstant, springRestLength);
     std::thread th3(&fdgOutput::centerFunc, this, centerConstant);
     th1.join();
     th2.join();
     th3.join();
 
-    // Update positions
-    for (unsigned j = 0; j < v.size(); j++) {
-      double deltaX = deltaT * forces[j].first,
-             deltaY = deltaT * forces[j].second;
-      double dispSq = deltaX * deltaX + deltaY * deltaY;
-
-      if (dispSq > maxDisplacementSquared) {
-        deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
-        deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
-      }
-
-      pos[j].first += deltaX;
-      pos[j].second += deltaY;
-    }
+    updatePositions(deltaT, maxDisplacementSquared);
   }
 
   recenterPts(sideSpace);
@@ -256,6 +165,24 @@ void fdgOutput::defineLocationsParallel(
   return;
 }
 
+// Helper function to update positions of verticies based on forces
+void fdgOutput::updatePositions(double deltaT, int maxDisplacementSquared) {
+  for (unsigned j = 0; j < v.size(); j++) {
+    double deltaX = deltaT * forces[j].first,
+            deltaY = deltaT * forces[j].second;
+    double dispSq = deltaX * deltaX + deltaY * deltaY;
+
+    if (dispSq > maxDisplacementSquared) {
+      deltaX *= std::sqrt(maxDisplacementSquared / dispSq);
+      deltaY *= std::sqrt(maxDisplacementSquared / dispSq);
+    }
+
+    pos[j].first += deltaX;
+    pos[j].second += deltaY;
+  }
+}
+
+// Helper function to move points more towards the center
 void fdgOutput::centerFunc(double centerConstant) {
   for (unsigned j = 0; j < v.size(); j++) {
     double deltaX = pos[j].first - (width / 2),
@@ -276,11 +203,10 @@ void fdgOutput::centerFunc(double centerConstant) {
   }
 }
 
-// Helper function to find spring forces for parallel version
-void fdgOutput::springFunc(Graph graph, int springConstant,
-                           int springRestLength) {
+// Helper function to find spring forces
+void fdgOutput::springFunc(int springConstant, int springRestLength) {
   for (unsigned j = 0; j < v.size(); j++) {
-    std::vector<Vertex> neighbors = graph.getAdjacent(v[j]);
+    std::vector<Vertex> neighbors = g_.getAdjacent(v[j]);
 
     for (unsigned k = 0; k < neighbors.size(); k++) {
       int loc1 = std::find(v.begin(), v.end(), neighbors[k]) - v.begin();
@@ -309,7 +235,7 @@ void fdgOutput::springFunc(Graph graph, int springConstant,
   return;
 }
 
-// Helper function to find repulsion forces for parallel version
+// Helper function to find repulsion forces
 void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
   for (unsigned j = 0; j < v.size(); j++) {
     for (unsigned k = j + 1; k < v.size(); k++) {
@@ -337,6 +263,7 @@ void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
 
   return;
 }
+
 bool fdgOutput::calculateWithinRadius(int x, int y, int ctr_idx, int rad) {
   double x_pos = pos[ctr_idx].first + x;
   double y_pos = pos[ctr_idx].second + y;
@@ -346,6 +273,7 @@ bool fdgOutput::calculateWithinRadius(int x, int y, int ctr_idx, int rad) {
 
   return pow(x_pos - x_ctr, 2) + pow(y_pos - y_ctr, 2) <= pow(rad, 2);
 }
+
 // Uses new locations to create output PNG using cs225's PNG class
 cs225::PNG fdgOutput::createOutputImage(
     std::unordered_map<std::string, double> subjectFrequencies) {
@@ -454,6 +382,7 @@ void fdgOutput::printLocations() {
 std::string fdgOutput::getCourseSubject(std::string course) {
   return course.substr(0, course.find(' '));
 }
+
 double fdgOutput::fRand(double fMin, double fMax) {
   double f = (double)rand() / RAND_MAX;
   return fMin + f * (fMax - fMin);

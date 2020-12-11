@@ -33,9 +33,10 @@ class fdgOutput {
 
     void setVariables(Graph graph, int scale, std::unordered_map<std::string, double> &subjectFrequencies, bool setCompletlyRandom);
     void recenterPts(int sideSpace);
-    void springFunc(Graph graph, int springConstant, int springRestLength);
+    void springFunc(int springConstant, int springRestLength);
     void repulsionFunc(int repulsiveForceConstant);
     void centerFunc(double centerConstant);
+    void updatePositions(double deltaT, int maxDisplacementSquared);
     cs225::HSLAPixel getRandColor();
     Graph g_;
     bool calculateWithinRadius(int x, int y, int ctr_idx, int rad);
