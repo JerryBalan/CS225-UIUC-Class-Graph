@@ -113,9 +113,9 @@ int main(int argc, char * argv[]) {
     std::cout << std::endl;
 
     // build a graph with just those
-    //Classes subsetCourses(fileName, path);
-    //Graph gSubset = subsetCourses.getGraph();
-    //createOutputImg(gSubset, subsetCourses, 1);
+    Classes subsetCourses(fileName, path);
+    Graph gSubset = subsetCourses.getGraph();
+    createOutputImg(gSubset, subsetCourses, 1);
   }
   
   if(displayInput == 2) { // djik/floyd-warshall
