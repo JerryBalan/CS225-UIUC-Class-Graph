@@ -8,13 +8,13 @@
 void createOutputImg(Graph g, Classes courses, int argVal) {
   if(argVal == 0) { // serial
     std::cout << "Using serial method..." << std::endl;
-    fdgOutput newOut(0, g, 1000, 20, courses.getFrequencies()); // Serial
+    fdgOutput newOut(0, g, 20, courses.getFrequencies()); // Serial
     cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
     img.writeToFile("fdgOutput"+ string(".png"));
     newOut.printLocations();
   } else if(argVal == 1) { // parallel
     std::cout << "Using parallel method..." << std::endl;
-    fdgOutput newOut(1, g, 1000, 20, courses.getFrequencies()); // Parallel
+    fdgOutput newOut(1, g, 20, courses.getFrequencies()); // Parallel
     cs225::PNG img = newOut.createOutputImage(courses.getFrequencies());
     img.writeToFile("fdgOutput"+ string(".png"));
     newOut.printLocations();
@@ -22,6 +22,7 @@ void createOutputImg(Graph g, Classes courses, int argVal) {
 }
 
 int main(int argc, char * argv[]) {
+  // run for graph.py
   if (argc > 1) {
     std::cout << "This mode  is meant for graph.py. If you want to use the main program, please run again without any arguments." << std::endl;
     Classes courses("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
@@ -35,6 +36,7 @@ int main(int argc, char * argv[]) {
   std::cout << "Please input the location/name of the input CSV file (leave blank for default): ";
   std::string fileName;
   getline(std::cin, fileName);
+  // default file
   if(fileName.empty())
     fileName = "Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv";
 
@@ -42,12 +44,14 @@ int main(int argc, char * argv[]) {
   Classes courses(fileName);
   Graph g = courses.getGraph();
     
+  // prompt for imput
   std::cout << "Please select one of the following options ('1', '2', etc.) to display in a graph:" << std::endl;
   std::cout << "1) A class and all of its prerequisites (BFS)" << std::endl;
   std::cout << "2) The (shortest) path to reach a desired class from your current class (A*)" << std::endl;
   std::cout << "3) A performance analysis of serial vs parallel force direct graphing (Fruchterman-Reingold algorithm)" << std::endl;
   //std::cout << "" << std::endl;
 
+  // parse user input]
   std::string dInStr;
   getline(std::cin, dInStr);
   int displayInput = std::stoi(dInStr);
@@ -74,7 +78,7 @@ int main(int argc, char * argv[]) {
     }
 
 
-
+    // code used for testing specific classes
     // std::vector<Vertex> adj = g.getAdjacent("ECE 391");
     // std::cout << "adj: ";
     // for(unsigned i = 0; i < adj.size(); i++)
@@ -138,6 +142,7 @@ int main(int argc, char * argv[]) {
     std::cout << "Please select an ORIGIN class to graph. Limited to CS/ECE and their prerequisites." << std::endl;
     std::cout << "Use the following format (with the space): 'ECE 391' or 'CS 225'" << std::endl;
 
+    // get input classes
     string classTypeOG;
     string classNumOG;
     std::cin >> classTypeOG >> classNumOG;
@@ -150,11 +155,14 @@ int main(int argc, char * argv[]) {
       std::cout << "Invalid class input. Terminating program." << std::endl;
       return -1;
     }
+
+    // run algo
     vector<Vertex> pathShort = courses.shortestPath(ogClass, destClass);
     //vector<Vertex> pathShort = courses.warshall(ogClass, destClass);
     std::cout << "Done!" << std::endl;
     // test read
     
+    // print classes
     for(size_t i = 0; i < pathShort.size(); i++) {
       std::cout << pathShort[i] << std::endl;
     }
