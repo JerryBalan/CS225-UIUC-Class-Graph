@@ -9,23 +9,27 @@
 #include "structures/PNG.h"
 
 #define SIGN(x) ((signbit(x) ? -1 : 1))
-#define SET_FDG_ALGORITHM_HYPERPARAMETERS                   \
-  int springRestLength = 50, repulsiveForceConstant = 500, \
-      attractionConstant = 5, springConstant = 5,       \
-      maxDisplacementSquared = 9;                         \
-  double deltaT = 0.0003, centerConstant = 5;
+
+// parameters for tuning. We found these produced the best looking graph
+// And the lines
+#define SET_FDG_ALGORITHM_HYPERPARAMETERS                                     \
+  int springRestLength = 50, repulsiveForceConstant = 500,                    \
+      attractionConstant = 5, springConstant = 5, maxDisplacementSquared = 9; \
+  double deltaT = 0.0003, centerConstant = 5; unsigned iterations = 1000;
 
 std::mutex mtx;
 
 fdgOutput::fdgOutput(
-    int version, Graph graph, unsigned iterations, int sideSpace,
+    int version, Graph graph, int sideSpace,
     std::unordered_map<std::string, double> subjectFrequencies) {
+  // Run either the parallel or serial version depending on passed value
   if (version == 0)
-    defineLocationsSerial(graph, subjectFrequencies, iterations, sideSpace);
+    defineLocationsSerial(graph, subjectFrequencies,sideSpace);
   else
-    defineLocationsParallel(graph, subjectFrequencies, iterations, sideSpace);
+    defineLocationsParallel(graph, subjectFrequencies, sideSpace);
 }
 
+// Nothing is allocated on the heap
 fdgOutput::~fdgOutput() {}
 
 // Helper function to set variables since multiple methods use it
@@ -33,14 +37,19 @@ void fdgOutput::setVariables(
     Graph graph, int scale,
     std::unordered_map<std::string, double> &subjectFrequencies,
     bool setCompletlyRandom) {
+  // get the verticess and edges to not need to make this function call all the
+  // time
   v = graph.getVertices();
   e = graph.getEdges();
 
   width = v.size() * scale;
   height = width;
   area = width * height;
+
+  // Store the graph (use getAdjacent for radius of classes)
   g_ = graph;
 
+  // Randomly assign positions
   if (setCompletlyRandom) {
     pos.resize(v.size(), {0, 0});
     forces.resize(v.size(), {0, 0});
@@ -48,7 +57,8 @@ void fdgOutput::setVariables(
     for (unsigned i = 0; i < v.size(); i++)
       pos[i] = {(std::rand() % (width / 6)) + (5 * width / 12),
                 (std::rand() % (width / 6)) + (5 * width / 12)};
-  } else {
+
+  } else {  // Assign positions radially based on frequencies
     double radius = width / 2;
     std::pair<double, double> center = {width / 2, width / 2};
 
@@ -60,15 +70,19 @@ void fdgOutput::setVariables(
       subjectAngles[subject.first] = std::make_pair(currAngle, nextAngle);
     }
 
+    // seed the random number generator (was getting same output all the time)
     srand(time(NULL));
     int i = 0;
 
     for (Vertex &course : v) {
       std::string subjectName = getCourseSubject(course);
       std::pair<double, double> angleBounds = subjectAngles[subjectName];
+
+      // get random polar coordinate within region
       double angle = fRand(angleBounds.first, angleBounds.second);
       double rad = fRand(0, radius);
 
+      // Convert polar coordinate to rectangular and set point's position
       pos[i].first = rad * cos(angle) + center.first;
       pos[i].second = rad * sin(angle) + center.second;
       i++;
@@ -82,6 +96,8 @@ void fdgOutput::setVariables(
 void fdgOutput::recenterPts(int sideSpace) {
   double xLoc = 0, yLoc = 0, xMax = INT_MIN, xMin = INT_MAX, yMax = INT_MIN,
          yMin = INT_MAX;
+
+  // Find the min and max x,y points
   for (unsigned i = 0; i < pos.size(); i++) {
     pos[i].first /= 10;
     pos[i].second /= 10;
@@ -95,6 +111,7 @@ void fdgOutput::recenterPts(int sideSpace) {
     if (pos[i].second < yMin) yMin = pos[i].second;
   }
 
+  // Add padding to x,y coordinates
   xMin -= sideSpace;
   xMax += sideSpace;
   yMin -= sideSpace;
@@ -102,11 +119,13 @@ void fdgOutput::recenterPts(int sideSpace) {
 
   double xDiff = 0 - xMin, yDiff = 0 - yMin;
 
+  // Reset point values based on min x and y
   for (unsigned i = 0; i < pos.size(); i++) {
     pos[i].first += xDiff;
     pos[i].second += yDiff;
   }
 
+  // Reset class vars based on min, max x and y
   width = xMax - xMin;
   height = yMax - yMin;
   area = width * height;
@@ -115,17 +134,19 @@ void fdgOutput::recenterPts(int sideSpace) {
 // Serial version of finding locations to place verticies
 // Iterations - recommend 1000
 void fdgOutput::defineLocationsSerial(
-    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
-    unsigned iterations, int sideSpace) {
+    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int sideSpace) {
   // set the hyperparams as a cpmpiler macro
   SET_FDG_ALGORITHM_HYPERPARAMETERS
 
+  // Follows algorithm described on page 387 of 
+  // http://cs.brown.edu/people/rtamassi/gdhandbook/chapters/force-directed.pdf
   // init vertices, edges, initial positions
   setVariables(graph, 10, subjectFrequencies, true);
 
   for (unsigned i = 0; i < iterations; i++) {
     if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
-
+    // Update point positions based on the pseudocode and using params from
+    // macro
     repulsionFunc(repulsiveForceConstant);
     springFunc(springConstant, springRestLength);
     centerFunc(centerConstant);
@@ -139,25 +160,29 @@ void fdgOutput::defineLocationsSerial(
 
 // Parallel version of finding locations to place verticies
 void fdgOutput::defineLocationsParallel(
-    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies,
-    unsigned iterations, int sideSpace) {
+    Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int sideSpace) {
   // set the hyperparams as a cpmpiler macro
   SET_FDG_ALGORITHM_HYPERPARAMETERS
 
   // init vertices, edges, initial positions
   setVariables(graph, 10, subjectFrequencies, true);
-
+  // Follows algorithm described on page 387 of 
+  // http://cs.brown.edu/people/rtamassi/gdhandbook/chapters/force-directed.pdf
   for (unsigned i = 0; i < iterations; i++) {
     if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
 
-    std::thread th1(&fdgOutput::repulsionFunc, this, repulsiveForceConstant);
-    std::thread th2(&fdgOutput::springFunc, this, springConstant,
-                    springRestLength);
-    std::thread th3(&fdgOutput::centerFunc, this, centerConstant);
-    th1.join();
-    th2.join();
-    th3.join();
+    // Update point positions based on the pseudocode and using params from macro
+    // Initialize three threads to increase speed 30%
+    std::thread repulsiveThread(&fdgOutput::repulsionFunc, this, repulsiveForceConstant);
+    std::thread springThread(&fdgOutput::springFunc, this, springConstant, springRestLength);
+    std::thread centeringThread(&fdgOutput::centerFunc, this, centerConstant);
 
+    // launch threads
+    repulsiveThread.join();
+    springThread.join();
+    centeringThread.join();
+
+    // update point positions
     updatePositions(deltaT, maxDisplacementSquared);
   }
 
@@ -196,6 +221,7 @@ void fdgOutput::centerFunc(double centerConstant) {
       f.first = tempF * deltaX / dist;
       f.second = tempF * deltaY / dist;
 
+      // preevnt other functions from modifying forces vector concurrently
       mtx.lock();
       forces[j].first += f.first;
       forces[j].second += f.second;
@@ -223,6 +249,7 @@ void fdgOutput::springFunc(int springConstant, int springRestLength) {
         f.first = tempF * deltaX / dist;
         f.second = tempF * deltaY / dist;
 
+      // preevnt other functions from modifying forces vector concurrently
         mtx.lock();
         forces[j].first += f.first;
         forces[j].second += f.second;
@@ -253,6 +280,7 @@ void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
         f.second = tempF * deltaY / dist;
       }
 
+      // preevnt other functions from modifying forces vector concurrently
       mtx.lock();
       forces[j].first -= f.first;
       forces[j].second -= f.second;
@@ -265,6 +293,7 @@ void fdgOutput::repulsionFunc(int repulsiveForceConstant) {
   return;
 }
 
+// helper function to calculate if a point is within a radius
 bool fdgOutput::calculateWithinRadius(int x, int y, int ctr_idx, int rad) {
   double x_pos = pos[ctr_idx].first + x;
   double y_pos = pos[ctr_idx].second + y;
@@ -309,8 +338,8 @@ cs225::PNG fdgOutput::createOutputImage(
       // out.getPixel(j, y).l = 0.6;
 
       // Set pixel value at point (dotted lines)
-      out.getPixel(x,y) = pixelColor;
-      // For steep slopes, draw a point at every (x, y + k) where k is the slope 
+      out.getPixel(x, y) = pixelColor;
+      // For steep slopes, draw a point at every (x, y + k) where k is the slope
       for (float k = 0; k < abs(slope); k += 1) {
         float incr = k * SIGN(slope);
         int newYCoord = y + ceil(incr);
@@ -322,7 +351,8 @@ cs225::PNG fdgOutput::createOutputImage(
     // Data/uiuc-prerequisites-cs.csv
 
     // for (int x = pt2.first; x < pt1.first; x+= SIGN(slope)) {
-    //   for (int y = pt2.second; y >= minYCoord && y <= maxYCoord; y += ceil(slope)) {
+    //   for (int y = pt2.second; y >= minYCoord && y <= maxYCoord; y +=
+    //   ceil(slope)) {
     //     out.getPixel(x,y) = pixelColor;
     //   }
 
@@ -362,8 +392,8 @@ cs225::PNG fdgOutput::createOutputImage(
 // Helper function to get HSLAPixel with random color
 cs225::HSLAPixel fdgOutput::getRandColor() {
   int hue = rand() % 360;
-  double f2 = (double)rand() / RAND_MAX;
-  double f3 = (double)rand() / RAND_MAX;
+  // double f2 = (double)rand() / RAND_MAX;
+  // double f3 = (double)rand() / RAND_MAX;
   cs225::HSLAPixel out(hue, 1, 0.5);
 
   return out;
@@ -389,10 +419,12 @@ void fdgOutput::printLocations() {
   return;
 }
 
+// parse out the course subject from a class
 std::string fdgOutput::getCourseSubject(std::string course) {
   return course.substr(0, course.find(' '));
 }
 
+// get a random double within a range
 double fdgOutput::fRand(double fMin, double fMax) {
   double f = (double)rand() / RAND_MAX;
   return fMin + f * (fMax - fMin);

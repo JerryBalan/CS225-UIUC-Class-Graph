@@ -10,11 +10,11 @@
 
 class fdgOutput {
   public:
-    fdgOutput(int version, Graph graph, unsigned iterations, int sideSpace, std::unordered_map<std::string, double> subjectFrequencies);
+    fdgOutput(int version, Graph graph, int sideSpace, std::unordered_map<std::string, double> subjectFrequencies);
     ~fdgOutput();
 
-    void defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace);
-    void defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, unsigned iterations, int sideSpace);
+    void defineLocationsSerial(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int sideSpace);
+    void defineLocationsParallel(Graph graph, std::unordered_map<std::string, double> &subjectFrequencies, int sideSpace);
     void printLocations();
 
     cs225::PNG createOutputImage(std::unordered_map<std::string, double> subjectFrequencies);
