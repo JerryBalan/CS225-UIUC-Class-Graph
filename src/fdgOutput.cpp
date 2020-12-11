@@ -10,10 +10,10 @@
 
 #define SIGN(x) ((signbit(x) ? -1 : 1))
 #define SET_FDG_ALGORITHM_HYPERPARAMETERS                   \
-  int springRestLength = 100, repulsiveForceConstant = 100, \
-      attractionConstant = 8000, springConstant = 20,       \
-      maxDisplacementSquared = 100;                         \
-  double deltaT = 0.0003, centerConstant = 7.5;
+  int springRestLength = 50, repulsiveForceConstant = 500, \
+      attractionConstant = 5, springConstant = 5,       \
+      maxDisplacementSquared = 9;                         \
+  double deltaT = 0.0003, centerConstant = 5;
 
 std::mutex mtx;
 
@@ -151,7 +151,8 @@ void fdgOutput::defineLocationsParallel(
     if (i % 50 == 0) std::cout << "iteration: " << i << std::endl;
 
     std::thread th1(&fdgOutput::repulsionFunc, this, repulsiveForceConstant);
-    std::thread th2(&fdgOutput::springFunc, this, springConstant, springRestLength);
+    std::thread th2(&fdgOutput::springFunc, this, springConstant,
+                    springRestLength);
     std::thread th3(&fdgOutput::centerFunc, this, centerConstant);
     th1.join();
     th2.join();
@@ -169,7 +170,7 @@ void fdgOutput::defineLocationsParallel(
 void fdgOutput::updatePositions(double deltaT, int maxDisplacementSquared) {
   for (unsigned j = 0; j < v.size(); j++) {
     double deltaX = deltaT * forces[j].first,
-            deltaY = deltaT * forces[j].second;
+           deltaY = deltaT * forces[j].second;
     double dispSq = deltaX * deltaX + deltaY * deltaY;
 
     if (dispSq > maxDisplacementSquared) {
@@ -298,10 +299,9 @@ cs225::PNG fdgOutput::createOutputImage(
 
     // Find department of course in the map
     cs225::HSLAPixel pixelColor(0, 0, .5);
-
-    // calculate the x-value of the end of the line
     int end = std::max(pt1.first, pt2.first);
-
+    int minYCoord = std::min(pt1.second, pt2.second);
+    int maxYCoord = std::max(pt1.second, pt2.second);
     for (int x = std::min(pt1.first, pt2.first); x < end; x++) {
       int y = (slope * x) + yIntercept;
       // Check to see if x or y is out of bounds
@@ -309,35 +309,45 @@ cs225::PNG fdgOutput::createOutputImage(
       // out.getPixel(j, y).l = 0.6;
 
       // Set pixel value at point (dotted lines)
-      // out.getPixel(x,y) = pixelColor;
-      // For steep slopes, draw a point at every (x, y + k) where k is the slope
-      for (int k = 0; k < (int)abs(slope); k += 2) {
-        int incr = k * SIGN(slope);
+      out.getPixel(x,y) = pixelColor;
+      // For steep slopes, draw a point at every (x, y + k) where k is the slope 
+      for (float k = 0; k < abs(slope); k += 1) {
+        float incr = k * SIGN(slope);
+        int newYCoord = y + ceil(incr);
         // check for overshooting or undershooting
-        if (y + incr < pt1.second || y + incr > pt2.second) break;
-        out.getPixel(x, y + incr) = pixelColor;
+        if (newYCoord < minYCoord || newYCoord > maxYCoord) break;
+        out.getPixel(x, newYCoord) = pixelColor;
       }
     }
+    // Data/uiuc-prerequisites-cs.csv
+
+    // for (int x = pt2.first; x < pt1.first; x+= SIGN(slope)) {
+    //   for (int y = pt2.second; y >= minYCoord && y <= maxYCoord; y += ceil(slope)) {
+    //     out.getPixel(x,y) = pixelColor;
+    //   }
+
+    // }
   }
   // Draw verticies
   for (unsigned i = 0; i < v.size(); i++) {
     cs225::HSLAPixel curr;
     if (cols.find(getCourseSubject(v[i])) == cols.end()) {
+      // set pixel to black if not found
       curr = cs225::HSLAPixel(0, 0, 0);
-      // Print vertices that were not found
+      // Print vertices that were not found (error handling for color)
       std::cout << v[i] << std::endl;
-
     } else {
-      curr =
-          cols.at(getCourseSubject(v[i]));  //= getRandColor();
+      curr = cols.at(getCourseSubject(v[i]));
     }
 
-    double rad = g_.getAdjacent(v[i]).size() + 2;
+    double rad = 4 * g_.getAdjacent(v[i]).size() + 2;
 
     for (int x = -1 * rad; x < rad; x++) {
       for (int y = -1 * rad; y < rad; y++) {
         if (calculateWithinRadius(x, y, i, rad)) {
-          out.getPixel((int)pos[i].first + x, (int)pos[i].second + y) = curr;
+          if ((unsigned)(pos[i].first + x) < out.width() &&
+              (unsigned)(pos[i].second + y) < out.height())
+            out.getPixel((int)pos[i].first + x, (int)pos[i].second + y) = curr;
         }
       }
     }
