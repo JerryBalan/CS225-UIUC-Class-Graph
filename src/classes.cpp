@@ -118,6 +118,7 @@ vector<string> Classes::bfs(string origin) {
 
 vector<string> Classes::shortestPath(string origin, string dest) {
   vector<string> path;
+  if (origin == dest) return path;
   int inf = 10000; // not actually infinity due to int overflow
   std::set<Vertex> vSet;
   vector<Vertex> allVtx = g_.getVertices();
@@ -170,6 +171,11 @@ vector<string> Classes::shortestPath(string origin, string dest) {
   return path;
 }
 std::vector<std::string> Classes::warshall(std::string origin, std::string dest) {
+  // Initialize path
+  vector<Vertex> path;
+  if (origin == dest) return path;
+
+
   // initialize maps, they act as 2d arrays
   std::unordered_map<string, std::unordered_map<string, int>> distMatrix; // last int is the distance
   std::unordered_map<string, std::unordered_map<string, Vertex>> pathMatrix; //last str is the class (vtx)
@@ -215,7 +221,6 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
   }
   
   // build output path based on matricies
-  vector<Vertex> path;
   Vertex temp = origin;
   if(pathMatrix[origin][dest] == "") {
     return path;
