@@ -133,16 +133,23 @@ int main(int argc, char * argv[]) {
     std::cout << "Done!" << std::endl;
     
     // print classes
-    std::cout << "size: " << pathShort.size() << std::endl; //how many prerequesites there are (+ class itself)
-    std::cout << "Path: " << pathShort[0];
-    for(unsigned i = 1; i < pathShort.size(); i++)
-      std::cout << ", " << pathShort[i];
-    std::cout << std::endl;
+    if (!pathShort.empty()) {
+      std::cout << "size: " << pathShort.size() << std::endl; //how many prerequesites there are (+ class itself)
+      std::cout << "Path: " << pathShort[0];
+      for(unsigned i = 1; i < pathShort.size(); i++)
+        std::cout << ", " << pathShort[i];
+      std::cout << std::endl;
+
+      Classes subsetCourses(fileName, pathShort);
+      // Graph gSubset = subsetCourses.getGraph();
+      subsetCourses.createOutputImg(1, "subsetGraph.png");
+    } else {
+      std::cout << "Path not found." << std::endl;
+    }
 
 
-    Classes subsetCourses(fileName, pathShort);
-    // Graph gSubset = subsetCourses.getGraph();
-    subsetCourses.createOutputImg(1, "subsetGraph.png");
+
+
   }
   
   if(displayInput == 3) { // run fdg
