@@ -14,6 +14,7 @@ using namespace cs225;
 using namespace std;
 
 TEST_CASE("BFS-CS225", "[weight=10][part1]") {
+  std::cout << "BFS: CS 225" << std::endl;
   Classes test;
   Graph g = test.getGraph();
   std::vector<Vertex> output,
@@ -30,6 +31,8 @@ TEST_CASE("BFS-CS225", "[weight=10][part1]") {
 }
 
 TEST_CASE("BFS-ECE391", "[weight=10][part1]") {
+  std::cout << "BFS: ECE 391" << std::endl;
+
   Classes test;
   Graph g = test.getGraph();
   std::vector<Vertex> output,
@@ -45,6 +48,8 @@ TEST_CASE("BFS-ECE391", "[weight=10][part1]") {
 }
 
 TEST_CASE("BFS-ECE420", "[weight=10][part1]") {
+  std::cout << "BFS: ECE 420" << std::endl;
+
   Classes test;
   Graph g = test.getGraph();
   std::vector<Vertex> output,
@@ -62,6 +67,7 @@ TEST_CASE("BFS-ECE420", "[weight=10][part1]") {
 
 TEST_CASE("Floyd-Warshall-1", "[weight=10][part2]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
+  std::cout << "Floyd-Warshall 1" << std::endl;
   Classes test("Data/uiuc-prerequisites-cs-ece.csv");
   std::string source = "ECE 120";
   std::string dest = "ECE 391";
@@ -77,6 +83,7 @@ TEST_CASE("Floyd-Warshall-1", "[weight=10][part2]") {
 
 TEST_CASE("Floyd-Warshall-2", "[weight=10][part2]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
+  std::cout << "Floyd-Warshall 2" << std::endl;
   Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "MATH 112";
   std::string dest = "CS 586";
@@ -90,16 +97,40 @@ TEST_CASE("Floyd-Warshall-2", "[weight=10][part2]") {
 TEST_CASE(
     "Floyd-Warshall-No-Path",
     "[weight=10][part2]") {  // Classes test("Data/uiuc-prerequisites-ece.csv");
-  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
+  std::cout << "Floyd-Warshall no path" << std::endl;
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
+  Classes test("Data/uiuc-prerequisites-cs-ece.csv");
 
   std::vector<std::string> output = test.warshall(source, dest);
   REQUIRE(output.size() == 0);
 }
 
-TEST_CASE("Shortest-path-1", "[weight=10][part3]") {
+TEST_CASE("Floyd-warshall same class", "[weight=10][part2]") {
+  std::cout << "Floyd-Warshall same class" << std::endl;
+  std::string source = "ECE 391";
+  std::string dest = "ECE 391";
+  Classes test("Data/uiuc-prerequisites-cs-ece.csv");
+
+
+  std::vector<std::string> output = test.warshall(source, dest);
+  REQUIRE(output.size() == 0);
+}
+
+TEST_CASE("Floyd-warshall unrelated", "[weight=10][part2]") {
+  std::cout << "Floyd-Warshall unrelated" << std::endl;
+  std::string source = "STAT 400";
+  std::string dest = "ECE 391";
+  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
+
+
+  std::vector<std::string> output = test.warshall(source, dest);
+  REQUIRE(output.size() == 0);
+}
+
+TEST_CASE("Dijkstra-1", "[weight=10][part3]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
+  std::cout << "Dijkstra 1" << std::endl;
   Classes test("Data/uiuc-prerequisites-cs-ece.csv");
   std::string source = "ECE 120";
   std::string dest = "ECE 391";
@@ -113,8 +144,9 @@ TEST_CASE("Shortest-path-1", "[weight=10][part3]") {
   REQUIRE(output == actual);
 }
 
-TEST_CASE("Shortest-path-2", "[weight=10][part3]") {
+TEST_CASE("Dijkstra-2", "[weight=10][part3]") {
   // Classes test("Data/uiuc-prerequisites-cs.csv");
+  std::cout << "Dijkstra-2" << std::endl;
   Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "MATH 112";
   std::string dest = "CS 586";
@@ -125,14 +157,37 @@ TEST_CASE("Shortest-path-2", "[weight=10][part3]") {
   REQUIRE(output == actual);
 }
 
-TEST_CASE("Shortest-path: does not exist", "[weight=10][part3]") {
-    Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
+TEST_CASE("Dijkstra: does not exist", "[weight=10][part3]") {
+  std::cout << "Dijkstra does not exist" << std::endl;
+  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
   std::string source = "ECE 391";
   std::string dest = "ECE 120";
 
   std::vector<std::string> output = test.shortestPath(source, dest);
   REQUIRE(output.size() == 0);
 }
+
+TEST_CASE("Dijkstra: unrelated", "[weight=10][part3]") {
+  std::cout << "Dijkstra unrelated" << std::endl;
+  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
+  std::string source = "ECE 391";
+  std::string dest = "STAT 400";
+
+  std::vector<std::string> output = test.shortestPath(source, dest);
+  REQUIRE(output.size() == 0);
+}
+
+TEST_CASE("Dijkstra: same class", "[weight=10][part3]") {
+  std::cout << "Dijkstra same class" << std::endl;
+  Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
+
+  std::string source = "ECE 391";
+  std::string dest = "ECE 391";
+
+  std::vector<std::string> output = test.shortestPath(source, dest);
+  REQUIRE(output.size() == 0);
+}
+
 
 TEST_CASE("Force-directed test image exists (parallel)", "[weight=10][part4]") {
     Classes test("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv");
