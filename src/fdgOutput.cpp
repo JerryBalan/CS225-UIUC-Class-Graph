@@ -417,7 +417,7 @@ void fdgOutput::printLocations() {
             << std::get<1>(colors[i]) << ", " << std::get<2>(colors[i])
             << ")\n";
 
-  outFile << "width: " << width << " (size : " << area << ")\n";
+  outFile << "width: " << width << ", height: " << height << " (size : " << area << ")\n";
   outFile << "vertex amount: " << v.size() << ", edge amount: " << e.size()
           << "\n";
 
