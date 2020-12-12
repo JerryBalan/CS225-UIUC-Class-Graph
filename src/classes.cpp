@@ -11,6 +11,7 @@
 using std::string;
 using std::vector;
 
+// filepath constructor
 void Classes::buildClassesGraph(string filePath) {
   g_ = Graph();
   vector<vector<string>> allClasses = csvToVector(filePath);
@@ -47,6 +48,7 @@ void Classes::buildClassesGraph(string filePath) {
   }
 }
 
+// subset constructor
 void Classes::buildClassesGraphSubset(string filePath, vector<string> subsetOfClasses) {
   g_ = Graph();
   vector<vector<string>> allClasses = csvToVector(filePath);
@@ -72,7 +74,7 @@ void Classes::buildClassesGraphSubset(string filePath, vector<string> subsetOfCl
       subjectFrequencies.insert({dept, 1});
     else
       subjectFrequencies[dept]++;
-
+    // initialize leftmost verticies
     g_.insertVertex(v[0]);
   }
 
@@ -84,7 +86,7 @@ void Classes::buildClassesGraphSubset(string filePath, vector<string> subsetOfCl
     for (unsigned i = 1; i < v.size(); i++) {
       // v[i] is a prereq to v[0]
       if (g_.vertexExists(v[i])) {
-        // insert vertex
+        // insert edges
         // set prereq connection classes[i] to classes[0]
         g_.insertEdge(v[0], v[i]);
         g_.setEdgeLabel(v[0], v[i], "prereq");
@@ -116,12 +118,13 @@ vector<string> Classes::bfs(string origin) {
 
 vector<string> Classes::shortestPath(string origin, string dest) {
   vector<string> path;
-  int inf = 10000;
+  int inf = 10000; // not actually infinity due to int overflow
   std::set<Vertex> vSet;
   vector<Vertex> allVtx = g_.getVertices();
   unordered_map<Vertex, int> dist;
   unordered_map<Vertex, Vertex> prev;
 
+  // initialize
   for(Vertex v : allVtx) {
     dist[v] = inf;
     prev[v] = "";
@@ -129,6 +132,7 @@ vector<string> Classes::shortestPath(string origin, string dest) {
   }
   dist[dest] = 0;
 
+  // run BFS algorithm 
   while(!vSet.empty()) {
     Vertex minVtx;
     int min_dist = inf + 1;
@@ -150,14 +154,12 @@ vector<string> Classes::shortestPath(string origin, string dest) {
           prev[v] = minVtx;
         }
       }
-      //std::cout << newDist << std::endl;
+      
     }
     
   }
   // done with main algo, traverse
-  
   Vertex vtx = origin;
-  //std::cout << vtx << "," << prev[vtx] << std::endl;
   if(prev[vtx] != "" || origin == dest) {
     while(vtx != "") {
       path.push_back(vtx);
@@ -168,29 +170,26 @@ vector<string> Classes::shortestPath(string origin, string dest) {
   return path;
 }
 std::vector<std::string> Classes::warshall(std::string origin, std::string dest) {
-  //vector<vector<int>> distMatrix;
-  //vector<vector<string>> pathMatrix;
+  // initialize maps, they act as 2d arrays
   std::unordered_map<string, std::unordered_map<string, int>> distMatrix; // last int is the distance
   std::unordered_map<string, std::unordered_map<string, Vertex>> pathMatrix; //last str is the class (vtx)
-  int inf = 10000; // max int
+  int inf = 10000; // max int, not actually infinity for integer overflow
 
   vector<Vertex> allClasses = g_.getVertices();
   vector<Edge> allEdges = g_.getEdges();
 
-  // map default values of infinity
+  // initialize map matricies
   for(Vertex outerClass : allClasses) {
     for(Vertex innerClass : allClasses) {
       distMatrix[outerClass][innerClass] = inf;
       pathMatrix[outerClass][innerClass] = "";
     }
   }
-  std::cout << "finished initial" << std::endl;
   
+  // continue initializing matricies
   for(Edge e : allEdges) {
     // source = high level class
     // dest = low level
-    //distMatrix[e.source][e.dest] = 1; //all edges have weight 1
-    //pathMatrix[e.source][e.dest] = e.dest;
     distMatrix[e.dest][e.source] = 1; //all edges have weight 1
     pathMatrix[e.dest][e.source] = e.source;
   }
@@ -199,10 +198,11 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
     pathMatrix[singleClass][singleClass] = singleClass;
   }
 
-  std::cout << "finished initial2" << std::endl;
+  // run floyd-warshall algorithm based on the values
   for(Vertex w : allClasses) {
     for(Vertex u : allClasses) {
       for(Vertex v : allClasses) {
+        // check for overflow in case inf * 2 > INT_MAX
         if(distMatrix[u][w] == inf || distMatrix[w][v] == inf) {
           continue;
         }
@@ -213,12 +213,11 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
       }
     }
   }
-  std::cout << "finished initial3" << std::endl;
   
+  // build output path based on matricies
   vector<Vertex> path;
   Vertex temp = origin;
   if(pathMatrix[origin][dest] == "") {
-    
     return path;
   }
   path.push_back(origin);
@@ -226,8 +225,6 @@ std::vector<std::string> Classes::warshall(std::string origin, std::string dest)
     temp = pathMatrix[temp][dest];
     path.push_back(temp);
   }
-
- 
 
   return path;
 }
@@ -243,6 +240,7 @@ Graph Classes::getGraph() {
   return g_;
 }
 
+// helper function
 void Classes::createOutputImg(int argVal, std::string fileName) {
   if(argVal == 0) { // serial
     std::cout << "Using serial method..." << std::endl;

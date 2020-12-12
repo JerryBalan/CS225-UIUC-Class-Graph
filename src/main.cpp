@@ -16,6 +16,7 @@ int main(int argc, char * argv[]) {
 
   //printVect(csvToVector("Data/uiuc-prerequisites-cs-ece-math-phys-subset.csv"));
 
+  // ask user for input
   std::cout << "Please input the location/name of the input CSV file (leave blank for default): ";
   std::string fileName;
   getline(std::cin, fileName);
@@ -32,9 +33,8 @@ int main(int argc, char * argv[]) {
   std::cout << "1) A class and all of its prerequisites (BFS)" << std::endl;
   std::cout << "2) The (shortest) path to reach a desired class from your current class" << std::endl;
   std::cout << "3) A performance analysis of serial vs parallel force direct graphing (Fruchterman-Reingold algorithm)" << std::endl;
-  //std::cout << "" << std::endl;
 
-  // parse user input]
+  // parse user input
   std::string dInStr;
   getline(std::cin, dInStr);
   int displayInput = std::stoi(dInStr);
@@ -52,15 +52,11 @@ int main(int argc, char * argv[]) {
     std::string inputClass;
     getline(std::cin, inputClass);
     std::cout << "\n";
-    
-    //std::cout << "Results for [" << inputClass << "]" << std::endl;;
 
     if(!g.vertexExists(inputClass)) { // invalid input
       std::cout << "Invalid class input. Terminating program." << std::endl;
       return -1;
     }
-
-    //vector<Vertex> path = courses.bfs(inputClass);
 
     //calling BFS on inputted classes after making sure it exists
     std::vector<Vertex> path;
@@ -90,8 +86,6 @@ int main(int argc, char * argv[]) {
     std::cin >> classTypeDest >> classNumDest;
     string destClass = classTypeDest + " " + classNumDest;
     std::cout << "\n";
-    
-    //std::cout << "[" << destClass << "]" << std::endl;
 
     if(!g.vertexExists(destClass)) { // invalid input
       std::cout << "Invalid class input. Terminating program." << std::endl;
@@ -119,9 +113,6 @@ int main(int argc, char * argv[]) {
     std::cout << "1) Djikstra" << std::endl;
     std::cout << "2) Floyd-Warshall (this will be time consuming, ~5 min on default filtered dataset)" << std::endl;
 
-    //std::string mInStr;
-    //getline(std::cin, mInStr);
-    //int methodInput = std::stoi(mInStr);
     int methodInput;
     std::cin >> methodInput;
     std::cout << "\n";
@@ -140,7 +131,6 @@ int main(int argc, char * argv[]) {
     }
 
     std::cout << "Done!" << std::endl;
-    // test read
     
     // print classes
     std::cout << "size: " << pathShort.size() << std::endl; //how many prerequesites there are (+ class itself)
@@ -168,7 +158,7 @@ int main(int argc, char * argv[]) {
       std::cout << "Incorrect input. Terminating program." << std::endl;
       return -1;
     }
-
+    // pass image fdg to helper function of class (courses)
     courses.createOutputImg(methodInput - 1, "fdgOutput.png");
   }
   
