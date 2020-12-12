@@ -86,11 +86,10 @@ void Classes::buildClassesGraphSubset(string filePath, vector<string> subsetOfCl
       if (g_.vertexExists(v[i])) {
         // insert vertex
         // set prereq connection classes[i] to classes[0]
-        //g_.insertVertex(v[i]);
         g_.insertEdge(v[0], v[i]);
         g_.setEdgeLabel(v[0], v[i], "prereq");
       }
-      // connect v[0] to v[i]
+      
       
       
     }
@@ -109,6 +108,7 @@ Classes::Classes(string filePath, vector<string> subsetOfClasses) {
 Classes::~Classes() {}
 
 vector<string> Classes::bfs(string origin) {
+  // abstraction of graph's BFS function
   vector<string> classesFound;
   g_.BFS(Vertex(origin), classesFound);
   return classesFound;
