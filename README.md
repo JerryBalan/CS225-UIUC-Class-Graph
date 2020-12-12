@@ -14,7 +14,7 @@ Link: https://www.youtube.com/watch?v=j2JvqSQBrVg
 
 ## Sample Output
 <p align="center">
-  <img width="750" src="src/imgs/fdgOutput.png">
+  <img width="750" src="src/imgs/fdgOutput-readme.png">
 </p>
 
 ### Video
@@ -22,6 +22,8 @@ To view a video of the progress of the force directed graph after every 10 itera
 ).
 
 ## Serial vs Parallel
+We noticed that there was an opportunity to parallelize some of the code for the force directed algorithm, specifically figuring out the forces needed (attractive, spring, central) every iteration for each vertex. We decided to implement both a parallel and serial version of this algorithm, and as seen in the graph below, we saw approximately a 34% speedup using the parallel implementation.
+
 <p align="center">
   <img src="src/imgs/compare.png">
 </p>
