@@ -22,6 +22,8 @@ The first line of the CSV must be `Course,PrerequisiteNumber,0,1,2,3,4,5,6,7,8,9
   <img src="src/imgs/input_sample.png">
 </p>
 
+In this example, the second line is stating that CS225 has 4 pre-reqs: CS125, ECE220, CS173, and MATH213. 
+
 ## Sample Output
 <p align="center">
   <img width="750" src="src/imgs/fdgOutput-readme.png">
