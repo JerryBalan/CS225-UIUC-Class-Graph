@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <assert.h>
 
 // Helper function to print vectors of vectors of strings
 void printVect(std::vector<std::vector<std::string>> in) {
@@ -33,9 +34,6 @@ std::string trim(const std::string& str) {
 
 // hassan = god
 std::vector<std::vector<std::string>> csvToVector(std::string fileName) {
-  // Maybe use an already existing parser like this:
-  // https://github.com/ben-strasser/fast-cpp-csv-parser  ?
-
   // Reads csv file and saves contents to a vector of vectors of strings
   std::vector<std::vector<std::string>> fileContent;
   std::ifstream csvFile(fileName);
@@ -43,7 +41,8 @@ std::vector<std::vector<std::string>> csvToVector(std::string fileName) {
 
   // Early return if file doesn't exist
   if (!csvFile.is_open()) {
-    std::cout << "File not found" << std::endl;
+    std::cout << "File not found. Ensure that the file path and name are correct." << std::endl;
+    assert(csvFile.is_open());
     return fileContent;
   }
 
@@ -71,6 +70,12 @@ std::vector<std::vector<std::string>> csvToVector(std::string fileName) {
 
     // Only CS/ECE courses
     fileContent.push_back(tempVec);
+  }
+
+  // Ensure fileContent vector is not empty
+  if(fileContent.size() == 0) {
+    std::cout << "File appears to be empty. Are you sure this is the correct file?" << std::endl;
+    assert(fileContent.size() != 0);
   }
 
   return fileContent;

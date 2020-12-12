@@ -1,13 +1,5 @@
-Vertex: CS 125, location: (77.1849, 67.8117), color (HSL): (343, 1, 0.5)
-Vertex: ECE 391, location: (161.683, 469.108), color (HSL): (286, 1, 0.5)
-Vertex: CS 173, location: (96.5335, 126.615), color (HSL): (343, 1, 0.5)
-Vertex: ECE 120, location: (37.1742, 66.5154), color (HSL): (286, 1, 0.5)
-Vertex: CS 225, location: (96.409, 392.253), color (HSL): (343, 1, 0.5)
-Vertex: CS 233, location: (136.958, 389.748), color (HSL): (343, 1, 0.5)
-Vertex: MATH 112, location: (34.5075, 80.2627), color (HSL): (297, 1, 0.5)
-Vertex: ECE 220, location: (67.7501, 57.2142), color (HSL): (286, 1, 0.5)
-Vertex: MATH 213, location: (20, 160.604), color (HSL): (297, 1, 0.5)
-Vertex: MATH 220, location: (74.5277, 20), color (HSL): (297, 1, 0.5)
-Vertex: MATH 221, location: (74.7431, 20.121), color (HSL): (297, 1, 0.5)
-width: 181, height: 489 (size : 88509)
-vertex amount: 11, edge amount: 17
+Vertex: CS 225, location: (54.1813, 39.9782), color (HSL): (343, 1, 0.5)
+Vertex: CS 233, location: (84.277, 20), color (HSL): (343, 1, 0.5)
+Vertex: ECE 391, location: (20, 531.975), color (HSL): (286, 1, 0.5)
+width: 104, height: 551 (size : 57304)
+vertex amount: 3, edge amount: 2

@@ -186,6 +186,9 @@ void fdgOutput::defineLocationsParallel(
 
     // update point positions
     updatePositions(deltaT, maxDisplacementSquared);
+
+    // Save image of current locations every 10 iterations - only used to create gif/video output of how
+    // the locations are changing every few iterations
     if(gifOutput && i % 10 == 0) {
       cs225::PNG newImg = createOutputImage(subjectFrequencies);
       newImg.writeToFile("testOutputs/imgOut" + to_string(counter) + ".png");
